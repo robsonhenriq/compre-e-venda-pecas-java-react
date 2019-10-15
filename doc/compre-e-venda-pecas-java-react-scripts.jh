@@ -1,0 +1,149 @@
+
+
+entity Avaliacao {
+	dataHora LocalDate
+	descricao String
+}
+
+entity Carrinho {
+	totalCarrinho BigDecimal
+}
+
+entity Cliente {
+	nome String required
+    cpf String
+	rg String
+	dataNascimento LocalDate
+	telefone String
+	celular String
+}
+
+entity Endereco {
+	rua	String required
+	bairro String
+	complemento String
+	numero Integer
+	cidade String
+	cep String required
+    estado Estado
+}
+
+entity Foto {
+	nome String
+	imagem ImageBlob
+}
+
+entity Item {
+	valorTotal BigDecimal required
+	valorItem BigDecimal required
+	quantidade Integer required
+}
+
+
+entity Marca {
+	nome String required minlength(2) maxlength(100)
+}
+
+entity ModoPagamento {
+	descricao String required
+    tipoPagamento TipoPagamento
+}
+
+entity Produto {
+	codigoOriginal	String
+	fabricante String
+	descricao String required minlength(5) maxlength(240)
+	ehUsado Boolean required
+	quantidadeDisponivel Integer required
+	altura Double required
+	largura Double required
+	pesoBruto Double required
+	precoAVista BigDecimal required
+	precoAPrazo BigDecimal required
+    categoria Categoria
+}
+
+entity Veiculo {
+	nome String required
+	ano LocalDate required
+}
+
+entity Venda {
+	dataHora Instant
+	totalVenda BigDecimal
+}
+
+entity Vendedor {
+	ehEmpresa Boolean required
+	razaoSocial String
+	cnpj String
+	cpf String
+	dataCadastro LocalDate
+	dataNascimento LocalDate
+	descricao String
+}
+
+enum Categoria {
+	CARROCERIA,
+	ACESSORIOS,
+	PNEUS_RODAS
+}
+
+enum Estado {
+    AC, AL, AP, AM, BA, CE, DF,
+	ES, GO, MA, MT, MS, MG, PA,
+	PB, PR, PE, PI, RJ, RN, RS,
+	RO, RR, SC, SP, SE, TO
+}
+
+enum TipoPagamento {
+    A_VISTA,
+	PARCELADO
+}
+
+relationship ManyToMany {
+  Avaliacao{listCliente} to Cliente {listAvaliacao}
+  Carrinho {listItens} to Item
+  Cliente {listVeiculos} to Veiculo
+  Cliente {listEndereco} to Endereco
+
+  Produto {listImagens} to Foto
+  Produto {aplicacoes} to Veiculo
+  Produto {listAvaliacao} to Avaliacao
+  Venda {listVendedores} to Vendedor
+
+  Vendedor {listProdutos} to Produto
+}
+
+relationship OneToOne {
+	Cliente {carrinho} to Carrinho
+    Cliente {usuario} to User
+    Vendedor {usuario} to User
+}
+
+relationship OneToMany {
+	Venda {listItens} to Item
+}
+
+relationship ManyToOne {
+	Item{produto} to Produto
+
+    Produto {marca} to Marca
+
+    Veiculo {marca} to Marca
+
+    Venda {comprador} to Cliente
+    Venda {enderecoEntrega} to Endereco
+    Venda {modoPagamento} to ModoPagamento
+
+    Vendedor{endereco} to Endereco
+}
+
+
+paginate Avaliacao, Carrinho, Cliente, Endereco, Foto, Item, ModoPagamento, Produto, Veiculo, Venda, Vendedor with pagination
+
+dto * with mapstruct
+
+service Avaliacao, Carrinho, Cliente, Endereco, Foto, Item, ModoPagamento, Produto, Veiculo, Venda, Vendedor with serviceClass
+
+

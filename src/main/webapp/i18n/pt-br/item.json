@@ -1,0 +1,26 @@
+{
+  "ecommerceApp": {
+    "item": {
+      "home": {
+        "title": "Items",
+        "createLabel": "Criar novo Item",
+        "createOrEditLabel": "Criar ou editar Item",
+        "notFound": "Nenhum Item encontrado"
+      },
+      "created": "Um novo Item foi criado com o identificador {{ param }}",
+      "updated": "Um Item foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Item foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Item"
+      },
+      "valorTotal": "Valor Total",
+      "valorItem": "Valor Item",
+      "quantidade": "Quantidade",
+      "produto": "Produto",
+      "venda": "Venda"
+    }
+  }
+}

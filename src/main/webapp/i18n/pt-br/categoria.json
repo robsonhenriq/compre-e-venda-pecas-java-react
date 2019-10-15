@@ -1,0 +1,10 @@
+{
+  "ecommerceApp": {
+    "Categoria": {
+      "null": "",
+      "CARROCERIA": "CARROCERIA",
+      "ACESSORIOS": "ACESSORIOS",
+      "PNEUS_RODAS": "PNEUS_RODAS"
+    }
+  }
+}

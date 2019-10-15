@@ -1,0 +1,32 @@
+{
+    "name": "Avaliacao",
+    "fields": [
+        {
+            "fieldName": "dataHora",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "cliente",
+            "otherEntityRelationshipName": "listAvaliacao",
+            "relationshipName": "listCliente",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20191015014620",
+    "entityTableName": "avaliacao",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

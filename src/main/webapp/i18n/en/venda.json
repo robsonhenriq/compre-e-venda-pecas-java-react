@@ -1,0 +1,28 @@
+{
+  "ecommerceApp": {
+    "venda": {
+      "home": {
+        "title": "Vendas",
+        "createLabel": "Create a new Venda",
+        "createOrEditLabel": "Create or edit a Venda",
+        "notFound": "No Venda found"
+      },
+      "created": "A new Venda is created with identifier {{ param }}",
+      "updated": "A Venda is updated with identifier {{ param }}",
+      "deleted": "A Venda is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Venda {{ id }}?"
+      },
+      "detail": {
+        "title": "Venda"
+      },
+      "dataHora": "Data Hora",
+      "totalVenda": "Total Venda",
+      "listItens": "List Itens",
+      "comprador": "Comprador",
+      "enderecoEntrega": "Endereco Entrega",
+      "modoPagamento": "Modo Pagamento",
+      "listVendedores": "List Vendedores"
+    }
+  }
+}

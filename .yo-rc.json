@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "br.com.compreevendapecas.ecommerce",
+      "nativeLanguage": "pt-br"
+    },
+    "jhipsterVersion": "6.1.2",
+    "applicationType": "monolith",
+    "baseName": "ecommerce",
+    "packageName": "br.com.compreevendapecas.ecommerce",
+    "packageFolder": "br/com/compreevendapecas/ecommerce",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YTA5ODU3MjlkNmVhNDA2NjFlNDdkZmRiZGQwZDZhNzk5ZDVkYjBjYTUxZmQ2YTA4Mzc1Y2I3ODU5YzUzYWZlMWVmMzViZmU3MWFkNTk4ZTViMzRmNGI3MjY0ZGRmNTkzNDc2NWY4YzYwYmQ2ODdkNjQ2YTJkNzVkNTZlM2MzZWU=",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "react",
+    "clientTheme": "pulse",
+    "clientThemeVariant": "primary",
+    "testFrameworks": ["cucumber", "protractor"],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "pt-br",
+    "languages": ["pt-br", "en", "es"]
+  }
+}

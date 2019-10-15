@@ -1,0 +1,23 @@
+{
+  "ecommerceApp": {
+    "carrinho": {
+      "home": {
+        "title": "Carrinhos",
+        "createLabel": "Criar novo Carrinho",
+        "createOrEditLabel": "Criar ou editar Carrinho",
+        "notFound": "Nenhum Carrinho encontrado"
+      },
+      "created": "Um novo Carrinho foi criado com o identificador {{ param }}",
+      "updated": "Um Carrinho foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Carrinho foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Carrinho {{ id }}?"
+      },
+      "detail": {
+        "title": "Carrinho"
+      },
+      "totalCarrinho": "Total Carrinho",
+      "listItens": "List Itens"
+    }
+  }
+}

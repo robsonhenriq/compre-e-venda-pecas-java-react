@@ -1,0 +1,31 @@
+{
+  "ecommerceApp": {
+    "vendedor": {
+      "home": {
+        "title": "Vendedors",
+        "createLabel": "Criar novo Vendedor",
+        "createOrEditLabel": "Criar ou editar Vendedor",
+        "notFound": "Nenhum Vendedor encontrado"
+      },
+      "created": "Um novo Vendedor foi criado com o identificador {{ param }}",
+      "updated": "Um Vendedor foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Vendedor foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Vendedor {{ id }}?"
+      },
+      "detail": {
+        "title": "Vendedor"
+      },
+      "ehEmpresa": "Eh Empresa",
+      "razaoSocial": "Razao Social",
+      "cnpj": "Cnpj",
+      "cpf": "Cpf",
+      "dataCadastro": "Data Cadastro",
+      "dataNascimento": "Data Nascimento",
+      "descricao": "Descricao",
+      "usuario": "Usuario",
+      "endereco": "Endereco",
+      "listProdutos": "List Produtos"
+    }
+  }
+}

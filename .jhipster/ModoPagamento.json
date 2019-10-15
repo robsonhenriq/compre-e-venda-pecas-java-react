@@ -1,0 +1,27 @@
+{
+    "name": "ModoPagamento",
+    "fields": [
+        {
+            "fieldName": "descricao",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "tipoPagamento",
+            "fieldType": "TipoPagamento",
+            "fieldValues": "A_VISTA,PARCELADO"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191015014627",
+    "entityTableName": "modo_pagamento",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

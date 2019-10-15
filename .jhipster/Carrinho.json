@@ -1,0 +1,28 @@
+{
+    "name": "Carrinho",
+    "fields": [
+        {
+            "fieldName": "totalCarrinho",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "item",
+            "otherEntityRelationshipName": "carrinho",
+            "relationshipName": "listItens",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20191015014621",
+    "entityTableName": "carrinho",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

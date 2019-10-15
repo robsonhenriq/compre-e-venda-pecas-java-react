@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Produto.
+    -->
+    <changeSet id="20191015014628-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="marca_id"
+                                 baseTableName="produto"
+                                 constraintName="fk_produto_marca_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="marca"/>
+
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                                 baseTableName="produto_list_imagens"
+                                 constraintName="fk_produto_list_imagens_produto_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto"/>
+
+        <addForeignKeyConstraint baseColumnNames="list_imagens_id"
+                                 baseTableName="produto_list_imagens"
+                                 constraintName="fk_produto_list_imagens_list_imagens_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="foto"/>
+        
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                                 baseTableName="produto_aplicacoes"
+                                 constraintName="fk_produto_aplicacoes_produto_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto"/>
+
+        <addForeignKeyConstraint baseColumnNames="aplicacoes_id"
+                                 baseTableName="produto_aplicacoes"
+                                 constraintName="fk_produto_aplicacoes_aplicacoes_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="veiculo"/>
+        
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                                 baseTableName="produto_list_avaliacao"
+                                 constraintName="fk_produto_list_avaliacao_produto_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto"/>
+
+        <addForeignKeyConstraint baseColumnNames="list_avaliacao_id"
+                                 baseTableName="produto_list_avaliacao"
+                                 constraintName="fk_produto_list_avaliacao_list_avaliacao_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="avaliacao"/>
+        
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,23 @@
+{
+  "ecommerceApp": {
+    "modoPagamento": {
+      "home": {
+        "title": "Modo Pagamentos",
+        "createLabel": "Create a new Modo Pagamento",
+        "createOrEditLabel": "Create or edit a Modo Pagamento",
+        "notFound": "No Modo Pagamento found"
+      },
+      "created": "A new Modo Pagamento is created with identifier {{ param }}",
+      "updated": "A Modo Pagamento is updated with identifier {{ param }}",
+      "deleted": "A Modo Pagamento is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Modo Pagamento {{ id }}?"
+      },
+      "detail": {
+        "title": "Modo Pagamento"
+      },
+      "descricao": "Descricao",
+      "tipoPagamento": "Tipo Pagamento"
+    }
+  }
+}

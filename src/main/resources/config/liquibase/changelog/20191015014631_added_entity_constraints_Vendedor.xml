@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Vendedor.
+    -->
+    <changeSet id="20191015014631-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="usuario_id"
+                                 baseTableName="vendedor"
+                                 constraintName="fk_vendedor_usuario_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="endereco_id"
+                                 baseTableName="vendedor"
+                                 constraintName="fk_vendedor_endereco_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="endereco"/>
+
+        <addForeignKeyConstraint baseColumnNames="vendedor_id"
+                                 baseTableName="vendedor_list_produtos"
+                                 constraintName="fk_vendedor_list_produtos_vendedor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vendedor"/>
+
+        <addForeignKeyConstraint baseColumnNames="list_produtos_id"
+                                 baseTableName="vendedor_list_produtos"
+                                 constraintName="fk_vendedor_list_produtos_list_produtos_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto"/>
+        
+    </changeSet>
+</databaseChangeLog>

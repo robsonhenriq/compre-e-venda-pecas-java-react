@@ -1,0 +1,37 @@
+{
+    "name": "Veiculo",
+    "fields": [
+        {
+            "fieldName": "nome",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "ano",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "marca",
+            "otherEntityRelationshipName": "veiculo",
+            "relationshipName": "marca",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191015014629",
+    "entityTableName": "veiculo",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

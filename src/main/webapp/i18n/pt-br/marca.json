@@ -1,0 +1,22 @@
+{
+  "ecommerceApp": {
+    "marca": {
+      "home": {
+        "title": "Marcas",
+        "createLabel": "Criar novo Marca",
+        "createOrEditLabel": "Criar ou editar Marca",
+        "notFound": "Nenhum Marca encontrado"
+      },
+      "created": "Um novo Marca foi criado com o identificador {{ param }}",
+      "updated": "Um Marca foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Marca foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Marca {{ id }}?"
+      },
+      "detail": {
+        "title": "Marca"
+      },
+      "nome": "Nome"
+    }
+  }
+}
