@@ -32,13 +32,21 @@
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "carrinho",
+            "otherEntityRelationshipName": "listItens",
+            "relationshipName": "listCarrinhos",
+            "otherEntityField": "id",
+            "ownerSide": false
+        },
+        {
             "relationshipName": "venda",
             "otherEntityName": "venda",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
         }
     ],
-    "changelogDate": "20191015014625",
+    "changelogDate": "20191016005803",
     "entityTableName": "item",
     "dto": "mapstruct",
     "pagination": "pagination",

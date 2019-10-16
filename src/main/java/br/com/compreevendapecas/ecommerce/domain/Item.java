@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,6 +9,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Item.
@@ -38,6 +41,11 @@ public class Item implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("items")
     private Produto produto;
+
+    @ManyToMany(mappedBy = "listItens")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Carrinho> listCarrinhos = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("items")
@@ -102,6 +110,31 @@ public class Item implements Serializable {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public Set<Carrinho> getListCarrinhos() {
+        return listCarrinhos;
+    }
+
+    public Item listCarrinhos(Set<Carrinho> carrinhos) {
+        this.listCarrinhos = carrinhos;
+        return this;
+    }
+
+    public Item addListCarrinhos(Carrinho carrinho) {
+        this.listCarrinhos.add(carrinho);
+        carrinho.getListItens().add(this);
+        return this;
+    }
+
+    public Item removeListCarrinhos(Carrinho carrinho) {
+        this.listCarrinhos.remove(carrinho);
+        carrinho.getListItens().remove(this);
+        return this;
+    }
+
+    public void setListCarrinhos(Set<Carrinho> carrinhos) {
+        this.listCarrinhos = carrinhos;
     }
 
     public Venda getVenda() {

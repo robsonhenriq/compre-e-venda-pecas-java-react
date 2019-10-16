@@ -52,13 +52,21 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "produto",
-            "otherEntityRelationshipName": "vendedor",
+            "otherEntityRelationshipName": "listVendedores",
             "relationshipName": "listProdutos",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "venda",
+            "otherEntityRelationshipName": "listVendedores",
+            "relationshipName": "listVendas",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
-    "changelogDate": "20191015014631",
+    "changelogDate": "20191016005809",
     "entityTableName": "vendedor",
     "dto": "mapstruct",
     "pagination": "pagination",

@@ -25,7 +25,8 @@
       "descricao": "Descricao",
       "usuario": "Usuario",
       "endereco": "Endereco",
-      "listProdutos": "List Produtos"
+      "listProdutos": "List Produtos",
+      "listVendas": "List Vendas"
     }
   }
 }

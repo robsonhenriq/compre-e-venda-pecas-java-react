@@ -86,15 +86,15 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "foto",
-            "otherEntityRelationshipName": "produto",
-            "relationshipName": "listImagens",
+            "otherEntityRelationshipName": "listProdutos",
+            "relationshipName": "listFotos",
             "otherEntityField": "id",
             "ownerSide": true
         },
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "veiculo",
-            "otherEntityRelationshipName": "produto",
+            "otherEntityRelationshipName": "listProdutos",
             "relationshipName": "aplicacoes",
             "otherEntityField": "id",
             "ownerSide": true
@@ -102,13 +102,21 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "avaliacao",
-            "otherEntityRelationshipName": "produto",
+            "otherEntityRelationshipName": "listProdutos",
             "relationshipName": "listAvaliacao",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "vendedor",
+            "otherEntityRelationshipName": "listProdutos",
+            "relationshipName": "listVendedores",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
-    "changelogDate": "20191015014628",
+    "changelogDate": "20191016005806",
     "entityTableName": "produto",
     "dto": "mapstruct",
     "pagination": "pagination",

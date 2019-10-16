@@ -17,7 +17,8 @@
         "title": "Foto"
       },
       "nome": "Nome",
-      "imagem": "Imagem"
+      "imagem": "Imagem",
+      "listProdutos": "List Produtos"
     }
   }
 }

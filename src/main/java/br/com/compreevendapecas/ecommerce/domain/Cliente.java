@@ -195,13 +195,13 @@ public class Cliente implements Serializable {
 
     public Cliente addListVeiculos(Veiculo veiculo) {
         this.listVeiculos.add(veiculo);
-        veiculo.getClientes().add(this);
+        veiculo.getListClientes().add(this);
         return this;
     }
 
     public Cliente removeListVeiculos(Veiculo veiculo) {
         this.listVeiculos.remove(veiculo);
-        veiculo.getClientes().remove(this);
+        veiculo.getListClientes().remove(this);
         return this;
     }
 
@@ -220,13 +220,13 @@ public class Cliente implements Serializable {
 
     public Cliente addListEndereco(Endereco endereco) {
         this.listEnderecos.add(endereco);
-        endereco.getClientes().add(this);
+        endereco.getListEnderecos().add(this);
         return this;
     }
 
     public Cliente removeListEndereco(Endereco endereco) {
         this.listEnderecos.remove(endereco);
-        endereco.getClientes().remove(this);
+        endereco.getListEnderecos().remove(this);
         return this;
     }
 

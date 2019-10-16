@@ -41,13 +41,13 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "vendedor",
-            "otherEntityRelationshipName": "venda",
+            "otherEntityRelationshipName": "listVendas",
             "relationshipName": "listVendedores",
             "otherEntityField": "id",
             "ownerSide": true
         }
     ],
-    "changelogDate": "20191015014630",
+    "changelogDate": "20191016005808",
     "entityTableName": "venda",
     "dto": "mapstruct",
     "pagination": "pagination",

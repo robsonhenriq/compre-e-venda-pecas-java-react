@@ -12,7 +12,10 @@ import org.mapstruct.*;
 public interface AvaliacaoMapper extends EntityMapper<AvaliacaoDTO, Avaliacao> {
 
 
-    @Mapping(target = "removeListCliente", ignore = true)
+    @Mapping(target = "removeListClientes", ignore = true)
+    @Mapping(target = "listProdutos", ignore = true)
+    @Mapping(target = "removeListProdutos", ignore = true)
+    Avaliacao toEntity(AvaliacaoDTO avaliacaoDTO);
 
     default Avaliacao fromId(Long id) {
         if (id == null) {

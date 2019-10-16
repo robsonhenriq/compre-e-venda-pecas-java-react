@@ -8,6 +8,8 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, o
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IProduto } from 'app/shared/model/produto.model';
+import { getEntities as getProdutos } from 'app/entities/produto/produto.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './foto.reducer';
 import { IFoto } from 'app/shared/model/foto.model';
 // tslint:disable-next-line:no-unused-variable
@@ -18,12 +20,14 @@ export interface IFotoUpdateProps extends StateProps, DispatchProps, RouteCompon
 
 export interface IFotoUpdateState {
   isNew: boolean;
+  listProdutosId: string;
 }
 
 export class FotoUpdate extends React.Component<IFotoUpdateProps, IFotoUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      listProdutosId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -40,6 +44,8 @@ export class FotoUpdate extends React.Component<IFotoUpdateProps, IFotoUpdateSta
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
+
+    this.props.getProdutos();
   }
 
   onBlobChange = (isAnImage, name) => event => {
@@ -71,7 +77,7 @@ export class FotoUpdate extends React.Component<IFotoUpdateProps, IFotoUpdateSta
   };
 
   render() {
-    const { fotoEntity, loading, updating } = this.props;
+    const { fotoEntity, produtos, loading, updating } = this.props;
     const { isNew } = this.state;
 
     const { imagem, imagemContentType } = fotoEntity;
@@ -158,6 +164,7 @@ export class FotoUpdate extends React.Component<IFotoUpdateProps, IFotoUpdateSta
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
+  produtos: storeState.produto.entities,
   fotoEntity: storeState.foto.entity,
   loading: storeState.foto.loading,
   updating: storeState.foto.updating,
@@ -165,6 +172,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getProdutos,
   getEntity,
   updateEntity,
   setBlob,

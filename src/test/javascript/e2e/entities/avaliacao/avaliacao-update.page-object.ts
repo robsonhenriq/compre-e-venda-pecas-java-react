@@ -6,7 +6,7 @@ export default class AvaliacaoUpdatePage {
   cancelButton: ElementFinder = element(by.id('cancel-save'));
   dataHoraInput: ElementFinder = element(by.css('input#avaliacao-dataHora'));
   descricaoInput: ElementFinder = element(by.css('input#avaliacao-descricao'));
-  listClienteSelect: ElementFinder = element(by.css('select#avaliacao-listCliente'));
+  listClientesSelect: ElementFinder = element(by.css('select#avaliacao-listClientes'));
 
   getPageTitle() {
     return this.pageTitle;
@@ -28,23 +28,23 @@ export default class AvaliacaoUpdatePage {
     return this.descricaoInput.getAttribute('value');
   }
 
-  async listClienteSelectLastOption() {
-    await this.listClienteSelect
+  async listClientesSelectLastOption() {
+    await this.listClientesSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async listClienteSelectOption(option) {
-    await this.listClienteSelect.sendKeys(option);
+  async listClientesSelectOption(option) {
+    await this.listClientesSelect.sendKeys(option);
   }
 
-  getListClienteSelect() {
-    return this.listClienteSelect;
+  getListClientesSelect() {
+    return this.listClientesSelect;
   }
 
-  async getListClienteSelectedOption() {
-    return this.listClienteSelect.element(by.css('option:checked')).getText();
+  async getListClientesSelectedOption() {
+    return this.listClientesSelect.element(by.css('option:checked')).getText();
   }
 
   async save() {

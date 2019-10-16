@@ -74,7 +74,7 @@ describe('Produto e2e test', () => {
       expect(await produtoUpdatePage.getPrecoAPrazoInput()).to.eq('5');
       await produtoUpdatePage.categoriaSelectLastOption();
       await produtoUpdatePage.marcaSelectLastOption();
-      // produtoUpdatePage.listImagensSelectLastOption();
+      // produtoUpdatePage.listFotosSelectLastOption();
       // produtoUpdatePage.aplicacoesSelectLastOption();
       // produtoUpdatePage.listAvaliacaoSelectLastOption();
       await waitUntilDisplayed(produtoUpdatePage.getSaveButton());

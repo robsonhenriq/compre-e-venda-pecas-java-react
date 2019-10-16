@@ -10,13 +10,13 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "item",
-            "otherEntityRelationshipName": "carrinho",
+            "otherEntityRelationshipName": "listCarrinhos",
             "relationshipName": "listItens",
             "otherEntityField": "id",
             "ownerSide": true
         }
     ],
-    "changelogDate": "20191015014621",
+    "changelogDate": "20191016005759",
     "entityTableName": "carrinho",
     "dto": "mapstruct",
     "pagination": "pagination",

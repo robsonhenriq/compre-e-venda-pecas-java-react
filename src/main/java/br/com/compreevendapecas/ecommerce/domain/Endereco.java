@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -6,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import br.com.compreevendapecas.ecommerce.domain.enumeration.Estado;
 
@@ -46,6 +49,11 @@ public class Endereco implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     private Estado estado;
+
+    @ManyToMany(mappedBy = "listEnderecos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Cliente> listEnderecos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -145,6 +153,31 @@ public class Endereco implements Serializable {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public Set<Cliente> getListEnderecos() {
+        return listEnderecos;
+    }
+
+    public Endereco listEnderecos(Set<Cliente> clientes) {
+        this.listEnderecos = clientes;
+        return this;
+    }
+
+    public Endereco addListEnderecos(Cliente cliente) {
+        this.listEnderecos.add(cliente);
+        cliente.getListEnderecos().add(this);
+        return this;
+    }
+
+    public Endereco removeListEnderecos(Cliente cliente) {
+        this.listEnderecos.remove(cliente);
+        cliente.getListEnderecos().remove(this);
+        return this;
+    }
+
+    public void setListEnderecos(Set<Cliente> clientes) {
+        this.listEnderecos = clientes;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

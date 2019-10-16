@@ -1,6 +1,7 @@
 import { IFoto } from 'app/shared/model/foto.model';
 import { IVeiculo } from 'app/shared/model/veiculo.model';
 import { IAvaliacao } from 'app/shared/model/avaliacao.model';
+import { IVendedor } from 'app/shared/model/vendedor.model';
 
 export const enum Categoria {
   CARROCERIA = 'CARROCERIA',
@@ -22,9 +23,10 @@ export interface IProduto {
   precoAPrazo?: number;
   categoria?: Categoria;
   marcaId?: number;
-  listImagens?: IFoto[];
+  listFotos?: IFoto[];
   aplicacoes?: IVeiculo[];
   listAvaliacaos?: IAvaliacao[];
+  listVendedores?: IVendedor[];
 }
 
 export const defaultValue: Readonly<IProduto> = {

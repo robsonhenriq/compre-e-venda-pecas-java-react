@@ -48,7 +48,7 @@ public class ProdutoDTO implements Serializable {
 
     private Long marcaId;
 
-    private Set<FotoDTO> listImagens = new HashSet<>();
+    private Set<FotoDTO> listFotos = new HashSet<>();
 
     private Set<VeiculoDTO> aplicacoes = new HashSet<>();
 
@@ -158,12 +158,12 @@ public class ProdutoDTO implements Serializable {
         this.marcaId = marcaId;
     }
 
-    public Set<FotoDTO> getListImagens() {
-        return listImagens;
+    public Set<FotoDTO> getListFotos() {
+        return listFotos;
     }
 
-    public void setListImagens(Set<FotoDTO> fotos) {
-        this.listImagens = fotos;
+    public void setListFotos(Set<FotoDTO> fotos) {
+        this.listFotos = fotos;
     }
 
     public Set<VeiculoDTO> getAplicacoes() {

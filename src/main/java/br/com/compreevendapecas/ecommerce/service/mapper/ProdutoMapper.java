@@ -15,9 +15,11 @@ public interface ProdutoMapper extends EntityMapper<ProdutoDTO, Produto> {
     ProdutoDTO toDto(Produto produto);
 
     @Mapping(source = "marcaId", target = "marca")
-    @Mapping(target = "removeListImagens", ignore = true)
+    @Mapping(target = "removeListFotos", ignore = true)
     @Mapping(target = "removeAplicacoes", ignore = true)
     @Mapping(target = "removeListAvaliacao", ignore = true)
+    @Mapping(target = "listVendedores", ignore = true)
+    @Mapping(target = "removeListVendedores", ignore = true)
     Produto toEntity(ProdutoDTO produtoDTO);
 
     default Produto fromId(Long id) {

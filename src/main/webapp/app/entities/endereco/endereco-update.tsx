@@ -8,6 +8,8 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { ICliente } from 'app/shared/model/cliente.model';
+import { getEntities as getClientes } from 'app/entities/cliente/cliente.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './endereco.reducer';
 import { IEndereco } from 'app/shared/model/endereco.model';
 // tslint:disable-next-line:no-unused-variable
@@ -18,12 +20,14 @@ export interface IEnderecoUpdateProps extends StateProps, DispatchProps, RouteCo
 
 export interface IEnderecoUpdateState {
   isNew: boolean;
+  listEnderecosId: string;
 }
 
 export class EnderecoUpdate extends React.Component<IEnderecoUpdateProps, IEnderecoUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      listEnderecosId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -40,6 +44,8 @@ export class EnderecoUpdate extends React.Component<IEnderecoUpdateProps, IEnder
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
+
+    this.props.getClientes();
   }
 
   saveEntity = (event, errors, values) => {
@@ -63,7 +69,7 @@ export class EnderecoUpdate extends React.Component<IEnderecoUpdateProps, IEnder
   };
 
   render() {
-    const { enderecoEntity, loading, updating } = this.props;
+    const { enderecoEntity, clientes, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -202,6 +208,7 @@ export class EnderecoUpdate extends React.Component<IEnderecoUpdateProps, IEnder
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
+  clientes: storeState.cliente.entities,
   enderecoEntity: storeState.endereco.entity,
   loading: storeState.endereco.loading,
   updating: storeState.endereco.updating,
@@ -209,6 +216,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getClientes,
   getEntity,
   updateEntity,
   createEntity,

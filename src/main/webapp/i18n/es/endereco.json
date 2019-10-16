@@ -22,7 +22,8 @@
       "numero": "Numero",
       "cidade": "Cidade",
       "cep": "Cep",
-      "estado": "Estado"
+      "estado": "Estado",
+      "listEnderecos": "List Enderecos"
     }
   }
 }

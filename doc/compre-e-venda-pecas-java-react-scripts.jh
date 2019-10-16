@@ -9,12 +9,12 @@ entity Carrinho {
 	totalCarrinho BigDecimal
 }
 
-entity Cliente {
+entity Cliente {	
 	nome String required
     cpf String
 	rg String
 	dataNascimento LocalDate
-	telefone String
+	telefone String        
 	celular String
 }
 
@@ -29,7 +29,7 @@ entity Endereco {
 }
 
 entity Foto {
-	nome String
+	nome String	
 	imagem ImageBlob
 }
 
@@ -80,7 +80,7 @@ entity Vendedor {
 	cpf String
 	dataCadastro LocalDate
 	dataNascimento LocalDate
-	descricao String
+	descricao String 
 }
 
 enum Categoria {
@@ -91,8 +91,8 @@ enum Categoria {
 
 enum Estado {
     AC, AL, AP, AM, BA, CE, DF,
-	ES, GO, MA, MT, MS, MG, PA,
-	PB, PR, PE, PI, RJ, RN, RS,
+	ES, GO, MA, MT, MS, MG, PA, 
+	PB, PR, PE, PI, RJ, RN, RS, 
 	RO, RR, SC, SP, SE, TO
 }
 
@@ -102,17 +102,17 @@ enum TipoPagamento {
 }
 
 relationship ManyToMany {
-  Avaliacao{listCliente} to Cliente {listAvaliacao}
-  Carrinho {listItens} to Item
-  Cliente {listVeiculos} to Veiculo
-  Cliente {listEndereco} to Endereco
-
-  Produto {listImagens} to Foto
-  Produto {aplicacoes} to Veiculo
-  Produto {listAvaliacao} to Avaliacao
-  Venda {listVendedores} to Vendedor
-
-  Vendedor {listProdutos} to Produto
+  Avaliacao{listClientes} to Cliente {listAvaliacao}
+  Carrinho {listItens} to Item {listCarrinhos}
+  Cliente {listVeiculos} to Veiculo {listClientes}
+  Cliente {listEndereco} to Endereco {listEnderecos}
+  
+  Produto {listFotos} to Foto {listProdutos}
+  Produto {aplicacoes} to Veiculo {listProdutos}
+  Produto {listAvaliacao} to Avaliacao {listProdutos}
+  Venda {listVendedores} to Vendedor {listVendas}
+  
+  Vendedor {listProdutos} to Produto {listVendedores}
 }
 
 relationship OneToOne {
@@ -127,15 +127,15 @@ relationship OneToMany {
 
 relationship ManyToOne {
 	Item{produto} to Produto
-
+    
     Produto {marca} to Marca
-
+    
     Veiculo {marca} to Marca
-
+    
     Venda {comprador} to Cliente
     Venda {enderecoEntrega} to Endereco
     Venda {modoPagamento} to ModoPagamento
-
+    
     Vendedor{endereco} to Endereco
 }
 

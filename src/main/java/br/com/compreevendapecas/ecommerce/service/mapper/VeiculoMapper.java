@@ -15,6 +15,10 @@ public interface VeiculoMapper extends EntityMapper<VeiculoDTO, Veiculo> {
     VeiculoDTO toDto(Veiculo veiculo);
 
     @Mapping(source = "marcaId", target = "marca")
+    @Mapping(target = "listClientes", ignore = true)
+    @Mapping(target = "removeListClientes", ignore = true)
+    @Mapping(target = "listProdutos", ignore = true)
+    @Mapping(target = "removeListProdutos", ignore = true)
     Veiculo toEntity(VeiculoDTO veiculoDTO);
 
     default Veiculo fromId(Long id) {

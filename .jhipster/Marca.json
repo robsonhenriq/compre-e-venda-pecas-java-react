@@ -14,7 +14,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20191015014626",
+    "changelogDate": "20191016005804",
     "entityTableName": "marca",
     "dto": "mapstruct",
     "pagination": "no",

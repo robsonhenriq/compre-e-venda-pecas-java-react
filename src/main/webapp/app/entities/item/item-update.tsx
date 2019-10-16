@@ -10,6 +10,8 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IProduto } from 'app/shared/model/produto.model';
 import { getEntities as getProdutos } from 'app/entities/produto/produto.reducer';
+import { ICarrinho } from 'app/shared/model/carrinho.model';
+import { getEntities as getCarrinhos } from 'app/entities/carrinho/carrinho.reducer';
 import { IVenda } from 'app/shared/model/venda.model';
 import { getEntities as getVendas } from 'app/entities/venda/venda.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './item.reducer';
@@ -23,6 +25,7 @@ export interface IItemUpdateProps extends StateProps, DispatchProps, RouteCompon
 export interface IItemUpdateState {
   isNew: boolean;
   produtoId: string;
+  listCarrinhosId: string;
   vendaId: string;
 }
 
@@ -31,6 +34,7 @@ export class ItemUpdate extends React.Component<IItemUpdateProps, IItemUpdateSta
     super(props);
     this.state = {
       produtoId: '0',
+      listCarrinhosId: '0',
       vendaId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
@@ -50,6 +54,7 @@ export class ItemUpdate extends React.Component<IItemUpdateProps, IItemUpdateSta
     }
 
     this.props.getProdutos();
+    this.props.getCarrinhos();
     this.props.getVendas();
   }
 
@@ -74,7 +79,7 @@ export class ItemUpdate extends React.Component<IItemUpdateProps, IItemUpdateSta
   };
 
   render() {
-    const { itemEntity, produtos, vendas, loading, updating } = this.props;
+    const { itemEntity, produtos, carrinhos, vendas, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -197,6 +202,7 @@ export class ItemUpdate extends React.Component<IItemUpdateProps, IItemUpdateSta
 
 const mapStateToProps = (storeState: IRootState) => ({
   produtos: storeState.produto.entities,
+  carrinhos: storeState.carrinho.entities,
   vendas: storeState.venda.entities,
   itemEntity: storeState.item.entity,
   loading: storeState.item.loading,
@@ -206,6 +212,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getProdutos,
+  getCarrinhos,
   getVendas,
   getEntity,
   updateEntity,

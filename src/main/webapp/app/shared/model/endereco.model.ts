@@ -1,3 +1,5 @@
+import { ICliente } from 'app/shared/model/cliente.model';
+
 export const enum Estado {
   AC = 'AC',
   AL = 'AL',
@@ -37,6 +39,7 @@ export interface IEndereco {
   cidade?: string;
   cep?: string;
   estado?: Estado;
+  listEnderecos?: ICliente[];
 }
 
 export const defaultValue: Readonly<IEndereco> = {};

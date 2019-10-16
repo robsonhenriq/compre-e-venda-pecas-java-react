@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Cliente.
     -->
-    <changeSet id="20191015014622-2" author="jhipster">
+    <changeSet id="20191016005800-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="carrinho_id"
                                  baseTableName="cliente"

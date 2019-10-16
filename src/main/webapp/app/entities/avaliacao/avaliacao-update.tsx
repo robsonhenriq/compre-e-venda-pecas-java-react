@@ -10,6 +10,8 @@ import { IRootState } from 'app/shared/reducers';
 
 import { ICliente } from 'app/shared/model/cliente.model';
 import { getEntities as getClientes } from 'app/entities/cliente/cliente.reducer';
+import { IProduto } from 'app/shared/model/produto.model';
+import { getEntities as getProdutos } from 'app/entities/produto/produto.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './avaliacao.reducer';
 import { IAvaliacao } from 'app/shared/model/avaliacao.model';
 // tslint:disable-next-line:no-unused-variable
@@ -20,14 +22,16 @@ export interface IAvaliacaoUpdateProps extends StateProps, DispatchProps, RouteC
 
 export interface IAvaliacaoUpdateState {
   isNew: boolean;
-  idslistCliente: any[];
+  idslistClientes: any[];
+  listProdutosId: string;
 }
 
 export class AvaliacaoUpdate extends React.Component<IAvaliacaoUpdateProps, IAvaliacaoUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      idslistCliente: [],
+      idslistClientes: [],
+      listProdutosId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -46,6 +50,7 @@ export class AvaliacaoUpdate extends React.Component<IAvaliacaoUpdateProps, IAva
     }
 
     this.props.getClientes();
+    this.props.getProdutos();
   }
 
   saveEntity = (event, errors, values) => {
@@ -70,7 +75,7 @@ export class AvaliacaoUpdate extends React.Component<IAvaliacaoUpdateProps, IAva
   };
 
   render() {
-    const { avaliacaoEntity, clientes, loading, updating } = this.props;
+    const { avaliacaoEntity, clientes, produtos, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -109,11 +114,11 @@ export class AvaliacaoUpdate extends React.Component<IAvaliacaoUpdateProps, IAva
                   <AvField id="avaliacao-descricao" type="text" name="descricao" />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="avaliacao-listCliente">
-                    <Translate contentKey="ecommerceApp.avaliacao.listCliente">List Cliente</Translate>
+                  <Label for="avaliacao-listClientes">
+                    <Translate contentKey="ecommerceApp.avaliacao.listClientes">List Clientes</Translate>
                   </Label>
                   <AvInput
-                    id="avaliacao-listCliente"
+                    id="avaliacao-listClientes"
                     type="select"
                     multiple
                     className="form-control"
@@ -154,6 +159,7 @@ export class AvaliacaoUpdate extends React.Component<IAvaliacaoUpdateProps, IAva
 
 const mapStateToProps = (storeState: IRootState) => ({
   clientes: storeState.cliente.entities,
+  produtos: storeState.produto.entities,
   avaliacaoEntity: storeState.avaliacao.entity,
   loading: storeState.avaliacao.loading,
   updating: storeState.avaliacao.updating,
@@ -162,6 +168,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getClientes,
+  getProdutos,
   getEntity,
   updateEntity,
   createEntity,

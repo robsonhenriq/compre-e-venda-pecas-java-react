@@ -50,7 +50,7 @@ describe('Avaliacao e2e test', () => {
       expect(await avaliacaoUpdatePage.getDataHoraInput()).to.eq('2001-01-01');
       await avaliacaoUpdatePage.setDescricaoInput('descricao');
       expect(await avaliacaoUpdatePage.getDescricaoInput()).to.match(/descricao/);
-      // avaliacaoUpdatePage.listClienteSelectLastOption();
+      // avaliacaoUpdatePage.listClientesSelectLastOption();
       await waitUntilDisplayed(avaliacaoUpdatePage.getSaveButton());
       await avaliacaoUpdatePage.save();
       await waitUntilHidden(avaliacaoUpdatePage.getSaveButton());

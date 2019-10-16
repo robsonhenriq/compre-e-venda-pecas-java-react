@@ -1,10 +1,13 @@
 package br.com.compreevendapecas.ecommerce.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Foto.
@@ -29,6 +32,11 @@ public class Foto implements Serializable {
 
     @Column(name = "imagem_content_type")
     private String imagemContentType;
+
+    @ManyToMany(mappedBy = "listFotos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Produto> listProdutos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -76,6 +84,31 @@ public class Foto implements Serializable {
 
     public void setImagemContentType(String imagemContentType) {
         this.imagemContentType = imagemContentType;
+    }
+
+    public Set<Produto> getListProdutos() {
+        return listProdutos;
+    }
+
+    public Foto listProdutos(Set<Produto> produtos) {
+        this.listProdutos = produtos;
+        return this;
+    }
+
+    public Foto addListProdutos(Produto produto) {
+        this.listProdutos.add(produto);
+        produto.getListFotos().add(this);
+        return this;
+    }
+
+    public Foto removeListProdutos(Produto produto) {
+        this.listProdutos.remove(produto);
+        produto.getListFotos().remove(this);
+        return this;
+    }
+
+    public void setListProdutos(Set<Produto> produtos) {
+        this.listProdutos = produtos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

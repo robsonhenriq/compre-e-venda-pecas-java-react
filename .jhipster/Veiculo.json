@@ -23,9 +23,25 @@
             "otherEntityRelationshipName": "veiculo",
             "relationshipName": "marca",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "cliente",
+            "otherEntityRelationshipName": "listVeiculos",
+            "relationshipName": "listClientes",
+            "otherEntityField": "id",
+            "ownerSide": false
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "produto",
+            "otherEntityRelationshipName": "aplicacoes",
+            "relationshipName": "listProdutos",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
-    "changelogDate": "20191015014629",
+    "changelogDate": "20191016005807",
     "entityTableName": "veiculo",
     "dto": "mapstruct",
     "pagination": "pagination",

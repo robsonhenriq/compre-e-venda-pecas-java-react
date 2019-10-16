@@ -66,6 +66,15 @@ public class CacheConfiguration {
             createCache(cm, br.com.compreevendapecas.ecommerce.domain.Venda.class.getName() + ".listVendedores");
             createCache(cm, br.com.compreevendapecas.ecommerce.domain.Vendedor.class.getName());
             createCache(cm, br.com.compreevendapecas.ecommerce.domain.Vendedor.class.getName() + ".listProdutos");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Avaliacao.class.getName() + ".listProdutos");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Endereco.class.getName() + ".listEnderecos");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Foto.class.getName() + ".listProdutos");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Item.class.getName() + ".listCarrinhos");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Produto.class.getName() + ".listFotos");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Produto.class.getName() + ".listVendedores");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Veiculo.class.getName() + ".listClientes");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Veiculo.class.getName() + ".listProdutos");
+            createCache(cm, br.com.compreevendapecas.ecommerce.domain.Vendedor.class.getName() + ".listVendas");
             // jhipster-needle-ehcache-add-entry
         };
     }

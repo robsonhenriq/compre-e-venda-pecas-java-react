@@ -12,6 +12,9 @@ import org.mapstruct.*;
 public interface FotoMapper extends EntityMapper<FotoDTO, Foto> {
 
 
+    @Mapping(target = "listProdutos", ignore = true)
+    @Mapping(target = "removeListProdutos", ignore = true)
+    Foto toEntity(FotoDTO fotoDTO);
 
     default Foto fromId(Long id) {
         if (id == null) {

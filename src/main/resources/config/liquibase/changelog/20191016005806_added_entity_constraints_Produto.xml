@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Produto.
     -->
-    <changeSet id="20191015014628-2" author="jhipster">
+    <changeSet id="20191016005806-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="marca_id"
                                  baseTableName="produto"
@@ -15,14 +15,14 @@
                                  referencedTableName="marca"/>
 
         <addForeignKeyConstraint baseColumnNames="produto_id"
-                                 baseTableName="produto_list_imagens"
-                                 constraintName="fk_produto_list_imagens_produto_id"
+                                 baseTableName="produto_list_fotos"
+                                 constraintName="fk_produto_list_fotos_produto_id"
                                  referencedColumnNames="id"
                                  referencedTableName="produto"/>
 
-        <addForeignKeyConstraint baseColumnNames="list_imagens_id"
-                                 baseTableName="produto_list_imagens"
-                                 constraintName="fk_produto_list_imagens_list_imagens_id"
+        <addForeignKeyConstraint baseColumnNames="list_fotos_id"
+                                 baseTableName="produto_list_fotos"
+                                 constraintName="fk_produto_list_fotos_list_fotos_id"
                                  referencedColumnNames="id"
                                  referencedTableName="foto"/>
         

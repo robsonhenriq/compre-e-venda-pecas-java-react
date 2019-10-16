@@ -43,7 +43,7 @@ export class AvaliacaoDetail extends React.Component<IAvaliacaoDetailProps> {
             </dt>
             <dd>{avaliacaoEntity.descricao}</dd>
             <dt>
-              <Translate contentKey="ecommerceApp.avaliacao.listCliente">List Cliente</Translate>
+              <Translate contentKey="ecommerceApp.avaliacao.listClientes">List Clientes</Translate>
             </dt>
             <dd>
               {avaliacaoEntity.listClientes

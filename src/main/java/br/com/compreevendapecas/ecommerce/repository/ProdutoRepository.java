@@ -16,14 +16,14 @@ import java.util.Optional;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    @Query(value = "select distinct produto from Produto produto left join fetch produto.listImagens left join fetch produto.aplicacoes left join fetch produto.listAvaliacaos",
+    @Query(value = "select distinct produto from Produto produto left join fetch produto.listFotos left join fetch produto.aplicacoes left join fetch produto.listAvaliacaos",
         countQuery = "select count(distinct produto) from Produto produto")
     Page<Produto> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query("select distinct produto from Produto produto left join fetch produto.listImagens left join fetch produto.aplicacoes left join fetch produto.listAvaliacaos")
+    @Query("select distinct produto from Produto produto left join fetch produto.listFotos left join fetch produto.aplicacoes left join fetch produto.listAvaliacaos")
     List<Produto> findAllWithEagerRelationships();
 
-    @Query("select produto from Produto produto left join fetch produto.listImagens left join fetch produto.aplicacoes left join fetch produto.listAvaliacaos where produto.id =:id")
+    @Query("select produto from Produto produto left join fetch produto.listFotos left join fetch produto.aplicacoes left join fetch produto.listAvaliacaos where produto.id =:id")
     Optional<Produto> findOneWithEagerRelationships(@Param("id") Long id);
 
 }

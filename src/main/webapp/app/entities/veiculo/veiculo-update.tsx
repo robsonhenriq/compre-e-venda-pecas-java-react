@@ -10,6 +10,10 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IMarca } from 'app/shared/model/marca.model';
 import { getEntities as getMarcas } from 'app/entities/marca/marca.reducer';
+import { ICliente } from 'app/shared/model/cliente.model';
+import { getEntities as getClientes } from 'app/entities/cliente/cliente.reducer';
+import { IProduto } from 'app/shared/model/produto.model';
+import { getEntities as getProdutos } from 'app/entities/produto/produto.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './veiculo.reducer';
 import { IVeiculo } from 'app/shared/model/veiculo.model';
 // tslint:disable-next-line:no-unused-variable
@@ -21,6 +25,8 @@ export interface IVeiculoUpdateProps extends StateProps, DispatchProps, RouteCom
 export interface IVeiculoUpdateState {
   isNew: boolean;
   marcaId: string;
+  listClientesId: string;
+  listProdutosId: string;
 }
 
 export class VeiculoUpdate extends React.Component<IVeiculoUpdateProps, IVeiculoUpdateState> {
@@ -28,6 +34,8 @@ export class VeiculoUpdate extends React.Component<IVeiculoUpdateProps, IVeiculo
     super(props);
     this.state = {
       marcaId: '0',
+      listClientesId: '0',
+      listProdutosId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -46,6 +54,8 @@ export class VeiculoUpdate extends React.Component<IVeiculoUpdateProps, IVeiculo
     }
 
     this.props.getMarcas();
+    this.props.getClientes();
+    this.props.getProdutos();
   }
 
   saveEntity = (event, errors, values) => {
@@ -69,7 +79,7 @@ export class VeiculoUpdate extends React.Component<IVeiculoUpdateProps, IVeiculo
   };
 
   render() {
-    const { veiculoEntity, marcas, loading, updating } = this.props;
+    const { veiculoEntity, marcas, clientes, produtos, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -161,6 +171,8 @@ export class VeiculoUpdate extends React.Component<IVeiculoUpdateProps, IVeiculo
 
 const mapStateToProps = (storeState: IRootState) => ({
   marcas: storeState.marca.entities,
+  clientes: storeState.cliente.entities,
+  produtos: storeState.produto.entities,
   veiculoEntity: storeState.veiculo.entity,
   loading: storeState.veiculo.loading,
   updating: storeState.veiculo.updating,
@@ -169,6 +181,8 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getMarcas,
+  getClientes,
+  getProdutos,
   getEntity,
   updateEntity,
   createEntity,

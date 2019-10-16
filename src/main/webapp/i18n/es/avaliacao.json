@@ -18,7 +18,8 @@
       },
       "dataHora": "Data Hora",
       "descricao": "Descricao",
-      "listCliente": "List Cliente"
+      "listClientes": "List Clientes",
+      "listProdutos": "List Produtos"
     }
   }
 }

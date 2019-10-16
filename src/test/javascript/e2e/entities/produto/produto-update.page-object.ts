@@ -16,7 +16,7 @@ export default class ProdutoUpdatePage {
   precoAPrazoInput: ElementFinder = element(by.css('input#produto-precoAPrazo'));
   categoriaSelect: ElementFinder = element(by.css('select#produto-categoria'));
   marcaSelect: ElementFinder = element(by.css('select#produto-marca'));
-  listImagensSelect: ElementFinder = element(by.css('select#produto-listImagens'));
+  listFotosSelect: ElementFinder = element(by.css('select#produto-listFotos'));
   aplicacoesSelect: ElementFinder = element(by.css('select#produto-aplicacoes'));
   listAvaliacaoSelect: ElementFinder = element(by.css('select#produto-listAvaliacao'));
 
@@ -132,23 +132,23 @@ export default class ProdutoUpdatePage {
     return this.marcaSelect.element(by.css('option:checked')).getText();
   }
 
-  async listImagensSelectLastOption() {
-    await this.listImagensSelect
+  async listFotosSelectLastOption() {
+    await this.listFotosSelect
       .all(by.tagName('option'))
       .last()
       .click();
   }
 
-  async listImagensSelectOption(option) {
-    await this.listImagensSelect.sendKeys(option);
+  async listFotosSelectOption(option) {
+    await this.listFotosSelect.sendKeys(option);
   }
 
-  getListImagensSelect() {
-    return this.listImagensSelect;
+  getListFotosSelect() {
+    return this.listFotosSelect;
   }
 
-  async getListImagensSelectedOption() {
-    return this.listImagensSelect.element(by.css('option:checked')).getText();
+  async getListFotosSelectedOption() {
+    return this.listFotosSelect.element(by.css('option:checked')).getText();
   }
 
   async aplicacoesSelectLastOption() {

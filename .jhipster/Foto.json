@@ -11,8 +11,17 @@
             "fieldTypeBlobContent": "image"
         }
     ],
-    "relationships": [],
-    "changelogDate": "20191015014624",
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "produto",
+            "otherEntityRelationshipName": "listFotos",
+            "relationshipName": "listProdutos",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20191016005802",
     "entityTableName": "foto",
     "dto": "mapstruct",
     "pagination": "pagination",

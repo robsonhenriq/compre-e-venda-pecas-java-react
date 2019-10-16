@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -61,6 +62,11 @@ public class Vendedor implements Serializable {
                joinColumns = @JoinColumn(name = "vendedor_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_produtos_id", referencedColumnName = "id"))
     private Set<Produto> listProdutos = new HashSet<>();
+
+    @ManyToMany(mappedBy = "listVendedores")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Venda> listVendas = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -199,18 +205,43 @@ public class Vendedor implements Serializable {
 
     public Vendedor addListProdutos(Produto produto) {
         this.listProdutos.add(produto);
-        produto.getVendedors().add(this);
+        produto.getListVendedores().add(this);
         return this;
     }
 
     public Vendedor removeListProdutos(Produto produto) {
         this.listProdutos.remove(produto);
-        produto.getVendedors().remove(this);
+        produto.getListVendedores().remove(this);
         return this;
     }
 
     public void setListProdutos(Set<Produto> produtos) {
         this.listProdutos = produtos;
+    }
+
+    public Set<Venda> getListVendas() {
+        return listVendas;
+    }
+
+    public Vendedor listVendas(Set<Venda> vendas) {
+        this.listVendas = vendas;
+        return this;
+    }
+
+    public Vendedor addListVendas(Venda venda) {
+        this.listVendas.add(venda);
+        venda.getListVendedores().add(this);
+        return this;
+    }
+
+    public Vendedor removeListVendas(Venda venda) {
+        this.listVendas.remove(venda);
+        venda.getListVendedores().remove(this);
+        return this;
+    }
+
+    public void setListVendas(Set<Venda> vendas) {
+        this.listVendas = vendas;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

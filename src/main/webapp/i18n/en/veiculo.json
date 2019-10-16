@@ -18,7 +18,9 @@
       },
       "nome": "Nome",
       "ano": "Ano",
-      "marca": "Marca"
+      "marca": "Marca",
+      "listClientes": "List Clientes",
+      "listProdutos": "List Produtos"
     }
   }
 }

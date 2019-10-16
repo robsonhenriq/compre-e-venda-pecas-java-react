@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -31,10 +32,15 @@ public class Avaliacao implements Serializable {
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "avaliacao_list_cliente",
+    @JoinTable(name = "avaliacao_list_clientes",
                joinColumns = @JoinColumn(name = "avaliacao_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_cliente_id", referencedColumnName = "id"))
+               inverseJoinColumns = @JoinColumn(name = "list_clientes_id", referencedColumnName = "id"))
     private Set<Cliente> listClientes = new HashSet<>();
+
+    @ManyToMany(mappedBy = "listAvaliacaos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Produto> listProdutos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -80,13 +86,13 @@ public class Avaliacao implements Serializable {
         return this;
     }
 
-    public Avaliacao addListCliente(Cliente cliente) {
+    public Avaliacao addListClientes(Cliente cliente) {
         this.listClientes.add(cliente);
         cliente.getListAvaliacaos().add(this);
         return this;
     }
 
-    public Avaliacao removeListCliente(Cliente cliente) {
+    public Avaliacao removeListClientes(Cliente cliente) {
         this.listClientes.remove(cliente);
         cliente.getListAvaliacaos().remove(this);
         return this;
@@ -94,6 +100,31 @@ public class Avaliacao implements Serializable {
 
     public void setListClientes(Set<Cliente> clientes) {
         this.listClientes = clientes;
+    }
+
+    public Set<Produto> getListProdutos() {
+        return listProdutos;
+    }
+
+    public Avaliacao listProdutos(Set<Produto> produtos) {
+        this.listProdutos = produtos;
+        return this;
+    }
+
+    public Avaliacao addListProdutos(Produto produto) {
+        this.listProdutos.add(produto);
+        produto.getListAvaliacaos().add(this);
+        return this;
+    }
+
+    public Avaliacao removeListProdutos(Produto produto) {
+        this.listProdutos.remove(produto);
+        produto.getListAvaliacaos().remove(this);
+        return this;
+    }
+
+    public void setListProdutos(Set<Produto> produtos) {
+        this.listProdutos = produtos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

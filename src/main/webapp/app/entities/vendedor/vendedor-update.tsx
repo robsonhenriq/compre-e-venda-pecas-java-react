@@ -14,6 +14,8 @@ import { IEndereco } from 'app/shared/model/endereco.model';
 import { getEntities as getEnderecos } from 'app/entities/endereco/endereco.reducer';
 import { IProduto } from 'app/shared/model/produto.model';
 import { getEntities as getProdutos } from 'app/entities/produto/produto.reducer';
+import { IVenda } from 'app/shared/model/venda.model';
+import { getEntities as getVendas } from 'app/entities/venda/venda.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './vendedor.reducer';
 import { IVendedor } from 'app/shared/model/vendedor.model';
 // tslint:disable-next-line:no-unused-variable
@@ -27,6 +29,7 @@ export interface IVendedorUpdateState {
   idslistProdutos: any[];
   usuarioId: string;
   enderecoId: string;
+  listVendasId: string;
 }
 
 export class VendedorUpdate extends React.Component<IVendedorUpdateProps, IVendedorUpdateState> {
@@ -36,6 +39,7 @@ export class VendedorUpdate extends React.Component<IVendedorUpdateProps, IVende
       idslistProdutos: [],
       usuarioId: '0',
       enderecoId: '0',
+      listVendasId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -56,6 +60,7 @@ export class VendedorUpdate extends React.Component<IVendedorUpdateProps, IVende
     this.props.getUsers();
     this.props.getEnderecos();
     this.props.getProdutos();
+    this.props.getVendas();
   }
 
   saveEntity = (event, errors, values) => {
@@ -80,7 +85,7 @@ export class VendedorUpdate extends React.Component<IVendedorUpdateProps, IVende
   };
 
   render() {
-    const { vendedorEntity, users, enderecos, produtos, loading, updating } = this.props;
+    const { vendedorEntity, users, enderecos, produtos, vendas, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -226,6 +231,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   users: storeState.userManagement.users,
   enderecos: storeState.endereco.entities,
   produtos: storeState.produto.entities,
+  vendas: storeState.venda.entities,
   vendedorEntity: storeState.vendedor.entity,
   loading: storeState.vendedor.loading,
   updating: storeState.vendedor.updating,
@@ -236,6 +242,7 @@ const mapDispatchToProps = {
   getUsers,
   getEnderecos,
   getProdutos,
+  getVendas,
   getEntity,
   updateEntity,
   createEntity,

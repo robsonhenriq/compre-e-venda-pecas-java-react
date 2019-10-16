@@ -164,13 +164,13 @@ public class Venda implements Serializable {
 
     public Venda addListVendedores(Vendedor vendedor) {
         this.listVendedores.add(vendedor);
-        vendedor.getVendas().add(this);
+        vendedor.getListVendas().add(this);
         return this;
     }
 
     public Venda removeListVendedores(Vendedor vendedor) {
         this.listVendedores.remove(vendedor);
-        vendedor.getVendas().remove(this);
+        vendedor.getListVendas().remove(this);
         return this;
     }
 

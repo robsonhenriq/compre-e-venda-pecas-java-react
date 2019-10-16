@@ -16,6 +16,8 @@ public interface ItemMapper extends EntityMapper<ItemDTO, Item> {
     ItemDTO toDto(Item item);
 
     @Mapping(source = "produtoId", target = "produto")
+    @Mapping(target = "listCarrinhos", ignore = true)
+    @Mapping(target = "removeListCarrinhos", ignore = true)
     @Mapping(source = "vendaId", target = "venda")
     Item toEntity(ItemDTO itemDTO);
 

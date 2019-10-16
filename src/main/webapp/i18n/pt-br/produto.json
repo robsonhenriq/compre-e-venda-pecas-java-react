@@ -28,9 +28,10 @@
       "precoAPrazo": "Preco A Prazo",
       "categoria": "Categoria",
       "marca": "Marca",
-      "listImagens": "List Imagens",
+      "listFotos": "List Fotos",
       "aplicacoes": "Aplicacoes",
-      "listAvaliacao": "List Avaliacao"
+      "listAvaliacao": "List Avaliacao",
+      "listVendedores": "List Vendedores"
     }
   }
 }

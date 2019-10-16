@@ -99,14 +99,14 @@ export class ProdutoDetail extends React.Component<IProdutoDetailProps> {
             </dt>
             <dd>{produtoEntity.marcaId ? produtoEntity.marcaId : ''}</dd>
             <dt>
-              <Translate contentKey="ecommerceApp.produto.listImagens">List Imagens</Translate>
+              <Translate contentKey="ecommerceApp.produto.listFotos">List Fotos</Translate>
             </dt>
             <dd>
-              {produtoEntity.listImagens
-                ? produtoEntity.listImagens.map((val, i) => (
+              {produtoEntity.listFotos
+                ? produtoEntity.listFotos.map((val, i) => (
                     <span key={val.id}>
                       <a>{val.id}</a>
-                      {i === produtoEntity.listImagens.length - 1 ? '' : ', '}
+                      {i === produtoEntity.listFotos.length - 1 ? '' : ', '}
                     </span>
                   ))
                 : null}

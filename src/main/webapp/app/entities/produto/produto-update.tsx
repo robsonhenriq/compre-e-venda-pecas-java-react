@@ -16,6 +16,8 @@ import { IVeiculo } from 'app/shared/model/veiculo.model';
 import { getEntities as getVeiculos } from 'app/entities/veiculo/veiculo.reducer';
 import { IAvaliacao } from 'app/shared/model/avaliacao.model';
 import { getEntities as getAvaliacaos } from 'app/entities/avaliacao/avaliacao.reducer';
+import { IVendedor } from 'app/shared/model/vendedor.model';
+import { getEntities as getVendedors } from 'app/entities/vendedor/vendedor.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './produto.reducer';
 import { IProduto } from 'app/shared/model/produto.model';
 // tslint:disable-next-line:no-unused-variable
@@ -26,20 +28,22 @@ export interface IProdutoUpdateProps extends StateProps, DispatchProps, RouteCom
 
 export interface IProdutoUpdateState {
   isNew: boolean;
-  idslistImagens: any[];
+  idslistFotos: any[];
   idsaplicacoes: any[];
   idslistAvaliacao: any[];
   marcaId: string;
+  listVendedoresId: string;
 }
 
 export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProdutoUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      idslistImagens: [],
+      idslistFotos: [],
       idsaplicacoes: [],
       idslistAvaliacao: [],
       marcaId: '0',
+      listVendedoresId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -61,6 +65,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
     this.props.getFotos();
     this.props.getVeiculos();
     this.props.getAvaliacaos();
+    this.props.getVendedors();
   }
 
   saveEntity = (event, errors, values) => {
@@ -69,7 +74,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
       const entity = {
         ...produtoEntity,
         ...values,
-        listImagens: mapIdList(values.listImagens),
+        listFotos: mapIdList(values.listFotos),
         aplicacoes: mapIdList(values.aplicacoes),
         listAvaliacaos: mapIdList(values.listAvaliacaos)
       };
@@ -87,7 +92,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
   };
 
   render() {
-    const { produtoEntity, marcas, fotos, veiculos, avaliacaos, loading, updating } = this.props;
+    const { produtoEntity, marcas, fotos, veiculos, avaliacaos, vendedors, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -266,16 +271,16 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                   </AvInput>
                 </AvGroup>
                 <AvGroup>
-                  <Label for="produto-listImagens">
-                    <Translate contentKey="ecommerceApp.produto.listImagens">List Imagens</Translate>
+                  <Label for="produto-listFotos">
+                    <Translate contentKey="ecommerceApp.produto.listFotos">List Fotos</Translate>
                   </Label>
                   <AvInput
-                    id="produto-listImagens"
+                    id="produto-listFotos"
                     type="select"
                     multiple
                     className="form-control"
-                    name="listImagens"
-                    value={produtoEntity.listImagens && produtoEntity.listImagens.map(e => e.id)}
+                    name="listFotos"
+                    value={produtoEntity.listFotos && produtoEntity.listFotos.map(e => e.id)}
                   >
                     <option value="" key="0" />
                     {fotos
@@ -358,6 +363,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   fotos: storeState.foto.entities,
   veiculos: storeState.veiculo.entities,
   avaliacaos: storeState.avaliacao.entities,
+  vendedors: storeState.vendedor.entities,
   produtoEntity: storeState.produto.entity,
   loading: storeState.produto.loading,
   updating: storeState.produto.updating,
@@ -369,6 +375,7 @@ const mapDispatchToProps = {
   getFotos,
   getVeiculos,
   getAvaliacaos,
+  getVendedors,
   getEntity,
   updateEntity,
   createEntity,

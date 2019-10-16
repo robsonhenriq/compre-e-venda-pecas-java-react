@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -76,10 +77,10 @@ public class Produto implements Serializable {
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "produto_list_imagens",
+    @JoinTable(name = "produto_list_fotos",
                joinColumns = @JoinColumn(name = "produto_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_imagens_id", referencedColumnName = "id"))
-    private Set<Foto> listImagens = new HashSet<>();
+               inverseJoinColumns = @JoinColumn(name = "list_fotos_id", referencedColumnName = "id"))
+    private Set<Foto> listFotos = new HashSet<>();
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -94,6 +95,11 @@ public class Produto implements Serializable {
                joinColumns = @JoinColumn(name = "produto_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_avaliacao_id", referencedColumnName = "id"))
     private Set<Avaliacao> listAvaliacaos = new HashSet<>();
+
+    @ManyToMany(mappedBy = "listProdutos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Vendedor> listVendedores = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -260,29 +266,29 @@ public class Produto implements Serializable {
         this.marca = marca;
     }
 
-    public Set<Foto> getListImagens() {
-        return listImagens;
+    public Set<Foto> getListFotos() {
+        return listFotos;
     }
 
-    public Produto listImagens(Set<Foto> fotos) {
-        this.listImagens = fotos;
+    public Produto listFotos(Set<Foto> fotos) {
+        this.listFotos = fotos;
         return this;
     }
 
-    public Produto addListImagens(Foto foto) {
-        this.listImagens.add(foto);
-        foto.getProdutos().add(this);
+    public Produto addListFotos(Foto foto) {
+        this.listFotos.add(foto);
+        foto.getListProdutos().add(this);
         return this;
     }
 
-    public Produto removeListImagens(Foto foto) {
-        this.listImagens.remove(foto);
-        foto.getProdutos().remove(this);
+    public Produto removeListFotos(Foto foto) {
+        this.listFotos.remove(foto);
+        foto.getListProdutos().remove(this);
         return this;
     }
 
-    public void setListImagens(Set<Foto> fotos) {
-        this.listImagens = fotos;
+    public void setListFotos(Set<Foto> fotos) {
+        this.listFotos = fotos;
     }
 
     public Set<Veiculo> getAplicacoes() {
@@ -296,13 +302,13 @@ public class Produto implements Serializable {
 
     public Produto addAplicacoes(Veiculo veiculo) {
         this.aplicacoes.add(veiculo);
-        veiculo.getProdutos().add(this);
+        veiculo.getListProdutos().add(this);
         return this;
     }
 
     public Produto removeAplicacoes(Veiculo veiculo) {
         this.aplicacoes.remove(veiculo);
-        veiculo.getProdutos().remove(this);
+        veiculo.getListProdutos().remove(this);
         return this;
     }
 
@@ -321,18 +327,43 @@ public class Produto implements Serializable {
 
     public Produto addListAvaliacao(Avaliacao avaliacao) {
         this.listAvaliacaos.add(avaliacao);
-        avaliacao.getProdutos().add(this);
+        avaliacao.getListProdutos().add(this);
         return this;
     }
 
     public Produto removeListAvaliacao(Avaliacao avaliacao) {
         this.listAvaliacaos.remove(avaliacao);
-        avaliacao.getProdutos().remove(this);
+        avaliacao.getListProdutos().remove(this);
         return this;
     }
 
     public void setListAvaliacaos(Set<Avaliacao> avaliacaos) {
         this.listAvaliacaos = avaliacaos;
+    }
+
+    public Set<Vendedor> getListVendedores() {
+        return listVendedores;
+    }
+
+    public Produto listVendedores(Set<Vendedor> vendedors) {
+        this.listVendedores = vendedors;
+        return this;
+    }
+
+    public Produto addListVendedores(Vendedor vendedor) {
+        this.listVendedores.add(vendedor);
+        vendedor.getListProdutos().add(this);
+        return this;
+    }
+
+    public Produto removeListVendedores(Vendedor vendedor) {
+        this.listVendedores.remove(vendedor);
+        vendedor.getListProdutos().remove(this);
+        return this;
+    }
+
+    public void setListVendedores(Set<Vendedor> vendedors) {
+        this.listVendedores = vendedors;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

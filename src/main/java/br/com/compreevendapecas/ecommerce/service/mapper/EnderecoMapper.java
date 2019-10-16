@@ -12,6 +12,9 @@ import org.mapstruct.*;
 public interface EnderecoMapper extends EntityMapper<EnderecoDTO, Endereco> {
 
 
+    @Mapping(target = "listEnderecos", ignore = true)
+    @Mapping(target = "removeListEnderecos", ignore = true)
+    Endereco toEntity(EnderecoDTO enderecoDTO);
 
     default Endereco fromId(Long id) {
         if (id == null) {

@@ -66,13 +66,13 @@ public class Carrinho implements Serializable {
 
     public Carrinho addListItens(Item item) {
         this.listItens.add(item);
-        item.getCarrinhos().add(this);
+        item.getListCarrinhos().add(this);
         return this;
     }
 
     public Carrinho removeListItens(Item item) {
         this.listItens.remove(item);
-        item.getCarrinhos().remove(this);
+        item.getListCarrinhos().remove(this);
         return this;
     }
 

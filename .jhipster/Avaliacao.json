@@ -15,12 +15,20 @@
             "relationshipType": "many-to-many",
             "otherEntityName": "cliente",
             "otherEntityRelationshipName": "listAvaliacao",
-            "relationshipName": "listCliente",
+            "relationshipName": "listClientes",
             "otherEntityField": "id",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "produto",
+            "otherEntityRelationshipName": "listAvaliacao",
+            "relationshipName": "listProdutos",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
-    "changelogDate": "20191015014620",
+    "changelogDate": "20191016005758",
     "entityTableName": "avaliacao",
     "dto": "mapstruct",
     "pagination": "pagination",

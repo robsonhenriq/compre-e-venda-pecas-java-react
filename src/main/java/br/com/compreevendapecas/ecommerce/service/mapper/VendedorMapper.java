@@ -18,6 +18,8 @@ public interface VendedorMapper extends EntityMapper<VendedorDTO, Vendedor> {
     @Mapping(source = "usuarioId", target = "usuario")
     @Mapping(source = "enderecoId", target = "endereco")
     @Mapping(target = "removeListProdutos", ignore = true)
+    @Mapping(target = "listVendas", ignore = true)
+    @Mapping(target = "removeListVendas", ignore = true)
     Vendedor toEntity(VendedorDTO vendedorDTO);
 
     default Vendedor fromId(Long id) {

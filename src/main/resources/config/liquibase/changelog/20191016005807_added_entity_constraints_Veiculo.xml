@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Veiculo.
     -->
-    <changeSet id="20191015014629-2" author="jhipster">
+    <changeSet id="20191016005807-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="marca_id"
                                  baseTableName="veiculo"

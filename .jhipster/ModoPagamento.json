@@ -15,7 +15,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20191015014627",
+    "changelogDate": "20191016005805",
     "entityTableName": "modo_pagamento",
     "dto": "mapstruct",
     "pagination": "pagination",

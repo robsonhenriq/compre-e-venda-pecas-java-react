@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { IProduto } from 'app/shared/model/produto.model';
+import { IVenda } from 'app/shared/model/venda.model';
 
 export interface IVendedor {
   id?: number;
@@ -13,6 +14,7 @@ export interface IVendedor {
   usuarioId?: number;
   enderecoId?: number;
   listProdutos?: IProduto[];
+  listVendas?: IVenda[];
 }
 
 export const defaultValue: Readonly<IVendedor> = {
