@@ -2,14 +2,17 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.config.Constants;
 import br.com.compreevendapecas.ecommerce.domain.Authority;
+import br.com.compreevendapecas.ecommerce.domain.Cliente;
 import br.com.compreevendapecas.ecommerce.domain.User;
 import br.com.compreevendapecas.ecommerce.repository.AuthorityRepository;
+import br.com.compreevendapecas.ecommerce.repository.ClienteRepository;
 import br.com.compreevendapecas.ecommerce.repository.UserRepository;
 import br.com.compreevendapecas.ecommerce.security.AuthoritiesConstants;
 import br.com.compreevendapecas.ecommerce.security.SecurityUtils;
 import br.com.compreevendapecas.ecommerce.service.dto.UserDTO;
 import br.com.compreevendapecas.ecommerce.service.util.RandomUtil;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.*;
+import br.com.compreevendapecas.ecommerce.web.rest.vm.ManagedUserVM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +39,8 @@ public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    
+    private final ClienteRepository clienteRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -43,11 +48,12 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, ClienteRepository clienteRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.clienteRepository = clienteRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -87,7 +93,7 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password) {
+    public User registerUser(UserDTO userDTO, String password, ManagedUserVM managedUserVM) {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
@@ -120,6 +126,21 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        
+        // Create and save the Cliente entity
+        Cliente newCliente = new Cliente();
+        newCliente.setUsuario(newUser);
+        newCliente.setNome(managedUserVM.getNome());
+        newCliente.setCpf(managedUserVM.getCpf());
+        newCliente.setRg(managedUserVM.getRg());
+        // I NEED ADD other fields - By RH
+        
+        
+        clienteRepository.save(newCliente);
+        log.debug("Created Information for Cliente: {}", newCliente);
+        
+        
+        // Here I need to add the entity Vendedor
         return newUser;
     }
 

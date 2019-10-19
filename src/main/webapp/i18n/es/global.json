@@ -55,7 +55,20 @@
       "confirmpassword.label": "Confirmación de la nueva contraseña",
       "confirmpassword.placeholder": "Confirmación de la nueva contraseña",
       "email.label": "Correo electrónico",
-      "email.placeholder": "Su correo electrónico"
+      "email.placeholder": "Su correo electrónico",
+
+      "nome.label": "Nombre completo",
+      "nome.placeholder": "Ingrese su nombre completo",
+      "cpf.label": "número de seguro social (CPF)",
+      "cpf.placeholder": "ingrese su número de seguro social (CPF)",
+      "rg.label": "Identificación (RG)",
+      "rg.placeholder": "ingrese su identificación (RG)",
+      "dataNascimento.label": "fecha de nacimiento",
+      "dataNascimento.placeholder": "ingrese su fecha de nacimiento",
+      "telefone.label": "Teléfono",
+      "telefone.placeholder": "Ingrese su teléfono",
+      "celular.label": "Celular",
+      "celular.placeholder": "Introduzca su celular"
     },
     "messages": {
       "info": {

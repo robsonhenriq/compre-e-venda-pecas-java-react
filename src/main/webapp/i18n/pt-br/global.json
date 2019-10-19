@@ -55,7 +55,20 @@
       "confirmpassword.label": "Confirmação de nova senha",
       "confirmpassword.placeholder": "Confirme a nova senha",
       "email.label": "E-mail",
-      "email.placeholder": "Seu e-mail"
+      "email.placeholder": "Seu e-mail",
+
+      "nome.label": "Nome Completo",
+      "nome.placeholder": "Informe seu nome completo",
+      "cpf.label": "CPF",
+      "cpf.placeholder": "Informe seu CPF",
+      "rg.label": "RG",
+      "rg.placeholder": "Informe seu RG",
+      "dataNascimento.label": "Data Nascimento",
+      "dataNascimento.placeholder": "Informe sua Data Nascimento",
+      "telefone.label": "Telefone",
+      "telefone.placeholder": "Informe seu telefone",
+      "celular.label": "Celular",
+      "celular.placeholder": "Informe seu celular"
     },
     "messages": {
       "info": {
