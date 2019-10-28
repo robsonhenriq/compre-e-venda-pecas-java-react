@@ -1,14 +1,13 @@
 import './header.scss';
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Translate, Storage } from 'react-jhipster';
 import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { NavLink as Link } from 'react-router-dom';
 import LoadingBar from 'react-redux-loading-bar';
 
-import { Home, Brand } from './header-components';
+import { Home, Brand, BuscarProduto, Carrinho } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 
 export interface IHeaderProps {
@@ -58,16 +57,21 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
       <div id="app-header">
         {this.renderDevRibbon()}
         <LoadingBar className="loading-bar" />
-        <Navbar dark expand="sm" fixed="top" className="bg-primary">
+        <Navbar dark expand="sm" fixed="top" className="bg-dark">
           <NavbarToggler aria-label="Menu" onClick={this.toggleMenu} />
           <Brand />
           <Collapse isOpen={this.state.menuOpen} navbar>
             <Nav id="header-tabs" className="ml-auto" navbar>
+              {/* COLOCAR AQUI UM DROPDOWN DE CATEGORIAS */}
               <Home />
+              <BuscarProduto />
+
               {isAuthenticated && <EntitiesMenu />}
               {isAuthenticated && isAdmin && <AdminMenu showSwagger={isSwaggerEnabled} />}
               <LocaleMenu currentLocale={currentLocale} onClick={this.handleLocaleChange} />
               <AccountMenu isAuthenticated={isAuthenticated} />
+              {/* ICONE do CARRINHO*/}
+              {isAuthenticated && <Carrinho />}
             </Nav>
           </Collapse>
         </Navbar>
