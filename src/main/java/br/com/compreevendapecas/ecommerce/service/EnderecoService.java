@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Endereco;
 import br.com.compreevendapecas.ecommerce.repository.EnderecoRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.EnderecoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.EnderecoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
 
-    private final EnderecoMapper enderecoMapper;
-
-    public EnderecoService(EnderecoRepository enderecoRepository, EnderecoMapper enderecoMapper) {
+    public EnderecoService(EnderecoRepository enderecoRepository) {
         this.enderecoRepository = enderecoRepository;
-        this.enderecoMapper = enderecoMapper;
     }
 
     /**
      * Save a endereco.
      *
-     * @param enderecoDTO the entity to save.
+     * @param endereco the entity to save.
      * @return the persisted entity.
      */
-    public EnderecoDTO save(EnderecoDTO enderecoDTO) {
-        log.debug("Request to save Endereco : {}", enderecoDTO);
-        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
-        endereco = enderecoRepository.save(endereco);
-        return enderecoMapper.toDto(endereco);
+    public Endereco save(Endereco endereco) {
+        log.debug("Request to save Endereco : {}", endereco);
+        return enderecoRepository.save(endereco);
     }
 
     /**
@@ -52,10 +45,9 @@ public class EnderecoService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<EnderecoDTO> findAll(Pageable pageable) {
+    public Page<Endereco> findAll(Pageable pageable) {
         log.debug("Request to get all Enderecos");
-        return enderecoRepository.findAll(pageable)
-            .map(enderecoMapper::toDto);
+        return enderecoRepository.findAll(pageable);
     }
 
 
@@ -66,10 +58,9 @@ public class EnderecoService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<EnderecoDTO> findOne(Long id) {
+    public Optional<Endereco> findOne(Long id) {
         log.debug("Request to get Endereco : {}", id);
-        return enderecoRepository.findById(id)
-            .map(enderecoMapper::toDto);
+        return enderecoRepository.findById(id);
     }
 
     /**

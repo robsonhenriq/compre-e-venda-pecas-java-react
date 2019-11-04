@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Foto;
 import br.com.compreevendapecas.ecommerce.repository.FotoRepository;
 import br.com.compreevendapecas.ecommerce.service.FotoService;
-import br.com.compreevendapecas.ecommerce.service.dto.FotoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.FotoMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -47,9 +45,6 @@ public class FotoResourceIT {
 
     @Autowired
     private FotoRepository fotoRepository;
-
-    @Autowired
-    private FotoMapper fotoMapper;
 
     @Autowired
     private FotoService fotoService;
@@ -123,10 +118,9 @@ public class FotoResourceIT {
         int databaseSizeBeforeCreate = fotoRepository.findAll().size();
 
         // Create the Foto
-        FotoDTO fotoDTO = fotoMapper.toDto(foto);
         restFotoMockMvc.perform(post("/api/fotos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(fotoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(foto)))
             .andExpect(status().isCreated());
 
         // Validate the Foto in the database
@@ -145,12 +139,11 @@ public class FotoResourceIT {
 
         // Create the Foto with an existing ID
         foto.setId(1L);
-        FotoDTO fotoDTO = fotoMapper.toDto(foto);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restFotoMockMvc.perform(post("/api/fotos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(fotoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(foto)))
             .andExpect(status().isBadRequest());
 
         // Validate the Foto in the database
@@ -203,7 +196,7 @@ public class FotoResourceIT {
     @Transactional
     public void updateFoto() throws Exception {
         // Initialize the database
-        fotoRepository.saveAndFlush(foto);
+        fotoService.save(foto);
 
         int databaseSizeBeforeUpdate = fotoRepository.findAll().size();
 
@@ -215,11 +208,10 @@ public class FotoResourceIT {
             .nome(UPDATED_NOME)
             .imagem(UPDATED_IMAGEM)
             .imagemContentType(UPDATED_IMAGEM_CONTENT_TYPE);
-        FotoDTO fotoDTO = fotoMapper.toDto(updatedFoto);
 
         restFotoMockMvc.perform(put("/api/fotos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(fotoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedFoto)))
             .andExpect(status().isOk());
 
         // Validate the Foto in the database
@@ -237,12 +229,11 @@ public class FotoResourceIT {
         int databaseSizeBeforeUpdate = fotoRepository.findAll().size();
 
         // Create the Foto
-        FotoDTO fotoDTO = fotoMapper.toDto(foto);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFotoMockMvc.perform(put("/api/fotos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(fotoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(foto)))
             .andExpect(status().isBadRequest());
 
         // Validate the Foto in the database
@@ -254,7 +245,7 @@ public class FotoResourceIT {
     @Transactional
     public void deleteFoto() throws Exception {
         // Initialize the database
-        fotoRepository.saveAndFlush(foto);
+        fotoService.save(foto);
 
         int databaseSizeBeforeDelete = fotoRepository.findAll().size();
 
@@ -281,28 +272,5 @@ public class FotoResourceIT {
         assertThat(foto1).isNotEqualTo(foto2);
         foto1.setId(null);
         assertThat(foto1).isNotEqualTo(foto2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(FotoDTO.class);
-        FotoDTO fotoDTO1 = new FotoDTO();
-        fotoDTO1.setId(1L);
-        FotoDTO fotoDTO2 = new FotoDTO();
-        assertThat(fotoDTO1).isNotEqualTo(fotoDTO2);
-        fotoDTO2.setId(fotoDTO1.getId());
-        assertThat(fotoDTO1).isEqualTo(fotoDTO2);
-        fotoDTO2.setId(2L);
-        assertThat(fotoDTO1).isNotEqualTo(fotoDTO2);
-        fotoDTO1.setId(null);
-        assertThat(fotoDTO1).isNotEqualTo(fotoDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(fotoMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(fotoMapper.fromId(null)).isNull();
     }
 }

@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Foto;
 import br.com.compreevendapecas.ecommerce.service.FotoService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.FotoDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -48,17 +48,17 @@ public class FotoResource {
     /**
      * {@code POST  /fotos} : Create a new foto.
      *
-     * @param fotoDTO the fotoDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new fotoDTO, or with status {@code 400 (Bad Request)} if the foto has already an ID.
+     * @param foto the foto to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new foto, or with status {@code 400 (Bad Request)} if the foto has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/fotos")
-    public ResponseEntity<FotoDTO> createFoto(@RequestBody FotoDTO fotoDTO) throws URISyntaxException {
-        log.debug("REST request to save Foto : {}", fotoDTO);
-        if (fotoDTO.getId() != null) {
+    public ResponseEntity<Foto> createFoto(@RequestBody Foto foto) throws URISyntaxException {
+        log.debug("REST request to save Foto : {}", foto);
+        if (foto.getId() != null) {
             throw new BadRequestAlertException("A new foto cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        FotoDTO result = fotoService.save(fotoDTO);
+        Foto result = fotoService.save(foto);
         return ResponseEntity.created(new URI("/api/fotos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -67,21 +67,21 @@ public class FotoResource {
     /**
      * {@code PUT  /fotos} : Updates an existing foto.
      *
-     * @param fotoDTO the fotoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated fotoDTO,
-     * or with status {@code 400 (Bad Request)} if the fotoDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the fotoDTO couldn't be updated.
+     * @param foto the foto to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated foto,
+     * or with status {@code 400 (Bad Request)} if the foto is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the foto couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/fotos")
-    public ResponseEntity<FotoDTO> updateFoto(@RequestBody FotoDTO fotoDTO) throws URISyntaxException {
-        log.debug("REST request to update Foto : {}", fotoDTO);
-        if (fotoDTO.getId() == null) {
+    public ResponseEntity<Foto> updateFoto(@RequestBody Foto foto) throws URISyntaxException {
+        log.debug("REST request to update Foto : {}", foto);
+        if (foto.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        FotoDTO result = fotoService.save(fotoDTO);
+        Foto result = fotoService.save(foto);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, fotoDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, foto.getId().toString()))
             .body(result);
     }
 
@@ -94,9 +94,9 @@ public class FotoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of fotos in body.
      */
     @GetMapping("/fotos")
-    public ResponseEntity<List<FotoDTO>> getAllFotos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<Foto>> getAllFotos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of Fotos");
-        Page<FotoDTO> page = fotoService.findAll(pageable);
+        Page<Foto> page = fotoService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -104,20 +104,20 @@ public class FotoResource {
     /**
      * {@code GET  /fotos/:id} : get the "id" foto.
      *
-     * @param id the id of the fotoDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the fotoDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the foto to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the foto, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/fotos/{id}")
-    public ResponseEntity<FotoDTO> getFoto(@PathVariable Long id) {
+    public ResponseEntity<Foto> getFoto(@PathVariable Long id) {
         log.debug("REST request to get Foto : {}", id);
-        Optional<FotoDTO> fotoDTO = fotoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(fotoDTO);
+        Optional<Foto> foto = fotoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(foto);
     }
 
     /**
      * {@code DELETE  /fotos/:id} : delete the "id" foto.
      *
-     * @param id the id of the fotoDTO to delete.
+     * @param id the id of the foto to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/fotos/{id}")

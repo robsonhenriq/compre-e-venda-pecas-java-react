@@ -1,6 +1,4 @@
 package br.com.compreevendapecas.ecommerce.domain;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -12,7 +10,6 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "marca")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Marca implements Serializable {
 
     private static final long serialVersionUID = 1L;

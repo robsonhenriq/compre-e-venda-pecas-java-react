@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Veiculo;
 import br.com.compreevendapecas.ecommerce.repository.VeiculoRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.VeiculoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.VeiculoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class VeiculoService {
 
     private final VeiculoRepository veiculoRepository;
 
-    private final VeiculoMapper veiculoMapper;
-
-    public VeiculoService(VeiculoRepository veiculoRepository, VeiculoMapper veiculoMapper) {
+    public VeiculoService(VeiculoRepository veiculoRepository) {
         this.veiculoRepository = veiculoRepository;
-        this.veiculoMapper = veiculoMapper;
     }
 
     /**
      * Save a veiculo.
      *
-     * @param veiculoDTO the entity to save.
+     * @param veiculo the entity to save.
      * @return the persisted entity.
      */
-    public VeiculoDTO save(VeiculoDTO veiculoDTO) {
-        log.debug("Request to save Veiculo : {}", veiculoDTO);
-        Veiculo veiculo = veiculoMapper.toEntity(veiculoDTO);
-        veiculo = veiculoRepository.save(veiculo);
-        return veiculoMapper.toDto(veiculo);
+    public Veiculo save(Veiculo veiculo) {
+        log.debug("Request to save Veiculo : {}", veiculo);
+        return veiculoRepository.save(veiculo);
     }
 
     /**
@@ -52,10 +45,9 @@ public class VeiculoService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<VeiculoDTO> findAll(Pageable pageable) {
+    public Page<Veiculo> findAll(Pageable pageable) {
         log.debug("Request to get all Veiculos");
-        return veiculoRepository.findAll(pageable)
-            .map(veiculoMapper::toDto);
+        return veiculoRepository.findAll(pageable);
     }
 
 
@@ -66,10 +58,9 @@ public class VeiculoService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<VeiculoDTO> findOne(Long id) {
+    public Optional<Veiculo> findOne(Long id) {
         log.debug("Request to get Veiculo : {}", id);
-        return veiculoRepository.findById(id)
-            .map(veiculoMapper::toDto);
+        return veiculoRepository.findById(id);
     }
 
     /**

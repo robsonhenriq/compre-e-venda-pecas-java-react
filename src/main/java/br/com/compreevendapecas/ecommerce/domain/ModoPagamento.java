@@ -1,6 +1,4 @@
 package br.com.compreevendapecas.ecommerce.domain;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -14,7 +12,6 @@ import br.com.compreevendapecas.ecommerce.domain.enumeration.TipoPagamento;
  */
 @Entity
 @Table(name = "modo_pagamento")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ModoPagamento implements Serializable {
 
     private static final long serialVersionUID = 1L;

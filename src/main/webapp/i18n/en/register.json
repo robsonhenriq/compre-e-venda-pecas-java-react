@@ -6,11 +6,6 @@
     },
     "messages": {
       "validate": {
-        "nome": {
-          "required": "It is mandatory to fill in the full name!",
-          "minlength": "Name must be at least 3 characters",
-          "maxlength": "Name cannot be longer than 50 characters"
-        },
         "login": {
           "required": "Your username is required.",
           "minlength": "Your username is required to be at least 1 character.",

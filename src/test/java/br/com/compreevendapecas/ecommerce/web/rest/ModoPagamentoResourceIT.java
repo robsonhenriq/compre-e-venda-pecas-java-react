@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.ModoPagamento;
 import br.com.compreevendapecas.ecommerce.repository.ModoPagamentoRepository;
 import br.com.compreevendapecas.ecommerce.service.ModoPagamentoService;
-import br.com.compreevendapecas.ecommerce.service.dto.ModoPagamentoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ModoPagamentoMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,9 +43,6 @@ public class ModoPagamentoResourceIT {
 
     @Autowired
     private ModoPagamentoRepository modoPagamentoRepository;
-
-    @Autowired
-    private ModoPagamentoMapper modoPagamentoMapper;
 
     @Autowired
     private ModoPagamentoService modoPagamentoService;
@@ -119,10 +114,9 @@ public class ModoPagamentoResourceIT {
         int databaseSizeBeforeCreate = modoPagamentoRepository.findAll().size();
 
         // Create the ModoPagamento
-        ModoPagamentoDTO modoPagamentoDTO = modoPagamentoMapper.toDto(modoPagamento);
         restModoPagamentoMockMvc.perform(post("/api/modo-pagamentos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(modoPagamentoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(modoPagamento)))
             .andExpect(status().isCreated());
 
         // Validate the ModoPagamento in the database
@@ -140,12 +134,11 @@ public class ModoPagamentoResourceIT {
 
         // Create the ModoPagamento with an existing ID
         modoPagamento.setId(1L);
-        ModoPagamentoDTO modoPagamentoDTO = modoPagamentoMapper.toDto(modoPagamento);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restModoPagamentoMockMvc.perform(post("/api/modo-pagamentos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(modoPagamentoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(modoPagamento)))
             .andExpect(status().isBadRequest());
 
         // Validate the ModoPagamento in the database
@@ -162,11 +155,10 @@ public class ModoPagamentoResourceIT {
         modoPagamento.setDescricao(null);
 
         // Create the ModoPagamento, which fails.
-        ModoPagamentoDTO modoPagamentoDTO = modoPagamentoMapper.toDto(modoPagamento);
 
         restModoPagamentoMockMvc.perform(post("/api/modo-pagamentos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(modoPagamentoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(modoPagamento)))
             .andExpect(status().isBadRequest());
 
         List<ModoPagamento> modoPagamentoList = modoPagamentoRepository.findAll();
@@ -215,7 +207,7 @@ public class ModoPagamentoResourceIT {
     @Transactional
     public void updateModoPagamento() throws Exception {
         // Initialize the database
-        modoPagamentoRepository.saveAndFlush(modoPagamento);
+        modoPagamentoService.save(modoPagamento);
 
         int databaseSizeBeforeUpdate = modoPagamentoRepository.findAll().size();
 
@@ -226,11 +218,10 @@ public class ModoPagamentoResourceIT {
         updatedModoPagamento
             .descricao(UPDATED_DESCRICAO)
             .tipoPagamento(UPDATED_TIPO_PAGAMENTO);
-        ModoPagamentoDTO modoPagamentoDTO = modoPagamentoMapper.toDto(updatedModoPagamento);
 
         restModoPagamentoMockMvc.perform(put("/api/modo-pagamentos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(modoPagamentoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedModoPagamento)))
             .andExpect(status().isOk());
 
         // Validate the ModoPagamento in the database
@@ -247,12 +238,11 @@ public class ModoPagamentoResourceIT {
         int databaseSizeBeforeUpdate = modoPagamentoRepository.findAll().size();
 
         // Create the ModoPagamento
-        ModoPagamentoDTO modoPagamentoDTO = modoPagamentoMapper.toDto(modoPagamento);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restModoPagamentoMockMvc.perform(put("/api/modo-pagamentos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(modoPagamentoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(modoPagamento)))
             .andExpect(status().isBadRequest());
 
         // Validate the ModoPagamento in the database
@@ -264,7 +254,7 @@ public class ModoPagamentoResourceIT {
     @Transactional
     public void deleteModoPagamento() throws Exception {
         // Initialize the database
-        modoPagamentoRepository.saveAndFlush(modoPagamento);
+        modoPagamentoService.save(modoPagamento);
 
         int databaseSizeBeforeDelete = modoPagamentoRepository.findAll().size();
 
@@ -291,28 +281,5 @@ public class ModoPagamentoResourceIT {
         assertThat(modoPagamento1).isNotEqualTo(modoPagamento2);
         modoPagamento1.setId(null);
         assertThat(modoPagamento1).isNotEqualTo(modoPagamento2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ModoPagamentoDTO.class);
-        ModoPagamentoDTO modoPagamentoDTO1 = new ModoPagamentoDTO();
-        modoPagamentoDTO1.setId(1L);
-        ModoPagamentoDTO modoPagamentoDTO2 = new ModoPagamentoDTO();
-        assertThat(modoPagamentoDTO1).isNotEqualTo(modoPagamentoDTO2);
-        modoPagamentoDTO2.setId(modoPagamentoDTO1.getId());
-        assertThat(modoPagamentoDTO1).isEqualTo(modoPagamentoDTO2);
-        modoPagamentoDTO2.setId(2L);
-        assertThat(modoPagamentoDTO1).isNotEqualTo(modoPagamentoDTO2);
-        modoPagamentoDTO1.setId(null);
-        assertThat(modoPagamentoDTO1).isNotEqualTo(modoPagamentoDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(modoPagamentoMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(modoPagamentoMapper.fromId(null)).isNull();
     }
 }

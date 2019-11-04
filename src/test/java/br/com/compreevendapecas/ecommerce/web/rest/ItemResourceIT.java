@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Item;
 import br.com.compreevendapecas.ecommerce.repository.ItemRepository;
 import br.com.compreevendapecas.ecommerce.service.ItemService;
-import br.com.compreevendapecas.ecommerce.service.dto.ItemDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ItemMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -48,9 +46,6 @@ public class ItemResourceIT {
 
     @Autowired
     private ItemRepository itemRepository;
-
-    @Autowired
-    private ItemMapper itemMapper;
 
     @Autowired
     private ItemService itemService;
@@ -124,10 +119,9 @@ public class ItemResourceIT {
         int databaseSizeBeforeCreate = itemRepository.findAll().size();
 
         // Create the Item
-        ItemDTO itemDTO = itemMapper.toDto(item);
         restItemMockMvc.perform(post("/api/items")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(item)))
             .andExpect(status().isCreated());
 
         // Validate the Item in the database
@@ -146,12 +140,11 @@ public class ItemResourceIT {
 
         // Create the Item with an existing ID
         item.setId(1L);
-        ItemDTO itemDTO = itemMapper.toDto(item);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restItemMockMvc.perform(post("/api/items")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(item)))
             .andExpect(status().isBadRequest());
 
         // Validate the Item in the database
@@ -168,11 +161,10 @@ public class ItemResourceIT {
         item.setValorTotal(null);
 
         // Create the Item, which fails.
-        ItemDTO itemDTO = itemMapper.toDto(item);
 
         restItemMockMvc.perform(post("/api/items")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(item)))
             .andExpect(status().isBadRequest());
 
         List<Item> itemList = itemRepository.findAll();
@@ -187,11 +179,10 @@ public class ItemResourceIT {
         item.setValorItem(null);
 
         // Create the Item, which fails.
-        ItemDTO itemDTO = itemMapper.toDto(item);
 
         restItemMockMvc.perform(post("/api/items")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(item)))
             .andExpect(status().isBadRequest());
 
         List<Item> itemList = itemRepository.findAll();
@@ -206,11 +197,10 @@ public class ItemResourceIT {
         item.setQuantidade(null);
 
         // Create the Item, which fails.
-        ItemDTO itemDTO = itemMapper.toDto(item);
 
         restItemMockMvc.perform(post("/api/items")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(item)))
             .andExpect(status().isBadRequest());
 
         List<Item> itemList = itemRepository.findAll();
@@ -261,7 +251,7 @@ public class ItemResourceIT {
     @Transactional
     public void updateItem() throws Exception {
         // Initialize the database
-        itemRepository.saveAndFlush(item);
+        itemService.save(item);
 
         int databaseSizeBeforeUpdate = itemRepository.findAll().size();
 
@@ -273,11 +263,10 @@ public class ItemResourceIT {
             .valorTotal(UPDATED_VALOR_TOTAL)
             .valorItem(UPDATED_VALOR_ITEM)
             .quantidade(UPDATED_QUANTIDADE);
-        ItemDTO itemDTO = itemMapper.toDto(updatedItem);
 
         restItemMockMvc.perform(put("/api/items")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedItem)))
             .andExpect(status().isOk());
 
         // Validate the Item in the database
@@ -295,12 +284,11 @@ public class ItemResourceIT {
         int databaseSizeBeforeUpdate = itemRepository.findAll().size();
 
         // Create the Item
-        ItemDTO itemDTO = itemMapper.toDto(item);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restItemMockMvc.perform(put("/api/items")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(item)))
             .andExpect(status().isBadRequest());
 
         // Validate the Item in the database
@@ -312,7 +300,7 @@ public class ItemResourceIT {
     @Transactional
     public void deleteItem() throws Exception {
         // Initialize the database
-        itemRepository.saveAndFlush(item);
+        itemService.save(item);
 
         int databaseSizeBeforeDelete = itemRepository.findAll().size();
 
@@ -339,28 +327,5 @@ public class ItemResourceIT {
         assertThat(item1).isNotEqualTo(item2);
         item1.setId(null);
         assertThat(item1).isNotEqualTo(item2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ItemDTO.class);
-        ItemDTO itemDTO1 = new ItemDTO();
-        itemDTO1.setId(1L);
-        ItemDTO itemDTO2 = new ItemDTO();
-        assertThat(itemDTO1).isNotEqualTo(itemDTO2);
-        itemDTO2.setId(itemDTO1.getId());
-        assertThat(itemDTO1).isEqualTo(itemDTO2);
-        itemDTO2.setId(2L);
-        assertThat(itemDTO1).isNotEqualTo(itemDTO2);
-        itemDTO1.setId(null);
-        assertThat(itemDTO1).isNotEqualTo(itemDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(itemMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(itemMapper.fromId(null)).isNull();
     }
 }

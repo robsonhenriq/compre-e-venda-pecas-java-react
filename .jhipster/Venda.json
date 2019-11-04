@@ -47,9 +47,9 @@
             "ownerSide": true
         }
     ],
-    "changelogDate": "20191016005808",
+    "changelogDate": "20191103013737",
     "entityTableName": "venda",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

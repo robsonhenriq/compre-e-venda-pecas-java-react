@@ -66,9 +66,9 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20191016005809",
+    "changelogDate": "20191103013738",
     "entityTableName": "vendedor",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

@@ -41,9 +41,9 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20191016005807",
+    "changelogDate": "20191103013736",
     "entityTableName": "veiculo",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

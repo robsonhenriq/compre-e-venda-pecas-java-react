@@ -1,8 +1,6 @@
 package br.com.compreevendapecas.ecommerce.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -19,7 +17,6 @@ import br.com.compreevendapecas.ecommerce.domain.enumeration.Categoria;
  */
 @Entity
 @Table(name = "produto")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,28 +73,24 @@ public class Produto implements Serializable {
     private Marca marca;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "produto_list_fotos",
                joinColumns = @JoinColumn(name = "produto_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_fotos_id", referencedColumnName = "id"))
     private Set<Foto> listFotos = new HashSet<>();
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "produto_aplicacoes",
                joinColumns = @JoinColumn(name = "produto_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "aplicacoes_id", referencedColumnName = "id"))
     private Set<Veiculo> aplicacoes = new HashSet<>();
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "produto_list_avaliacao",
                joinColumns = @JoinColumn(name = "produto_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_avaliacao_id", referencedColumnName = "id"))
     private Set<Avaliacao> listAvaliacaos = new HashSet<>();
 
     @ManyToMany(mappedBy = "listProdutos")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Vendedor> listVendedores = new HashSet<>();
 

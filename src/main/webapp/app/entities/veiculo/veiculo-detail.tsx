@@ -45,7 +45,7 @@ export class VeiculoDetail extends React.Component<IVeiculoDetailProps> {
             <dt>
               <Translate contentKey="ecommerceApp.veiculo.marca">Marca</Translate>
             </dt>
-            <dd>{veiculoEntity.marcaId ? veiculoEntity.marcaId : ''}</dd>
+            <dd>{veiculoEntity.marca ? veiculoEntity.marca.id : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/veiculo" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

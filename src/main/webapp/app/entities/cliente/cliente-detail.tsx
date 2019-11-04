@@ -69,11 +69,11 @@ export class ClienteDetail extends React.Component<IClienteDetailProps> {
             <dt>
               <Translate contentKey="ecommerceApp.cliente.carrinho">Carrinho</Translate>
             </dt>
-            <dd>{clienteEntity.carrinhoId ? clienteEntity.carrinhoId : ''}</dd>
+            <dd>{clienteEntity.carrinho ? clienteEntity.carrinho.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.cliente.usuario">Usuario</Translate>
             </dt>
-            <dd>{clienteEntity.usuarioId ? clienteEntity.usuarioId : ''}</dd>
+            <dd>{clienteEntity.usuario ? clienteEntity.usuario.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.cliente.listVeiculos">List Veiculos</Translate>
             </dt>

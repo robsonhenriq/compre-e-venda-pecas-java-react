@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Carrinho;
 import br.com.compreevendapecas.ecommerce.repository.CarrinhoRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.CarrinhoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.CarrinhoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class CarrinhoService {
 
     private final CarrinhoRepository carrinhoRepository;
 
-    private final CarrinhoMapper carrinhoMapper;
-
-    public CarrinhoService(CarrinhoRepository carrinhoRepository, CarrinhoMapper carrinhoMapper) {
+    public CarrinhoService(CarrinhoRepository carrinhoRepository) {
         this.carrinhoRepository = carrinhoRepository;
-        this.carrinhoMapper = carrinhoMapper;
     }
 
     /**
      * Save a carrinho.
      *
-     * @param carrinhoDTO the entity to save.
+     * @param carrinho the entity to save.
      * @return the persisted entity.
      */
-    public CarrinhoDTO save(CarrinhoDTO carrinhoDTO) {
-        log.debug("Request to save Carrinho : {}", carrinhoDTO);
-        Carrinho carrinho = carrinhoMapper.toEntity(carrinhoDTO);
-        carrinho = carrinhoRepository.save(carrinho);
-        return carrinhoMapper.toDto(carrinho);
+    public Carrinho save(Carrinho carrinho) {
+        log.debug("Request to save Carrinho : {}", carrinho);
+        return carrinhoRepository.save(carrinho);
     }
 
     /**
@@ -52,10 +45,9 @@ public class CarrinhoService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<CarrinhoDTO> findAll(Pageable pageable) {
+    public Page<Carrinho> findAll(Pageable pageable) {
         log.debug("Request to get all Carrinhos");
-        return carrinhoRepository.findAll(pageable)
-            .map(carrinhoMapper::toDto);
+        return carrinhoRepository.findAll(pageable);
     }
 
     /**
@@ -63,8 +55,8 @@ public class CarrinhoService {
      *
      * @return the list of entities.
      */
-    public Page<CarrinhoDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return carrinhoRepository.findAllWithEagerRelationships(pageable).map(carrinhoMapper::toDto);
+    public Page<Carrinho> findAllWithEagerRelationships(Pageable pageable) {
+        return carrinhoRepository.findAllWithEagerRelationships(pageable);
     }
     
 
@@ -75,10 +67,9 @@ public class CarrinhoService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<CarrinhoDTO> findOne(Long id) {
+    public Optional<Carrinho> findOne(Long id) {
         log.debug("Request to get Carrinho : {}", id);
-        return carrinhoRepository.findOneWithEagerRelationships(id)
-            .map(carrinhoMapper::toDto);
+        return carrinhoRepository.findOneWithEagerRelationships(id);
     }
 
     /**

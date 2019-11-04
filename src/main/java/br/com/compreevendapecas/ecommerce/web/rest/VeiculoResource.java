@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Veiculo;
 import br.com.compreevendapecas.ecommerce.service.VeiculoService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.VeiculoDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -49,17 +49,17 @@ public class VeiculoResource {
     /**
      * {@code POST  /veiculos} : Create a new veiculo.
      *
-     * @param veiculoDTO the veiculoDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new veiculoDTO, or with status {@code 400 (Bad Request)} if the veiculo has already an ID.
+     * @param veiculo the veiculo to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new veiculo, or with status {@code 400 (Bad Request)} if the veiculo has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/veiculos")
-    public ResponseEntity<VeiculoDTO> createVeiculo(@Valid @RequestBody VeiculoDTO veiculoDTO) throws URISyntaxException {
-        log.debug("REST request to save Veiculo : {}", veiculoDTO);
-        if (veiculoDTO.getId() != null) {
+    public ResponseEntity<Veiculo> createVeiculo(@Valid @RequestBody Veiculo veiculo) throws URISyntaxException {
+        log.debug("REST request to save Veiculo : {}", veiculo);
+        if (veiculo.getId() != null) {
             throw new BadRequestAlertException("A new veiculo cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        VeiculoDTO result = veiculoService.save(veiculoDTO);
+        Veiculo result = veiculoService.save(veiculo);
         return ResponseEntity.created(new URI("/api/veiculos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,21 +68,21 @@ public class VeiculoResource {
     /**
      * {@code PUT  /veiculos} : Updates an existing veiculo.
      *
-     * @param veiculoDTO the veiculoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated veiculoDTO,
-     * or with status {@code 400 (Bad Request)} if the veiculoDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the veiculoDTO couldn't be updated.
+     * @param veiculo the veiculo to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated veiculo,
+     * or with status {@code 400 (Bad Request)} if the veiculo is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the veiculo couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/veiculos")
-    public ResponseEntity<VeiculoDTO> updateVeiculo(@Valid @RequestBody VeiculoDTO veiculoDTO) throws URISyntaxException {
-        log.debug("REST request to update Veiculo : {}", veiculoDTO);
-        if (veiculoDTO.getId() == null) {
+    public ResponseEntity<Veiculo> updateVeiculo(@Valid @RequestBody Veiculo veiculo) throws URISyntaxException {
+        log.debug("REST request to update Veiculo : {}", veiculo);
+        if (veiculo.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        VeiculoDTO result = veiculoService.save(veiculoDTO);
+        Veiculo result = veiculoService.save(veiculo);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, veiculoDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, veiculo.getId().toString()))
             .body(result);
     }
 
@@ -95,9 +95,9 @@ public class VeiculoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of veiculos in body.
      */
     @GetMapping("/veiculos")
-    public ResponseEntity<List<VeiculoDTO>> getAllVeiculos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<Veiculo>> getAllVeiculos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of Veiculos");
-        Page<VeiculoDTO> page = veiculoService.findAll(pageable);
+        Page<Veiculo> page = veiculoService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -105,20 +105,20 @@ public class VeiculoResource {
     /**
      * {@code GET  /veiculos/:id} : get the "id" veiculo.
      *
-     * @param id the id of the veiculoDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the veiculoDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the veiculo to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the veiculo, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/veiculos/{id}")
-    public ResponseEntity<VeiculoDTO> getVeiculo(@PathVariable Long id) {
+    public ResponseEntity<Veiculo> getVeiculo(@PathVariable Long id) {
         log.debug("REST request to get Veiculo : {}", id);
-        Optional<VeiculoDTO> veiculoDTO = veiculoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(veiculoDTO);
+        Optional<Veiculo> veiculo = veiculoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(veiculo);
     }
 
     /**
      * {@code DELETE  /veiculos/:id} : delete the "id" veiculo.
      *
-     * @param id the id of the veiculoDTO to delete.
+     * @param id the id of the veiculo to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/veiculos/{id}")

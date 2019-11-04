@@ -136,7 +136,7 @@ export class VendaUpdate extends React.Component<IVendaUpdateProps, IVendaUpdate
                   <Label for="venda-comprador">
                     <Translate contentKey="ecommerceApp.venda.comprador">Comprador</Translate>
                   </Label>
-                  <AvInput id="venda-comprador" type="select" className="form-control" name="compradorId">
+                  <AvInput id="venda-comprador" type="select" className="form-control" name="comprador.id">
                     <option value="" key="0" />
                     {clientes
                       ? clientes.map(otherEntity => (
@@ -151,7 +151,7 @@ export class VendaUpdate extends React.Component<IVendaUpdateProps, IVendaUpdate
                   <Label for="venda-enderecoEntrega">
                     <Translate contentKey="ecommerceApp.venda.enderecoEntrega">Endereco Entrega</Translate>
                   </Label>
-                  <AvInput id="venda-enderecoEntrega" type="select" className="form-control" name="enderecoEntregaId">
+                  <AvInput id="venda-enderecoEntrega" type="select" className="form-control" name="enderecoEntrega.id">
                     <option value="" key="0" />
                     {enderecos
                       ? enderecos.map(otherEntity => (
@@ -166,7 +166,7 @@ export class VendaUpdate extends React.Component<IVendaUpdateProps, IVendaUpdate
                   <Label for="venda-modoPagamento">
                     <Translate contentKey="ecommerceApp.venda.modoPagamento">Modo Pagamento</Translate>
                   </Label>
-                  <AvInput id="venda-modoPagamento" type="select" className="form-control" name="modoPagamentoId">
+                  <AvInput id="venda-modoPagamento" type="select" className="form-control" name="modoPagamento.id">
                     <option value="" key="0" />
                     {modoPagamentos
                       ? modoPagamentos.map(otherEntity => (

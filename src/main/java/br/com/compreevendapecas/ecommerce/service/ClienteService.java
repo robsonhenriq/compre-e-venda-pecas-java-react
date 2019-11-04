@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Cliente;
 import br.com.compreevendapecas.ecommerce.repository.ClienteRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.ClienteDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ClienteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
 
-    private final ClienteMapper clienteMapper;
-
-    public ClienteService(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
+    public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
-        this.clienteMapper = clienteMapper;
     }
 
     /**
      * Save a cliente.
      *
-     * @param clienteDTO the entity to save.
+     * @param cliente the entity to save.
      * @return the persisted entity.
      */
-    public ClienteDTO save(ClienteDTO clienteDTO) {
-        log.debug("Request to save Cliente : {}", clienteDTO);
-        Cliente cliente = clienteMapper.toEntity(clienteDTO);
-        cliente = clienteRepository.save(cliente);
-        return clienteMapper.toDto(cliente);
+    public Cliente save(Cliente cliente) {
+        log.debug("Request to save Cliente : {}", cliente);
+        return clienteRepository.save(cliente);
     }
 
     /**
@@ -52,10 +45,9 @@ public class ClienteService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<ClienteDTO> findAll(Pageable pageable) {
+    public Page<Cliente> findAll(Pageable pageable) {
         log.debug("Request to get all Clientes");
-        return clienteRepository.findAll(pageable)
-            .map(clienteMapper::toDto);
+        return clienteRepository.findAll(pageable);
     }
 
     /**
@@ -63,8 +55,8 @@ public class ClienteService {
      *
      * @return the list of entities.
      */
-    public Page<ClienteDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return clienteRepository.findAllWithEagerRelationships(pageable).map(clienteMapper::toDto);
+    public Page<Cliente> findAllWithEagerRelationships(Pageable pageable) {
+        return clienteRepository.findAllWithEagerRelationships(pageable);
     }
     
 
@@ -75,10 +67,9 @@ public class ClienteService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<ClienteDTO> findOne(Long id) {
+    public Optional<Cliente> findOne(Long id) {
         log.debug("Request to get Cliente : {}", id);
-        return clienteRepository.findOneWithEagerRelationships(id)
-            .map(clienteMapper::toDto);
+        return clienteRepository.findOneWithEagerRelationships(id);
     }
 
     /**

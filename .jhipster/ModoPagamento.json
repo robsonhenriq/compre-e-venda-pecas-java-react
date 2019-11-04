@@ -15,9 +15,9 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20191016005805",
+    "changelogDate": "20191103013734",
     "entityTableName": "modo_pagamento",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

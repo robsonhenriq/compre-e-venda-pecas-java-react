@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Veiculo;
 import br.com.compreevendapecas.ecommerce.repository.VeiculoRepository;
 import br.com.compreevendapecas.ecommerce.service.VeiculoService;
-import br.com.compreevendapecas.ecommerce.service.dto.VeiculoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.VeiculoMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -46,9 +44,6 @@ public class VeiculoResourceIT {
 
     @Autowired
     private VeiculoRepository veiculoRepository;
-
-    @Autowired
-    private VeiculoMapper veiculoMapper;
 
     @Autowired
     private VeiculoService veiculoService;
@@ -120,10 +115,9 @@ public class VeiculoResourceIT {
         int databaseSizeBeforeCreate = veiculoRepository.findAll().size();
 
         // Create the Veiculo
-        VeiculoDTO veiculoDTO = veiculoMapper.toDto(veiculo);
         restVeiculoMockMvc.perform(post("/api/veiculos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(veiculoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(veiculo)))
             .andExpect(status().isCreated());
 
         // Validate the Veiculo in the database
@@ -141,12 +135,11 @@ public class VeiculoResourceIT {
 
         // Create the Veiculo with an existing ID
         veiculo.setId(1L);
-        VeiculoDTO veiculoDTO = veiculoMapper.toDto(veiculo);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restVeiculoMockMvc.perform(post("/api/veiculos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(veiculoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(veiculo)))
             .andExpect(status().isBadRequest());
 
         // Validate the Veiculo in the database
@@ -163,11 +156,10 @@ public class VeiculoResourceIT {
         veiculo.setNome(null);
 
         // Create the Veiculo, which fails.
-        VeiculoDTO veiculoDTO = veiculoMapper.toDto(veiculo);
 
         restVeiculoMockMvc.perform(post("/api/veiculos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(veiculoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(veiculo)))
             .andExpect(status().isBadRequest());
 
         List<Veiculo> veiculoList = veiculoRepository.findAll();
@@ -182,11 +174,10 @@ public class VeiculoResourceIT {
         veiculo.setAno(null);
 
         // Create the Veiculo, which fails.
-        VeiculoDTO veiculoDTO = veiculoMapper.toDto(veiculo);
 
         restVeiculoMockMvc.perform(post("/api/veiculos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(veiculoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(veiculo)))
             .andExpect(status().isBadRequest());
 
         List<Veiculo> veiculoList = veiculoRepository.findAll();
@@ -235,7 +226,7 @@ public class VeiculoResourceIT {
     @Transactional
     public void updateVeiculo() throws Exception {
         // Initialize the database
-        veiculoRepository.saveAndFlush(veiculo);
+        veiculoService.save(veiculo);
 
         int databaseSizeBeforeUpdate = veiculoRepository.findAll().size();
 
@@ -246,11 +237,10 @@ public class VeiculoResourceIT {
         updatedVeiculo
             .nome(UPDATED_NOME)
             .ano(UPDATED_ANO);
-        VeiculoDTO veiculoDTO = veiculoMapper.toDto(updatedVeiculo);
 
         restVeiculoMockMvc.perform(put("/api/veiculos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(veiculoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedVeiculo)))
             .andExpect(status().isOk());
 
         // Validate the Veiculo in the database
@@ -267,12 +257,11 @@ public class VeiculoResourceIT {
         int databaseSizeBeforeUpdate = veiculoRepository.findAll().size();
 
         // Create the Veiculo
-        VeiculoDTO veiculoDTO = veiculoMapper.toDto(veiculo);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restVeiculoMockMvc.perform(put("/api/veiculos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(veiculoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(veiculo)))
             .andExpect(status().isBadRequest());
 
         // Validate the Veiculo in the database
@@ -284,7 +273,7 @@ public class VeiculoResourceIT {
     @Transactional
     public void deleteVeiculo() throws Exception {
         // Initialize the database
-        veiculoRepository.saveAndFlush(veiculo);
+        veiculoService.save(veiculo);
 
         int databaseSizeBeforeDelete = veiculoRepository.findAll().size();
 
@@ -311,28 +300,5 @@ public class VeiculoResourceIT {
         assertThat(veiculo1).isNotEqualTo(veiculo2);
         veiculo1.setId(null);
         assertThat(veiculo1).isNotEqualTo(veiculo2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(VeiculoDTO.class);
-        VeiculoDTO veiculoDTO1 = new VeiculoDTO();
-        veiculoDTO1.setId(1L);
-        VeiculoDTO veiculoDTO2 = new VeiculoDTO();
-        assertThat(veiculoDTO1).isNotEqualTo(veiculoDTO2);
-        veiculoDTO2.setId(veiculoDTO1.getId());
-        assertThat(veiculoDTO1).isEqualTo(veiculoDTO2);
-        veiculoDTO2.setId(2L);
-        assertThat(veiculoDTO1).isNotEqualTo(veiculoDTO2);
-        veiculoDTO1.setId(null);
-        assertThat(veiculoDTO1).isNotEqualTo(veiculoDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(veiculoMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(veiculoMapper.fromId(null)).isNull();
     }
 }

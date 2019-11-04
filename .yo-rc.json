@@ -11,8 +11,7 @@
     "packageFolder": "br/com/compreevendapecas/ecommerce",
     "serverPort": "8080",
     "authenticationType": "jwt",
-    "cacheProvider": "ehcache",
-    "enableHibernateCache": true,
+    "cacheProvider": "no",
     "websocket": false,
     "databaseType": "sql",
     "devDatabaseType": "mysql",
@@ -22,19 +21,25 @@
     "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "YTA5ODU3MjlkNmVhNDA2NjFlNDdkZmRiZGQwZDZhNzk5ZDVkYjBjYTUxZmQ2YTA4Mzc1Y2I3ODU5YzUzYWZlMWVmMzViZmU3MWFkNTk4ZTViMzRmNGI3MjY0ZGRmNTkzNDc2NWY4YzYwYmQ2ODdkNjQ2YTJkNzVkNTZlM2MzZWU=",
+    "jwtSecretKey": "OGY3NTNkODFhNDE5MGY3NzRjNTI2NThjMDY2ZjdhNzJkMGM4OGNhMDBlODUxZTJhZjczODM0YTBhYTkxMzFmMjk3MWJmNTgwMDYwNmMyNzc3NmIwODQ0ZDc0ZTEwOTM1OGNlN2ZlNjQzOGQ0YzNkMjU5MWMzODUxZjQwNzI0MmI=",
     "useSass": true,
     "clientPackageManager": "npm",
     "clientFramework": "react",
     "clientTheme": "pulse",
     "clientThemeVariant": "primary",
-    "testFrameworks": ["cucumber", "protractor"],
+    "testFrameworks": [
+      "cucumber",
+      "protractor"
+    ],
     "jhiPrefix": "jhi",
     "entitySuffix": "",
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": true,
     "nativeLanguage": "pt-br",
-    "languages": ["pt-br", "en", "es"]
+    "languages": [
+      "pt-br",
+      "en"
+    ]
   }
 }

@@ -111,8 +111,8 @@ export class Cliente extends React.Component<IClienteProps, IClienteState> {
                     </td>
                     <td>{cliente.telefone}</td>
                     <td>{cliente.celular}</td>
-                    <td>{cliente.carrinhoId ? <Link to={`carrinho/${cliente.carrinhoId}`}>{cliente.carrinhoId}</Link> : ''}</td>
-                    <td>{cliente.usuarioId ? cliente.usuarioId : ''}</td>
+                    <td>{cliente.carrinho ? <Link to={`carrinho/${cliente.carrinho.id}`}>{cliente.carrinho.id}</Link> : ''}</td>
+                    <td>{cliente.usuario ? cliente.usuario.id : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${cliente.id}`} color="info" size="sm">

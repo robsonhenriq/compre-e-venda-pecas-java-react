@@ -1,9 +1,0 @@
-{
-  "ecommerceApp": {
-    "TipoPagamento": {
-      "null": "",
-      "A_VISTA": "A_VISTA",
-      "PARCELADO": "PARCELADO"
-    }
-  }
-}

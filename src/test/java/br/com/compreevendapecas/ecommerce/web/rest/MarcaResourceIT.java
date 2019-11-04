@@ -3,9 +3,6 @@ package br.com.compreevendapecas.ecommerce.web.rest;
 import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Marca;
 import br.com.compreevendapecas.ecommerce.repository.MarcaRepository;
-import br.com.compreevendapecas.ecommerce.service.MarcaService;
-import br.com.compreevendapecas.ecommerce.service.dto.MarcaDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.MarcaMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -43,12 +40,6 @@ public class MarcaResourceIT {
     private MarcaRepository marcaRepository;
 
     @Autowired
-    private MarcaMapper marcaMapper;
-
-    @Autowired
-    private MarcaService marcaService;
-
-    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -70,7 +61,7 @@ public class MarcaResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MarcaResource marcaResource = new MarcaResource(marcaService);
+        final MarcaResource marcaResource = new MarcaResource(marcaRepository);
         this.restMarcaMockMvc = MockMvcBuilders.standaloneSetup(marcaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -113,10 +104,9 @@ public class MarcaResourceIT {
         int databaseSizeBeforeCreate = marcaRepository.findAll().size();
 
         // Create the Marca
-        MarcaDTO marcaDTO = marcaMapper.toDto(marca);
         restMarcaMockMvc.perform(post("/api/marcas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(marcaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(marca)))
             .andExpect(status().isCreated());
 
         // Validate the Marca in the database
@@ -133,12 +123,11 @@ public class MarcaResourceIT {
 
         // Create the Marca with an existing ID
         marca.setId(1L);
-        MarcaDTO marcaDTO = marcaMapper.toDto(marca);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMarcaMockMvc.perform(post("/api/marcas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(marcaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(marca)))
             .andExpect(status().isBadRequest());
 
         // Validate the Marca in the database
@@ -155,11 +144,10 @@ public class MarcaResourceIT {
         marca.setNome(null);
 
         // Create the Marca, which fails.
-        MarcaDTO marcaDTO = marcaMapper.toDto(marca);
 
         restMarcaMockMvc.perform(post("/api/marcas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(marcaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(marca)))
             .andExpect(status().isBadRequest());
 
         List<Marca> marcaList = marcaRepository.findAll();
@@ -216,11 +204,10 @@ public class MarcaResourceIT {
         em.detach(updatedMarca);
         updatedMarca
             .nome(UPDATED_NOME);
-        MarcaDTO marcaDTO = marcaMapper.toDto(updatedMarca);
 
         restMarcaMockMvc.perform(put("/api/marcas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(marcaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedMarca)))
             .andExpect(status().isOk());
 
         // Validate the Marca in the database
@@ -236,12 +223,11 @@ public class MarcaResourceIT {
         int databaseSizeBeforeUpdate = marcaRepository.findAll().size();
 
         // Create the Marca
-        MarcaDTO marcaDTO = marcaMapper.toDto(marca);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restMarcaMockMvc.perform(put("/api/marcas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(marcaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(marca)))
             .andExpect(status().isBadRequest());
 
         // Validate the Marca in the database
@@ -280,28 +266,5 @@ public class MarcaResourceIT {
         assertThat(marca1).isNotEqualTo(marca2);
         marca1.setId(null);
         assertThat(marca1).isNotEqualTo(marca2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(MarcaDTO.class);
-        MarcaDTO marcaDTO1 = new MarcaDTO();
-        marcaDTO1.setId(1L);
-        MarcaDTO marcaDTO2 = new MarcaDTO();
-        assertThat(marcaDTO1).isNotEqualTo(marcaDTO2);
-        marcaDTO2.setId(marcaDTO1.getId());
-        assertThat(marcaDTO1).isEqualTo(marcaDTO2);
-        marcaDTO2.setId(2L);
-        assertThat(marcaDTO1).isNotEqualTo(marcaDTO2);
-        marcaDTO1.setId(null);
-        assertThat(marcaDTO1).isNotEqualTo(marcaDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(marcaMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(marcaMapper.fromId(null)).isNull();
     }
 }

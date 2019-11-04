@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Carrinho;
 import br.com.compreevendapecas.ecommerce.service.CarrinhoService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.CarrinhoDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -48,17 +48,17 @@ public class CarrinhoResource {
     /**
      * {@code POST  /carrinhos} : Create a new carrinho.
      *
-     * @param carrinhoDTO the carrinhoDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new carrinhoDTO, or with status {@code 400 (Bad Request)} if the carrinho has already an ID.
+     * @param carrinho the carrinho to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new carrinho, or with status {@code 400 (Bad Request)} if the carrinho has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/carrinhos")
-    public ResponseEntity<CarrinhoDTO> createCarrinho(@RequestBody CarrinhoDTO carrinhoDTO) throws URISyntaxException {
-        log.debug("REST request to save Carrinho : {}", carrinhoDTO);
-        if (carrinhoDTO.getId() != null) {
+    public ResponseEntity<Carrinho> createCarrinho(@RequestBody Carrinho carrinho) throws URISyntaxException {
+        log.debug("REST request to save Carrinho : {}", carrinho);
+        if (carrinho.getId() != null) {
             throw new BadRequestAlertException("A new carrinho cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        CarrinhoDTO result = carrinhoService.save(carrinhoDTO);
+        Carrinho result = carrinhoService.save(carrinho);
         return ResponseEntity.created(new URI("/api/carrinhos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -67,21 +67,21 @@ public class CarrinhoResource {
     /**
      * {@code PUT  /carrinhos} : Updates an existing carrinho.
      *
-     * @param carrinhoDTO the carrinhoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated carrinhoDTO,
-     * or with status {@code 400 (Bad Request)} if the carrinhoDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the carrinhoDTO couldn't be updated.
+     * @param carrinho the carrinho to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated carrinho,
+     * or with status {@code 400 (Bad Request)} if the carrinho is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the carrinho couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/carrinhos")
-    public ResponseEntity<CarrinhoDTO> updateCarrinho(@RequestBody CarrinhoDTO carrinhoDTO) throws URISyntaxException {
-        log.debug("REST request to update Carrinho : {}", carrinhoDTO);
-        if (carrinhoDTO.getId() == null) {
+    public ResponseEntity<Carrinho> updateCarrinho(@RequestBody Carrinho carrinho) throws URISyntaxException {
+        log.debug("REST request to update Carrinho : {}", carrinho);
+        if (carrinho.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        CarrinhoDTO result = carrinhoService.save(carrinhoDTO);
+        Carrinho result = carrinhoService.save(carrinho);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, carrinhoDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, carrinho.getId().toString()))
             .body(result);
     }
 
@@ -95,9 +95,9 @@ public class CarrinhoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of carrinhos in body.
      */
     @GetMapping("/carrinhos")
-    public ResponseEntity<List<CarrinhoDTO>> getAllCarrinhos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Carrinho>> getAllCarrinhos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Carrinhos");
-        Page<CarrinhoDTO> page;
+        Page<Carrinho> page;
         if (eagerload) {
             page = carrinhoService.findAllWithEagerRelationships(pageable);
         } else {
@@ -110,20 +110,20 @@ public class CarrinhoResource {
     /**
      * {@code GET  /carrinhos/:id} : get the "id" carrinho.
      *
-     * @param id the id of the carrinhoDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the carrinhoDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the carrinho to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the carrinho, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/carrinhos/{id}")
-    public ResponseEntity<CarrinhoDTO> getCarrinho(@PathVariable Long id) {
+    public ResponseEntity<Carrinho> getCarrinho(@PathVariable Long id) {
         log.debug("REST request to get Carrinho : {}", id);
-        Optional<CarrinhoDTO> carrinhoDTO = carrinhoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(carrinhoDTO);
+        Optional<Carrinho> carrinho = carrinhoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(carrinho);
     }
 
     /**
      * {@code DELETE  /carrinhos/:id} : delete the "id" carrinho.
      *
-     * @param id the id of the carrinhoDTO to delete.
+     * @param id the id of the carrinho to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/carrinhos/{id}")

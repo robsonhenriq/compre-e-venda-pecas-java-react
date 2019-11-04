@@ -164,7 +164,7 @@ export class ClienteUpdate extends React.Component<IClienteUpdateProps, ICliente
                   <Label for="cliente-carrinho">
                     <Translate contentKey="ecommerceApp.cliente.carrinho">Carrinho</Translate>
                   </Label>
-                  <AvInput id="cliente-carrinho" type="select" className="form-control" name="carrinhoId">
+                  <AvInput id="cliente-carrinho" type="select" className="form-control" name="carrinho.id">
                     <option value="" key="0" />
                     {carrinhos
                       ? carrinhos.map(otherEntity => (
@@ -179,7 +179,7 @@ export class ClienteUpdate extends React.Component<IClienteUpdateProps, ICliente
                   <Label for="cliente-usuario">
                     <Translate contentKey="ecommerceApp.cliente.usuario">Usuario</Translate>
                   </Label>
-                  <AvInput id="cliente-usuario" type="select" className="form-control" name="usuarioId">
+                  <AvInput id="cliente-usuario" type="select" className="form-control" name="usuario.id">
                     <option value="" key="0" />
                     {users
                       ? users.map(otherEntity => (

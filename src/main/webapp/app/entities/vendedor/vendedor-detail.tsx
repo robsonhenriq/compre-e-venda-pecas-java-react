@@ -77,11 +77,11 @@ export class VendedorDetail extends React.Component<IVendedorDetailProps> {
             <dt>
               <Translate contentKey="ecommerceApp.vendedor.usuario">Usuario</Translate>
             </dt>
-            <dd>{vendedorEntity.usuarioId ? vendedorEntity.usuarioId : ''}</dd>
+            <dd>{vendedorEntity.usuario ? vendedorEntity.usuario.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.vendedor.endereco">Endereco</Translate>
             </dt>
-            <dd>{vendedorEntity.enderecoId ? vendedorEntity.enderecoId : ''}</dd>
+            <dd>{vendedorEntity.endereco ? vendedorEntity.endereco.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.vendedor.listProdutos">List Produtos</Translate>
             </dt>

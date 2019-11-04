@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Avaliacao;
 import br.com.compreevendapecas.ecommerce.repository.AvaliacaoRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.AvaliacaoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.AvaliacaoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class AvaliacaoService {
 
     private final AvaliacaoRepository avaliacaoRepository;
 
-    private final AvaliacaoMapper avaliacaoMapper;
-
-    public AvaliacaoService(AvaliacaoRepository avaliacaoRepository, AvaliacaoMapper avaliacaoMapper) {
+    public AvaliacaoService(AvaliacaoRepository avaliacaoRepository) {
         this.avaliacaoRepository = avaliacaoRepository;
-        this.avaliacaoMapper = avaliacaoMapper;
     }
 
     /**
      * Save a avaliacao.
      *
-     * @param avaliacaoDTO the entity to save.
+     * @param avaliacao the entity to save.
      * @return the persisted entity.
      */
-    public AvaliacaoDTO save(AvaliacaoDTO avaliacaoDTO) {
-        log.debug("Request to save Avaliacao : {}", avaliacaoDTO);
-        Avaliacao avaliacao = avaliacaoMapper.toEntity(avaliacaoDTO);
-        avaliacao = avaliacaoRepository.save(avaliacao);
-        return avaliacaoMapper.toDto(avaliacao);
+    public Avaliacao save(Avaliacao avaliacao) {
+        log.debug("Request to save Avaliacao : {}", avaliacao);
+        return avaliacaoRepository.save(avaliacao);
     }
 
     /**
@@ -52,10 +45,9 @@ public class AvaliacaoService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<AvaliacaoDTO> findAll(Pageable pageable) {
+    public Page<Avaliacao> findAll(Pageable pageable) {
         log.debug("Request to get all Avaliacaos");
-        return avaliacaoRepository.findAll(pageable)
-            .map(avaliacaoMapper::toDto);
+        return avaliacaoRepository.findAll(pageable);
     }
 
     /**
@@ -63,8 +55,8 @@ public class AvaliacaoService {
      *
      * @return the list of entities.
      */
-    public Page<AvaliacaoDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return avaliacaoRepository.findAllWithEagerRelationships(pageable).map(avaliacaoMapper::toDto);
+    public Page<Avaliacao> findAllWithEagerRelationships(Pageable pageable) {
+        return avaliacaoRepository.findAllWithEagerRelationships(pageable);
     }
     
 
@@ -75,10 +67,9 @@ public class AvaliacaoService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<AvaliacaoDTO> findOne(Long id) {
+    public Optional<Avaliacao> findOne(Long id) {
         log.debug("Request to get Avaliacao : {}", id);
-        return avaliacaoRepository.findOneWithEagerRelationships(id)
-            .map(avaliacaoMapper::toDto);
+        return avaliacaoRepository.findOneWithEagerRelationships(id);
     }
 
     /**

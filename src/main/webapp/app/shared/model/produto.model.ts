@@ -1,3 +1,4 @@
+import { IMarca } from 'app/shared/model/marca.model';
 import { IFoto } from 'app/shared/model/foto.model';
 import { IVeiculo } from 'app/shared/model/veiculo.model';
 import { IAvaliacao } from 'app/shared/model/avaliacao.model';
@@ -22,7 +23,7 @@ export interface IProduto {
   precoAVista?: number;
   precoAPrazo?: number;
   categoria?: Categoria;
-  marcaId?: number;
+  marca?: IMarca;
   listFotos?: IFoto[];
   aplicacoes?: IVeiculo[];
   listAvaliacaos?: IAvaliacao[];

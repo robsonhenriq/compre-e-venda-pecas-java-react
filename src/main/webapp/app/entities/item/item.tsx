@@ -97,8 +97,8 @@ export class Item extends React.Component<IItemProps, IItemState> {
                     <td>{item.valorTotal}</td>
                     <td>{item.valorItem}</td>
                     <td>{item.quantidade}</td>
-                    <td>{item.produtoId ? <Link to={`produto/${item.produtoId}`}>{item.produtoId}</Link> : ''}</td>
-                    <td>{item.vendaId ? <Link to={`venda/${item.vendaId}`}>{item.vendaId}</Link> : ''}</td>
+                    <td>{item.produto ? <Link to={`produto/${item.produto.id}`}>{item.produto.id}</Link> : ''}</td>
+                    <td>{item.venda ? <Link to={`venda/${item.venda.id}`}>{item.venda.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${item.id}`} color="info" size="sm">

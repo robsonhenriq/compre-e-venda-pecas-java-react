@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Produto;
 import br.com.compreevendapecas.ecommerce.repository.ProdutoRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.ProdutoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ProdutoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
 
-    private final ProdutoMapper produtoMapper;
-
-    public ProdutoService(ProdutoRepository produtoRepository, ProdutoMapper produtoMapper) {
+    public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
-        this.produtoMapper = produtoMapper;
     }
 
     /**
      * Save a produto.
      *
-     * @param produtoDTO the entity to save.
+     * @param produto the entity to save.
      * @return the persisted entity.
      */
-    public ProdutoDTO save(ProdutoDTO produtoDTO) {
-        log.debug("Request to save Produto : {}", produtoDTO);
-        Produto produto = produtoMapper.toEntity(produtoDTO);
-        produto = produtoRepository.save(produto);
-        return produtoMapper.toDto(produto);
+    public Produto save(Produto produto) {
+        log.debug("Request to save Produto : {}", produto);
+        return produtoRepository.save(produto);
     }
 
     /**
@@ -52,10 +45,9 @@ public class ProdutoService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<ProdutoDTO> findAll(Pageable pageable) {
+    public Page<Produto> findAll(Pageable pageable) {
         log.debug("Request to get all Produtos");
-        return produtoRepository.findAll(pageable)
-            .map(produtoMapper::toDto);
+        return produtoRepository.findAll(pageable);
     }
 
     /**
@@ -63,8 +55,8 @@ public class ProdutoService {
      *
      * @return the list of entities.
      */
-    public Page<ProdutoDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return produtoRepository.findAllWithEagerRelationships(pageable).map(produtoMapper::toDto);
+    public Page<Produto> findAllWithEagerRelationships(Pageable pageable) {
+        return produtoRepository.findAllWithEagerRelationships(pageable);
     }
     
 
@@ -75,10 +67,9 @@ public class ProdutoService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<ProdutoDTO> findOne(Long id) {
+    public Optional<Produto> findOne(Long id) {
         log.debug("Request to get Produto : {}", id);
-        return produtoRepository.findOneWithEagerRelationships(id)
-            .map(produtoMapper::toDto);
+        return produtoRepository.findOneWithEagerRelationships(id);
     }
 
     /**

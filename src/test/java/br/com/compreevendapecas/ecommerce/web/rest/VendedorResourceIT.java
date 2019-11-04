@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Vendedor;
 import br.com.compreevendapecas.ecommerce.repository.VendedorRepository;
 import br.com.compreevendapecas.ecommerce.service.VendedorService;
-import br.com.compreevendapecas.ecommerce.service.dto.VendedorDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.VendedorMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -69,9 +67,6 @@ public class VendedorResourceIT {
 
     @Mock
     private VendedorRepository vendedorRepositoryMock;
-
-    @Autowired
-    private VendedorMapper vendedorMapper;
 
     @Mock
     private VendedorService vendedorServiceMock;
@@ -156,10 +151,9 @@ public class VendedorResourceIT {
         int databaseSizeBeforeCreate = vendedorRepository.findAll().size();
 
         // Create the Vendedor
-        VendedorDTO vendedorDTO = vendedorMapper.toDto(vendedor);
         restVendedorMockMvc.perform(post("/api/vendedors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendedorDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(vendedor)))
             .andExpect(status().isCreated());
 
         // Validate the Vendedor in the database
@@ -182,12 +176,11 @@ public class VendedorResourceIT {
 
         // Create the Vendedor with an existing ID
         vendedor.setId(1L);
-        VendedorDTO vendedorDTO = vendedorMapper.toDto(vendedor);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restVendedorMockMvc.perform(post("/api/vendedors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendedorDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(vendedor)))
             .andExpect(status().isBadRequest());
 
         // Validate the Vendedor in the database
@@ -204,11 +197,10 @@ public class VendedorResourceIT {
         vendedor.setEhEmpresa(null);
 
         // Create the Vendedor, which fails.
-        VendedorDTO vendedorDTO = vendedorMapper.toDto(vendedor);
 
         restVendedorMockMvc.perform(post("/api/vendedors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendedorDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(vendedor)))
             .andExpect(status().isBadRequest());
 
         List<Vendedor> vendedorList = vendedorRepository.findAll();
@@ -300,7 +292,7 @@ public class VendedorResourceIT {
     @Transactional
     public void updateVendedor() throws Exception {
         // Initialize the database
-        vendedorRepository.saveAndFlush(vendedor);
+        vendedorService.save(vendedor);
 
         int databaseSizeBeforeUpdate = vendedorRepository.findAll().size();
 
@@ -316,11 +308,10 @@ public class VendedorResourceIT {
             .dataCadastro(UPDATED_DATA_CADASTRO)
             .dataNascimento(UPDATED_DATA_NASCIMENTO)
             .descricao(UPDATED_DESCRICAO);
-        VendedorDTO vendedorDTO = vendedorMapper.toDto(updatedVendedor);
 
         restVendedorMockMvc.perform(put("/api/vendedors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendedorDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedVendedor)))
             .andExpect(status().isOk());
 
         // Validate the Vendedor in the database
@@ -342,12 +333,11 @@ public class VendedorResourceIT {
         int databaseSizeBeforeUpdate = vendedorRepository.findAll().size();
 
         // Create the Vendedor
-        VendedorDTO vendedorDTO = vendedorMapper.toDto(vendedor);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restVendedorMockMvc.perform(put("/api/vendedors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendedorDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(vendedor)))
             .andExpect(status().isBadRequest());
 
         // Validate the Vendedor in the database
@@ -359,7 +349,7 @@ public class VendedorResourceIT {
     @Transactional
     public void deleteVendedor() throws Exception {
         // Initialize the database
-        vendedorRepository.saveAndFlush(vendedor);
+        vendedorService.save(vendedor);
 
         int databaseSizeBeforeDelete = vendedorRepository.findAll().size();
 
@@ -386,28 +376,5 @@ public class VendedorResourceIT {
         assertThat(vendedor1).isNotEqualTo(vendedor2);
         vendedor1.setId(null);
         assertThat(vendedor1).isNotEqualTo(vendedor2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(VendedorDTO.class);
-        VendedorDTO vendedorDTO1 = new VendedorDTO();
-        vendedorDTO1.setId(1L);
-        VendedorDTO vendedorDTO2 = new VendedorDTO();
-        assertThat(vendedorDTO1).isNotEqualTo(vendedorDTO2);
-        vendedorDTO2.setId(vendedorDTO1.getId());
-        assertThat(vendedorDTO1).isEqualTo(vendedorDTO2);
-        vendedorDTO2.setId(2L);
-        assertThat(vendedorDTO1).isNotEqualTo(vendedorDTO2);
-        vendedorDTO1.setId(null);
-        assertThat(vendedorDTO1).isNotEqualTo(vendedorDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(vendedorMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(vendedorMapper.fromId(null)).isNull();
     }
 }

@@ -98,12 +98,12 @@ export class Venda extends React.Component<IVendaProps, IVendaState> {
                       <TextFormat type="date" value={venda.dataHora} format={APP_DATE_FORMAT} />
                     </td>
                     <td>{venda.totalVenda}</td>
-                    <td>{venda.compradorId ? <Link to={`cliente/${venda.compradorId}`}>{venda.compradorId}</Link> : ''}</td>
+                    <td>{venda.comprador ? <Link to={`cliente/${venda.comprador.id}`}>{venda.comprador.id}</Link> : ''}</td>
                     <td>
-                      {venda.enderecoEntregaId ? <Link to={`endereco/${venda.enderecoEntregaId}`}>{venda.enderecoEntregaId}</Link> : ''}
+                      {venda.enderecoEntrega ? <Link to={`endereco/${venda.enderecoEntrega.id}`}>{venda.enderecoEntrega.id}</Link> : ''}
                     </td>
                     <td>
-                      {venda.modoPagamentoId ? <Link to={`modo-pagamento/${venda.modoPagamentoId}`}>{venda.modoPagamentoId}</Link> : ''}
+                      {venda.modoPagamento ? <Link to={`modo-pagamento/${venda.modoPagamento.id}`}>{venda.modoPagamento.id}</Link> : ''}
                     </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">

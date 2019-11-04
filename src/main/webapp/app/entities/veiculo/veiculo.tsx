@@ -92,7 +92,7 @@ export class Veiculo extends React.Component<IVeiculoProps, IVeiculoState> {
                     <td>
                       <TextFormat type="date" value={veiculo.ano} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
-                    <td>{veiculo.marcaId ? <Link to={`marca/${veiculo.marcaId}`}>{veiculo.marcaId}</Link> : ''}</td>
+                    <td>{veiculo.marca ? <Link to={`marca/${veiculo.marca.id}`}>{veiculo.marca.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${veiculo.id}`} color="info" size="sm">

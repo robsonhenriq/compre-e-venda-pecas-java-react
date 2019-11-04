@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Endereco;
 import br.com.compreevendapecas.ecommerce.repository.EnderecoRepository;
 import br.com.compreevendapecas.ecommerce.service.EnderecoService;
-import br.com.compreevendapecas.ecommerce.service.dto.EnderecoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.EnderecoMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -60,9 +58,6 @@ public class EnderecoResourceIT {
 
     @Autowired
     private EnderecoRepository enderecoRepository;
-
-    @Autowired
-    private EnderecoMapper enderecoMapper;
 
     @Autowired
     private EnderecoService enderecoService;
@@ -144,10 +139,9 @@ public class EnderecoResourceIT {
         int databaseSizeBeforeCreate = enderecoRepository.findAll().size();
 
         // Create the Endereco
-        EnderecoDTO enderecoDTO = enderecoMapper.toDto(endereco);
         restEnderecoMockMvc.perform(post("/api/enderecos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(enderecoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(endereco)))
             .andExpect(status().isCreated());
 
         // Validate the Endereco in the database
@@ -170,12 +164,11 @@ public class EnderecoResourceIT {
 
         // Create the Endereco with an existing ID
         endereco.setId(1L);
-        EnderecoDTO enderecoDTO = enderecoMapper.toDto(endereco);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restEnderecoMockMvc.perform(post("/api/enderecos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(enderecoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(endereco)))
             .andExpect(status().isBadRequest());
 
         // Validate the Endereco in the database
@@ -192,11 +185,10 @@ public class EnderecoResourceIT {
         endereco.setRua(null);
 
         // Create the Endereco, which fails.
-        EnderecoDTO enderecoDTO = enderecoMapper.toDto(endereco);
 
         restEnderecoMockMvc.perform(post("/api/enderecos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(enderecoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(endereco)))
             .andExpect(status().isBadRequest());
 
         List<Endereco> enderecoList = enderecoRepository.findAll();
@@ -211,11 +203,10 @@ public class EnderecoResourceIT {
         endereco.setCep(null);
 
         // Create the Endereco, which fails.
-        EnderecoDTO enderecoDTO = enderecoMapper.toDto(endereco);
 
         restEnderecoMockMvc.perform(post("/api/enderecos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(enderecoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(endereco)))
             .andExpect(status().isBadRequest());
 
         List<Endereco> enderecoList = enderecoRepository.findAll();
@@ -274,7 +265,7 @@ public class EnderecoResourceIT {
     @Transactional
     public void updateEndereco() throws Exception {
         // Initialize the database
-        enderecoRepository.saveAndFlush(endereco);
+        enderecoService.save(endereco);
 
         int databaseSizeBeforeUpdate = enderecoRepository.findAll().size();
 
@@ -290,11 +281,10 @@ public class EnderecoResourceIT {
             .cidade(UPDATED_CIDADE)
             .cep(UPDATED_CEP)
             .estado(UPDATED_ESTADO);
-        EnderecoDTO enderecoDTO = enderecoMapper.toDto(updatedEndereco);
 
         restEnderecoMockMvc.perform(put("/api/enderecos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(enderecoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedEndereco)))
             .andExpect(status().isOk());
 
         // Validate the Endereco in the database
@@ -316,12 +306,11 @@ public class EnderecoResourceIT {
         int databaseSizeBeforeUpdate = enderecoRepository.findAll().size();
 
         // Create the Endereco
-        EnderecoDTO enderecoDTO = enderecoMapper.toDto(endereco);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restEnderecoMockMvc.perform(put("/api/enderecos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(enderecoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(endereco)))
             .andExpect(status().isBadRequest());
 
         // Validate the Endereco in the database
@@ -333,7 +322,7 @@ public class EnderecoResourceIT {
     @Transactional
     public void deleteEndereco() throws Exception {
         // Initialize the database
-        enderecoRepository.saveAndFlush(endereco);
+        enderecoService.save(endereco);
 
         int databaseSizeBeforeDelete = enderecoRepository.findAll().size();
 
@@ -360,28 +349,5 @@ public class EnderecoResourceIT {
         assertThat(endereco1).isNotEqualTo(endereco2);
         endereco1.setId(null);
         assertThat(endereco1).isNotEqualTo(endereco2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(EnderecoDTO.class);
-        EnderecoDTO enderecoDTO1 = new EnderecoDTO();
-        enderecoDTO1.setId(1L);
-        EnderecoDTO enderecoDTO2 = new EnderecoDTO();
-        assertThat(enderecoDTO1).isNotEqualTo(enderecoDTO2);
-        enderecoDTO2.setId(enderecoDTO1.getId());
-        assertThat(enderecoDTO1).isEqualTo(enderecoDTO2);
-        enderecoDTO2.setId(2L);
-        assertThat(enderecoDTO1).isNotEqualTo(enderecoDTO2);
-        enderecoDTO1.setId(null);
-        assertThat(enderecoDTO1).isNotEqualTo(enderecoDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(enderecoMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(enderecoMapper.fromId(null)).isNull();
     }
 }

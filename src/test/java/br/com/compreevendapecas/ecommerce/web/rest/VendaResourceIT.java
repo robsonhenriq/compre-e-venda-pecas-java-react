@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Venda;
 import br.com.compreevendapecas.ecommerce.repository.VendaRepository;
 import br.com.compreevendapecas.ecommerce.service.VendaService;
-import br.com.compreevendapecas.ecommerce.service.dto.VendaDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.VendaMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -55,9 +53,6 @@ public class VendaResourceIT {
 
     @Mock
     private VendaRepository vendaRepositoryMock;
-
-    @Autowired
-    private VendaMapper vendaMapper;
 
     @Mock
     private VendaService vendaServiceMock;
@@ -132,10 +127,9 @@ public class VendaResourceIT {
         int databaseSizeBeforeCreate = vendaRepository.findAll().size();
 
         // Create the Venda
-        VendaDTO vendaDTO = vendaMapper.toDto(venda);
         restVendaMockMvc.perform(post("/api/vendas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(venda)))
             .andExpect(status().isCreated());
 
         // Validate the Venda in the database
@@ -153,12 +147,11 @@ public class VendaResourceIT {
 
         // Create the Venda with an existing ID
         venda.setId(1L);
-        VendaDTO vendaDTO = vendaMapper.toDto(venda);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restVendaMockMvc.perform(post("/api/vendas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(venda)))
             .andExpect(status().isBadRequest());
 
         // Validate the Venda in the database
@@ -242,7 +235,7 @@ public class VendaResourceIT {
     @Transactional
     public void updateVenda() throws Exception {
         // Initialize the database
-        vendaRepository.saveAndFlush(venda);
+        vendaService.save(venda);
 
         int databaseSizeBeforeUpdate = vendaRepository.findAll().size();
 
@@ -253,11 +246,10 @@ public class VendaResourceIT {
         updatedVenda
             .dataHora(UPDATED_DATA_HORA)
             .totalVenda(UPDATED_TOTAL_VENDA);
-        VendaDTO vendaDTO = vendaMapper.toDto(updatedVenda);
 
         restVendaMockMvc.perform(put("/api/vendas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedVenda)))
             .andExpect(status().isOk());
 
         // Validate the Venda in the database
@@ -274,12 +266,11 @@ public class VendaResourceIT {
         int databaseSizeBeforeUpdate = vendaRepository.findAll().size();
 
         // Create the Venda
-        VendaDTO vendaDTO = vendaMapper.toDto(venda);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restVendaMockMvc.perform(put("/api/vendas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(vendaDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(venda)))
             .andExpect(status().isBadRequest());
 
         // Validate the Venda in the database
@@ -291,7 +282,7 @@ public class VendaResourceIT {
     @Transactional
     public void deleteVenda() throws Exception {
         // Initialize the database
-        vendaRepository.saveAndFlush(venda);
+        vendaService.save(venda);
 
         int databaseSizeBeforeDelete = vendaRepository.findAll().size();
 
@@ -318,28 +309,5 @@ public class VendaResourceIT {
         assertThat(venda1).isNotEqualTo(venda2);
         venda1.setId(null);
         assertThat(venda1).isNotEqualTo(venda2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(VendaDTO.class);
-        VendaDTO vendaDTO1 = new VendaDTO();
-        vendaDTO1.setId(1L);
-        VendaDTO vendaDTO2 = new VendaDTO();
-        assertThat(vendaDTO1).isNotEqualTo(vendaDTO2);
-        vendaDTO2.setId(vendaDTO1.getId());
-        assertThat(vendaDTO1).isEqualTo(vendaDTO2);
-        vendaDTO2.setId(2L);
-        assertThat(vendaDTO1).isNotEqualTo(vendaDTO2);
-        vendaDTO1.setId(null);
-        assertThat(vendaDTO1).isNotEqualTo(vendaDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(vendaMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(vendaMapper.fromId(null)).isNull();
     }
 }

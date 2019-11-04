@@ -49,11 +49,11 @@ export class ItemDetail extends React.Component<IItemDetailProps> {
             <dt>
               <Translate contentKey="ecommerceApp.item.produto">Produto</Translate>
             </dt>
-            <dd>{itemEntity.produtoId ? itemEntity.produtoId : ''}</dd>
+            <dd>{itemEntity.produto ? itemEntity.produto.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.item.venda">Venda</Translate>
             </dt>
-            <dd>{itemEntity.vendaId ? itemEntity.vendaId : ''}</dd>
+            <dd>{itemEntity.venda ? itemEntity.venda.id : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/item" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -1,7 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
@@ -15,7 +13,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "avaliacao")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Avaliacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,14 +28,12 @@ public class Avaliacao implements Serializable {
     private String descricao;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "avaliacao_list_clientes",
                joinColumns = @JoinColumn(name = "avaliacao_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_clientes_id", referencedColumnName = "usuario_id"))
+               inverseJoinColumns = @JoinColumn(name = "list_clientes_id", referencedColumnName = "id"))
     private Set<Cliente> listClientes = new HashSet<>();
 
     @ManyToMany(mappedBy = "listAvaliacaos")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Produto> listProdutos = new HashSet<>();
 

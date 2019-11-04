@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Cliente;
 import br.com.compreevendapecas.ecommerce.service.ClienteService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.ClienteDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -49,17 +49,17 @@ public class ClienteResource {
     /**
      * {@code POST  /clientes} : Create a new cliente.
      *
-     * @param clienteDTO the clienteDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new clienteDTO, or with status {@code 400 (Bad Request)} if the cliente has already an ID.
+     * @param cliente the cliente to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new cliente, or with status {@code 400 (Bad Request)} if the cliente has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/clientes")
-    public ResponseEntity<ClienteDTO> createCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws URISyntaxException {
-        log.debug("REST request to save Cliente : {}", clienteDTO);
-        if (clienteDTO.getId() != null) {
+    public ResponseEntity<Cliente> createCliente(@Valid @RequestBody Cliente cliente) throws URISyntaxException {
+        log.debug("REST request to save Cliente : {}", cliente);
+        if (cliente.getId() != null) {
             throw new BadRequestAlertException("A new cliente cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ClienteDTO result = clienteService.save(clienteDTO);
+        Cliente result = clienteService.save(cliente);
         return ResponseEntity.created(new URI("/api/clientes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,21 +68,21 @@ public class ClienteResource {
     /**
      * {@code PUT  /clientes} : Updates an existing cliente.
      *
-     * @param clienteDTO the clienteDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated clienteDTO,
-     * or with status {@code 400 (Bad Request)} if the clienteDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the clienteDTO couldn't be updated.
+     * @param cliente the cliente to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated cliente,
+     * or with status {@code 400 (Bad Request)} if the cliente is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the cliente couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/clientes")
-    public ResponseEntity<ClienteDTO> updateCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws URISyntaxException {
-        log.debug("REST request to update Cliente : {}", clienteDTO);
-        if (clienteDTO.getId() == null) {
+    public ResponseEntity<Cliente> updateCliente(@Valid @RequestBody Cliente cliente) throws URISyntaxException {
+        log.debug("REST request to update Cliente : {}", cliente);
+        if (cliente.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ClienteDTO result = clienteService.save(clienteDTO);
+        Cliente result = clienteService.save(cliente);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, clienteDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, cliente.getId().toString()))
             .body(result);
     }
 
@@ -96,9 +96,9 @@ public class ClienteResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of clientes in body.
      */
     @GetMapping("/clientes")
-    public ResponseEntity<List<ClienteDTO>> getAllClientes(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Cliente>> getAllClientes(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Clientes");
-        Page<ClienteDTO> page;
+        Page<Cliente> page;
         if (eagerload) {
             page = clienteService.findAllWithEagerRelationships(pageable);
         } else {
@@ -111,20 +111,20 @@ public class ClienteResource {
     /**
      * {@code GET  /clientes/:id} : get the "id" cliente.
      *
-     * @param id the id of the clienteDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the clienteDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the cliente to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the cliente, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/clientes/{id}")
-    public ResponseEntity<ClienteDTO> getCliente(@PathVariable Long id) {
+    public ResponseEntity<Cliente> getCliente(@PathVariable Long id) {
         log.debug("REST request to get Cliente : {}", id);
-        Optional<ClienteDTO> clienteDTO = clienteService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(clienteDTO);
+        Optional<Cliente> cliente = clienteService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(cliente);
     }
 
     /**
      * {@code DELETE  /clientes/:id} : delete the "id" cliente.
      *
-     * @param id the id of the clienteDTO to delete.
+     * @param id the id of the cliente to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/clientes/{id}")

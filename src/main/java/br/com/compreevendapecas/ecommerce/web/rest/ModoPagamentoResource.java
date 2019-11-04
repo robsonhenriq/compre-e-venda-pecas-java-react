@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.ModoPagamento;
 import br.com.compreevendapecas.ecommerce.service.ModoPagamentoService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.ModoPagamentoDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -49,17 +49,17 @@ public class ModoPagamentoResource {
     /**
      * {@code POST  /modo-pagamentos} : Create a new modoPagamento.
      *
-     * @param modoPagamentoDTO the modoPagamentoDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new modoPagamentoDTO, or with status {@code 400 (Bad Request)} if the modoPagamento has already an ID.
+     * @param modoPagamento the modoPagamento to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new modoPagamento, or with status {@code 400 (Bad Request)} if the modoPagamento has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/modo-pagamentos")
-    public ResponseEntity<ModoPagamentoDTO> createModoPagamento(@Valid @RequestBody ModoPagamentoDTO modoPagamentoDTO) throws URISyntaxException {
-        log.debug("REST request to save ModoPagamento : {}", modoPagamentoDTO);
-        if (modoPagamentoDTO.getId() != null) {
+    public ResponseEntity<ModoPagamento> createModoPagamento(@Valid @RequestBody ModoPagamento modoPagamento) throws URISyntaxException {
+        log.debug("REST request to save ModoPagamento : {}", modoPagamento);
+        if (modoPagamento.getId() != null) {
             throw new BadRequestAlertException("A new modoPagamento cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ModoPagamentoDTO result = modoPagamentoService.save(modoPagamentoDTO);
+        ModoPagamento result = modoPagamentoService.save(modoPagamento);
         return ResponseEntity.created(new URI("/api/modo-pagamentos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,21 +68,21 @@ public class ModoPagamentoResource {
     /**
      * {@code PUT  /modo-pagamentos} : Updates an existing modoPagamento.
      *
-     * @param modoPagamentoDTO the modoPagamentoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated modoPagamentoDTO,
-     * or with status {@code 400 (Bad Request)} if the modoPagamentoDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the modoPagamentoDTO couldn't be updated.
+     * @param modoPagamento the modoPagamento to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated modoPagamento,
+     * or with status {@code 400 (Bad Request)} if the modoPagamento is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the modoPagamento couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/modo-pagamentos")
-    public ResponseEntity<ModoPagamentoDTO> updateModoPagamento(@Valid @RequestBody ModoPagamentoDTO modoPagamentoDTO) throws URISyntaxException {
-        log.debug("REST request to update ModoPagamento : {}", modoPagamentoDTO);
-        if (modoPagamentoDTO.getId() == null) {
+    public ResponseEntity<ModoPagamento> updateModoPagamento(@Valid @RequestBody ModoPagamento modoPagamento) throws URISyntaxException {
+        log.debug("REST request to update ModoPagamento : {}", modoPagamento);
+        if (modoPagamento.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ModoPagamentoDTO result = modoPagamentoService.save(modoPagamentoDTO);
+        ModoPagamento result = modoPagamentoService.save(modoPagamento);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, modoPagamentoDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, modoPagamento.getId().toString()))
             .body(result);
     }
 
@@ -95,9 +95,9 @@ public class ModoPagamentoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of modoPagamentos in body.
      */
     @GetMapping("/modo-pagamentos")
-    public ResponseEntity<List<ModoPagamentoDTO>> getAllModoPagamentos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<ModoPagamento>> getAllModoPagamentos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of ModoPagamentos");
-        Page<ModoPagamentoDTO> page = modoPagamentoService.findAll(pageable);
+        Page<ModoPagamento> page = modoPagamentoService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -105,20 +105,20 @@ public class ModoPagamentoResource {
     /**
      * {@code GET  /modo-pagamentos/:id} : get the "id" modoPagamento.
      *
-     * @param id the id of the modoPagamentoDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the modoPagamentoDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the modoPagamento to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the modoPagamento, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/modo-pagamentos/{id}")
-    public ResponseEntity<ModoPagamentoDTO> getModoPagamento(@PathVariable Long id) {
+    public ResponseEntity<ModoPagamento> getModoPagamento(@PathVariable Long id) {
         log.debug("REST request to get ModoPagamento : {}", id);
-        Optional<ModoPagamentoDTO> modoPagamentoDTO = modoPagamentoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(modoPagamentoDTO);
+        Optional<ModoPagamento> modoPagamento = modoPagamentoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(modoPagamento);
     }
 
     /**
      * {@code DELETE  /modo-pagamentos/:id} : delete the "id" modoPagamento.
      *
-     * @param id the id of the modoPagamentoDTO to delete.
+     * @param id the id of the modoPagamento to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/modo-pagamentos/{id}")

@@ -55,20 +55,7 @@
       "confirmpassword.label": "New password confirmation",
       "confirmpassword.placeholder": "Confirm the new password",
       "email.label": "Email",
-      "email.placeholder": "Your email",
-
-      "nome.label": "Full name",
-      "nome.placeholder": "Enter your full name",
-      "cpf.label": "CPF",
-      "cpf.placeholder": "Enter your social security number",
-      "rg.label": "RG",
-      "rg.placeholder": "Enter your ID",
-      "dataNascimento.label": "Data Nascimento",
-      "dataNascimento.placeholder": "Enter your Date of Birth",
-      "telefone.label": "Telefone",
-      "telefone.placeholder": "Enter your phone",
-      "celular.label": "Celular",
-      "celular.placeholder": "Enter your cell"
+      "email.placeholder": "Your email"
     },
     "messages": {
       "info": {

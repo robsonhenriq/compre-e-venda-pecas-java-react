@@ -142,7 +142,6 @@ relationship ManyToOne {
 
 paginate Avaliacao, Carrinho, Cliente, Endereco, Foto, Item, ModoPagamento, Produto, Veiculo, Venda, Vendedor with pagination
 
-dto * with mapstruct
 
 service Avaliacao, Carrinho, Cliente, Endereco, Foto, Item, ModoPagamento, Produto, Veiculo, Venda, Vendedor with serviceClass
 

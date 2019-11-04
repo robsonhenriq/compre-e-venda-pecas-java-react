@@ -97,7 +97,7 @@ export class ProdutoDetail extends React.Component<IProdutoDetailProps> {
             <dt>
               <Translate contentKey="ecommerceApp.produto.marca">Marca</Translate>
             </dt>
-            <dd>{produtoEntity.marcaId ? produtoEntity.marcaId : ''}</dd>
+            <dd>{produtoEntity.marca ? produtoEntity.marca.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.produto.listFotos">List Fotos</Translate>
             </dt>

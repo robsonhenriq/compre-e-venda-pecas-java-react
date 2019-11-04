@@ -129,7 +129,7 @@ export class Produto extends React.Component<IProdutoProps, IProdutoState> {
                     <td>
                       <Translate contentKey={`ecommerceApp.Categoria.${produto.categoria}`} />
                     </td>
-                    <td>{produto.marcaId ? <Link to={`marca/${produto.marcaId}`}>{produto.marcaId}</Link> : ''}</td>
+                    <td>{produto.marca ? <Link to={`marca/${produto.marca.id}`}>{produto.marca.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${produto.id}`} color="info" size="sm">

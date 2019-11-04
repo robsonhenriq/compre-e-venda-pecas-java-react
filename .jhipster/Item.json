@@ -46,9 +46,9 @@
             "otherEntityField": "id"
         }
     ],
-    "changelogDate": "20191016005803",
+    "changelogDate": "20191103013732",
     "entityTableName": "item",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

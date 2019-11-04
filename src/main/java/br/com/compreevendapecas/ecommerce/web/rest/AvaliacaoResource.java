@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Avaliacao;
 import br.com.compreevendapecas.ecommerce.service.AvaliacaoService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.AvaliacaoDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -48,17 +48,17 @@ public class AvaliacaoResource {
     /**
      * {@code POST  /avaliacaos} : Create a new avaliacao.
      *
-     * @param avaliacaoDTO the avaliacaoDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new avaliacaoDTO, or with status {@code 400 (Bad Request)} if the avaliacao has already an ID.
+     * @param avaliacao the avaliacao to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new avaliacao, or with status {@code 400 (Bad Request)} if the avaliacao has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/avaliacaos")
-    public ResponseEntity<AvaliacaoDTO> createAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO) throws URISyntaxException {
-        log.debug("REST request to save Avaliacao : {}", avaliacaoDTO);
-        if (avaliacaoDTO.getId() != null) {
+    public ResponseEntity<Avaliacao> createAvaliacao(@RequestBody Avaliacao avaliacao) throws URISyntaxException {
+        log.debug("REST request to save Avaliacao : {}", avaliacao);
+        if (avaliacao.getId() != null) {
             throw new BadRequestAlertException("A new avaliacao cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        AvaliacaoDTO result = avaliacaoService.save(avaliacaoDTO);
+        Avaliacao result = avaliacaoService.save(avaliacao);
         return ResponseEntity.created(new URI("/api/avaliacaos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -67,21 +67,21 @@ public class AvaliacaoResource {
     /**
      * {@code PUT  /avaliacaos} : Updates an existing avaliacao.
      *
-     * @param avaliacaoDTO the avaliacaoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated avaliacaoDTO,
-     * or with status {@code 400 (Bad Request)} if the avaliacaoDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the avaliacaoDTO couldn't be updated.
+     * @param avaliacao the avaliacao to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated avaliacao,
+     * or with status {@code 400 (Bad Request)} if the avaliacao is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the avaliacao couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/avaliacaos")
-    public ResponseEntity<AvaliacaoDTO> updateAvaliacao(@RequestBody AvaliacaoDTO avaliacaoDTO) throws URISyntaxException {
-        log.debug("REST request to update Avaliacao : {}", avaliacaoDTO);
-        if (avaliacaoDTO.getId() == null) {
+    public ResponseEntity<Avaliacao> updateAvaliacao(@RequestBody Avaliacao avaliacao) throws URISyntaxException {
+        log.debug("REST request to update Avaliacao : {}", avaliacao);
+        if (avaliacao.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        AvaliacaoDTO result = avaliacaoService.save(avaliacaoDTO);
+        Avaliacao result = avaliacaoService.save(avaliacao);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, avaliacaoDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, avaliacao.getId().toString()))
             .body(result);
     }
 
@@ -95,9 +95,9 @@ public class AvaliacaoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of avaliacaos in body.
      */
     @GetMapping("/avaliacaos")
-    public ResponseEntity<List<AvaliacaoDTO>> getAllAvaliacaos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Avaliacao>> getAllAvaliacaos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Avaliacaos");
-        Page<AvaliacaoDTO> page;
+        Page<Avaliacao> page;
         if (eagerload) {
             page = avaliacaoService.findAllWithEagerRelationships(pageable);
         } else {
@@ -110,20 +110,20 @@ public class AvaliacaoResource {
     /**
      * {@code GET  /avaliacaos/:id} : get the "id" avaliacao.
      *
-     * @param id the id of the avaliacaoDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the avaliacaoDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the avaliacao to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the avaliacao, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/avaliacaos/{id}")
-    public ResponseEntity<AvaliacaoDTO> getAvaliacao(@PathVariable Long id) {
+    public ResponseEntity<Avaliacao> getAvaliacao(@PathVariable Long id) {
         log.debug("REST request to get Avaliacao : {}", id);
-        Optional<AvaliacaoDTO> avaliacaoDTO = avaliacaoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(avaliacaoDTO);
+        Optional<Avaliacao> avaliacao = avaliacaoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(avaliacao);
     }
 
     /**
      * {@code DELETE  /avaliacaos/:id} : delete the "id" avaliacao.
      *
-     * @param id the id of the avaliacaoDTO to delete.
+     * @param id the id of the avaliacao to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/avaliacaos/{id}")

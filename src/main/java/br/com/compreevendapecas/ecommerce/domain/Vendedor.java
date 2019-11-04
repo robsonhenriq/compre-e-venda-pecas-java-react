@@ -1,8 +1,6 @@
 package br.com.compreevendapecas.ecommerce.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -17,13 +15,12 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "vendedor")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Vendedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -57,14 +54,12 @@ public class Vendedor implements Serializable {
     private Endereco endereco;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "vendedor_list_produtos",
                joinColumns = @JoinColumn(name = "vendedor_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_produtos_id", referencedColumnName = "id"))
     private Set<Produto> listProdutos = new HashSet<>();
 
     @ManyToMany(mappedBy = "listVendedores")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Venda> listVendas = new HashSet<>();
 

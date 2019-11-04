@@ -1,7 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -16,13 +14,12 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "cliente")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -50,25 +47,21 @@ public class Cliente implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
-    @MapsId
     private User usuario;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "cliente_list_veiculos",
-               joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "usuario_id"),
+               joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_veiculos_id", referencedColumnName = "id"))
     private Set<Veiculo> listVeiculos = new HashSet<>();
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "cliente_list_endereco",
-               joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "usuario_id"),
+               joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_endereco_id", referencedColumnName = "id"))
     private Set<Endereco> listEnderecos = new HashSet<>();
 
     @ManyToMany(mappedBy = "listClientes")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Avaliacao> listAvaliacaos = new HashSet<>();
 

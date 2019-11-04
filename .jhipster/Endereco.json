@@ -47,9 +47,9 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20191016005801",
+    "changelogDate": "20191103013730",
     "entityTableName": "endereco",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

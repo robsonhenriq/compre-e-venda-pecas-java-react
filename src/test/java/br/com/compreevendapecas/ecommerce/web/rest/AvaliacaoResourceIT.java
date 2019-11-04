@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Avaliacao;
 import br.com.compreevendapecas.ecommerce.repository.AvaliacaoRepository;
 import br.com.compreevendapecas.ecommerce.service.AvaliacaoService;
-import br.com.compreevendapecas.ecommerce.service.dto.AvaliacaoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.AvaliacaoMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -54,9 +52,6 @@ public class AvaliacaoResourceIT {
 
     @Mock
     private AvaliacaoRepository avaliacaoRepositoryMock;
-
-    @Autowired
-    private AvaliacaoMapper avaliacaoMapper;
 
     @Mock
     private AvaliacaoService avaliacaoServiceMock;
@@ -131,10 +126,9 @@ public class AvaliacaoResourceIT {
         int databaseSizeBeforeCreate = avaliacaoRepository.findAll().size();
 
         // Create the Avaliacao
-        AvaliacaoDTO avaliacaoDTO = avaliacaoMapper.toDto(avaliacao);
         restAvaliacaoMockMvc.perform(post("/api/avaliacaos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(avaliacaoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(avaliacao)))
             .andExpect(status().isCreated());
 
         // Validate the Avaliacao in the database
@@ -152,12 +146,11 @@ public class AvaliacaoResourceIT {
 
         // Create the Avaliacao with an existing ID
         avaliacao.setId(1L);
-        AvaliacaoDTO avaliacaoDTO = avaliacaoMapper.toDto(avaliacao);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAvaliacaoMockMvc.perform(post("/api/avaliacaos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(avaliacaoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(avaliacao)))
             .andExpect(status().isBadRequest());
 
         // Validate the Avaliacao in the database
@@ -241,7 +234,7 @@ public class AvaliacaoResourceIT {
     @Transactional
     public void updateAvaliacao() throws Exception {
         // Initialize the database
-        avaliacaoRepository.saveAndFlush(avaliacao);
+        avaliacaoService.save(avaliacao);
 
         int databaseSizeBeforeUpdate = avaliacaoRepository.findAll().size();
 
@@ -252,11 +245,10 @@ public class AvaliacaoResourceIT {
         updatedAvaliacao
             .dataHora(UPDATED_DATA_HORA)
             .descricao(UPDATED_DESCRICAO);
-        AvaliacaoDTO avaliacaoDTO = avaliacaoMapper.toDto(updatedAvaliacao);
 
         restAvaliacaoMockMvc.perform(put("/api/avaliacaos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(avaliacaoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedAvaliacao)))
             .andExpect(status().isOk());
 
         // Validate the Avaliacao in the database
@@ -273,12 +265,11 @@ public class AvaliacaoResourceIT {
         int databaseSizeBeforeUpdate = avaliacaoRepository.findAll().size();
 
         // Create the Avaliacao
-        AvaliacaoDTO avaliacaoDTO = avaliacaoMapper.toDto(avaliacao);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAvaliacaoMockMvc.perform(put("/api/avaliacaos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(avaliacaoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(avaliacao)))
             .andExpect(status().isBadRequest());
 
         // Validate the Avaliacao in the database
@@ -290,7 +281,7 @@ public class AvaliacaoResourceIT {
     @Transactional
     public void deleteAvaliacao() throws Exception {
         // Initialize the database
-        avaliacaoRepository.saveAndFlush(avaliacao);
+        avaliacaoService.save(avaliacao);
 
         int databaseSizeBeforeDelete = avaliacaoRepository.findAll().size();
 
@@ -317,28 +308,5 @@ public class AvaliacaoResourceIT {
         assertThat(avaliacao1).isNotEqualTo(avaliacao2);
         avaliacao1.setId(null);
         assertThat(avaliacao1).isNotEqualTo(avaliacao2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(AvaliacaoDTO.class);
-        AvaliacaoDTO avaliacaoDTO1 = new AvaliacaoDTO();
-        avaliacaoDTO1.setId(1L);
-        AvaliacaoDTO avaliacaoDTO2 = new AvaliacaoDTO();
-        assertThat(avaliacaoDTO1).isNotEqualTo(avaliacaoDTO2);
-        avaliacaoDTO2.setId(avaliacaoDTO1.getId());
-        assertThat(avaliacaoDTO1).isEqualTo(avaliacaoDTO2);
-        avaliacaoDTO2.setId(2L);
-        assertThat(avaliacaoDTO1).isNotEqualTo(avaliacaoDTO2);
-        avaliacaoDTO1.setId(null);
-        assertThat(avaliacaoDTO1).isNotEqualTo(avaliacaoDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(avaliacaoMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(avaliacaoMapper.fromId(null)).isNull();
     }
 }

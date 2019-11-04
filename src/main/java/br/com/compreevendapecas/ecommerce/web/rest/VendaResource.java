@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Venda;
 import br.com.compreevendapecas.ecommerce.service.VendaService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.VendaDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -48,17 +48,17 @@ public class VendaResource {
     /**
      * {@code POST  /vendas} : Create a new venda.
      *
-     * @param vendaDTO the vendaDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new vendaDTO, or with status {@code 400 (Bad Request)} if the venda has already an ID.
+     * @param venda the venda to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new venda, or with status {@code 400 (Bad Request)} if the venda has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/vendas")
-    public ResponseEntity<VendaDTO> createVenda(@RequestBody VendaDTO vendaDTO) throws URISyntaxException {
-        log.debug("REST request to save Venda : {}", vendaDTO);
-        if (vendaDTO.getId() != null) {
+    public ResponseEntity<Venda> createVenda(@RequestBody Venda venda) throws URISyntaxException {
+        log.debug("REST request to save Venda : {}", venda);
+        if (venda.getId() != null) {
             throw new BadRequestAlertException("A new venda cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        VendaDTO result = vendaService.save(vendaDTO);
+        Venda result = vendaService.save(venda);
         return ResponseEntity.created(new URI("/api/vendas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -67,21 +67,21 @@ public class VendaResource {
     /**
      * {@code PUT  /vendas} : Updates an existing venda.
      *
-     * @param vendaDTO the vendaDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated vendaDTO,
-     * or with status {@code 400 (Bad Request)} if the vendaDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the vendaDTO couldn't be updated.
+     * @param venda the venda to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated venda,
+     * or with status {@code 400 (Bad Request)} if the venda is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the venda couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/vendas")
-    public ResponseEntity<VendaDTO> updateVenda(@RequestBody VendaDTO vendaDTO) throws URISyntaxException {
-        log.debug("REST request to update Venda : {}", vendaDTO);
-        if (vendaDTO.getId() == null) {
+    public ResponseEntity<Venda> updateVenda(@RequestBody Venda venda) throws URISyntaxException {
+        log.debug("REST request to update Venda : {}", venda);
+        if (venda.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        VendaDTO result = vendaService.save(vendaDTO);
+        Venda result = vendaService.save(venda);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, vendaDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, venda.getId().toString()))
             .body(result);
     }
 
@@ -95,9 +95,9 @@ public class VendaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of vendas in body.
      */
     @GetMapping("/vendas")
-    public ResponseEntity<List<VendaDTO>> getAllVendas(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Venda>> getAllVendas(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Vendas");
-        Page<VendaDTO> page;
+        Page<Venda> page;
         if (eagerload) {
             page = vendaService.findAllWithEagerRelationships(pageable);
         } else {
@@ -110,20 +110,20 @@ public class VendaResource {
     /**
      * {@code GET  /vendas/:id} : get the "id" venda.
      *
-     * @param id the id of the vendaDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the vendaDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the venda to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the venda, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/vendas/{id}")
-    public ResponseEntity<VendaDTO> getVenda(@PathVariable Long id) {
+    public ResponseEntity<Venda> getVenda(@PathVariable Long id) {
         log.debug("REST request to get Venda : {}", id);
-        Optional<VendaDTO> vendaDTO = vendaService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(vendaDTO);
+        Optional<Venda> venda = vendaService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(venda);
     }
 
     /**
      * {@code DELETE  /vendas/:id} : delete the "id" venda.
      *
-     * @param id the id of the vendaDTO to delete.
+     * @param id the id of the venda to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/vendas/{id}")

@@ -157,7 +157,7 @@ export class VendedorUpdate extends React.Component<IVendedorUpdateProps, IVende
                   <Label for="vendedor-usuario">
                     <Translate contentKey="ecommerceApp.vendedor.usuario">Usuario</Translate>
                   </Label>
-                  <AvInput id="vendedor-usuario" type="select" className="form-control" name="usuarioId">
+                  <AvInput id="vendedor-usuario" type="select" className="form-control" name="usuario.id">
                     <option value="" key="0" />
                     {users
                       ? users.map(otherEntity => (
@@ -172,7 +172,7 @@ export class VendedorUpdate extends React.Component<IVendedorUpdateProps, IVende
                   <Label for="vendedor-endereco">
                     <Translate contentKey="ecommerceApp.vendedor.endereco">Endereco</Translate>
                   </Label>
-                  <AvInput id="vendedor-endereco" type="select" className="form-control" name="enderecoId">
+                  <AvInput id="vendedor-endereco" type="select" className="form-control" name="endereco.id">
                     <option value="" key="0" />
                     {enderecos
                       ? enderecos.map(otherEntity => (

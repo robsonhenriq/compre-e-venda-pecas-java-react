@@ -1,7 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
@@ -16,7 +14,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "venda")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Venda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,7 +29,6 @@ public class Venda implements Serializable {
     private BigDecimal totalVenda;
 
     @OneToMany(mappedBy = "venda")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Item> listItens = new HashSet<>();
 
     @ManyToOne
@@ -48,7 +44,6 @@ public class Venda implements Serializable {
     private ModoPagamento modoPagamento;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "venda_list_vendedores",
                joinColumns = @JoinColumn(name = "venda_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_vendedores_id", referencedColumnName = "id"))

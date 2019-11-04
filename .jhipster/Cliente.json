@@ -71,9 +71,9 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20191016005800",
+    "changelogDate": "20191103013729",
     "entityTableName": "cliente",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

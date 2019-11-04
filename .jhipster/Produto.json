@@ -116,9 +116,9 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20191016005806",
+    "changelogDate": "20191103013735",
     "entityTableName": "produto",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

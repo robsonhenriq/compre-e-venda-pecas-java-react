@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Carrinho;
 import br.com.compreevendapecas.ecommerce.repository.CarrinhoRepository;
 import br.com.compreevendapecas.ecommerce.service.CarrinhoService;
-import br.com.compreevendapecas.ecommerce.service.dto.CarrinhoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.CarrinhoMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -50,9 +48,6 @@ public class CarrinhoResourceIT {
 
     @Mock
     private CarrinhoRepository carrinhoRepositoryMock;
-
-    @Autowired
-    private CarrinhoMapper carrinhoMapper;
 
     @Mock
     private CarrinhoService carrinhoServiceMock;
@@ -125,10 +120,9 @@ public class CarrinhoResourceIT {
         int databaseSizeBeforeCreate = carrinhoRepository.findAll().size();
 
         // Create the Carrinho
-        CarrinhoDTO carrinhoDTO = carrinhoMapper.toDto(carrinho);
         restCarrinhoMockMvc.perform(post("/api/carrinhos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(carrinhoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(carrinho)))
             .andExpect(status().isCreated());
 
         // Validate the Carrinho in the database
@@ -145,12 +139,11 @@ public class CarrinhoResourceIT {
 
         // Create the Carrinho with an existing ID
         carrinho.setId(1L);
-        CarrinhoDTO carrinhoDTO = carrinhoMapper.toDto(carrinho);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCarrinhoMockMvc.perform(post("/api/carrinhos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(carrinhoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(carrinho)))
             .andExpect(status().isBadRequest());
 
         // Validate the Carrinho in the database
@@ -232,7 +225,7 @@ public class CarrinhoResourceIT {
     @Transactional
     public void updateCarrinho() throws Exception {
         // Initialize the database
-        carrinhoRepository.saveAndFlush(carrinho);
+        carrinhoService.save(carrinho);
 
         int databaseSizeBeforeUpdate = carrinhoRepository.findAll().size();
 
@@ -242,11 +235,10 @@ public class CarrinhoResourceIT {
         em.detach(updatedCarrinho);
         updatedCarrinho
             .totalCarrinho(UPDATED_TOTAL_CARRINHO);
-        CarrinhoDTO carrinhoDTO = carrinhoMapper.toDto(updatedCarrinho);
 
         restCarrinhoMockMvc.perform(put("/api/carrinhos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(carrinhoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedCarrinho)))
             .andExpect(status().isOk());
 
         // Validate the Carrinho in the database
@@ -262,12 +254,11 @@ public class CarrinhoResourceIT {
         int databaseSizeBeforeUpdate = carrinhoRepository.findAll().size();
 
         // Create the Carrinho
-        CarrinhoDTO carrinhoDTO = carrinhoMapper.toDto(carrinho);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restCarrinhoMockMvc.perform(put("/api/carrinhos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(carrinhoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(carrinho)))
             .andExpect(status().isBadRequest());
 
         // Validate the Carrinho in the database
@@ -279,7 +270,7 @@ public class CarrinhoResourceIT {
     @Transactional
     public void deleteCarrinho() throws Exception {
         // Initialize the database
-        carrinhoRepository.saveAndFlush(carrinho);
+        carrinhoService.save(carrinho);
 
         int databaseSizeBeforeDelete = carrinhoRepository.findAll().size();
 
@@ -306,28 +297,5 @@ public class CarrinhoResourceIT {
         assertThat(carrinho1).isNotEqualTo(carrinho2);
         carrinho1.setId(null);
         assertThat(carrinho1).isNotEqualTo(carrinho2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(CarrinhoDTO.class);
-        CarrinhoDTO carrinhoDTO1 = new CarrinhoDTO();
-        carrinhoDTO1.setId(1L);
-        CarrinhoDTO carrinhoDTO2 = new CarrinhoDTO();
-        assertThat(carrinhoDTO1).isNotEqualTo(carrinhoDTO2);
-        carrinhoDTO2.setId(carrinhoDTO1.getId());
-        assertThat(carrinhoDTO1).isEqualTo(carrinhoDTO2);
-        carrinhoDTO2.setId(2L);
-        assertThat(carrinhoDTO1).isNotEqualTo(carrinhoDTO2);
-        carrinhoDTO1.setId(null);
-        assertThat(carrinhoDTO1).isNotEqualTo(carrinhoDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(carrinhoMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(carrinhoMapper.fromId(null)).isNull();
     }
 }

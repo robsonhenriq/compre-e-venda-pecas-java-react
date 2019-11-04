@@ -1,6 +1,4 @@
 package br.com.compreevendapecas.ecommerce.domain;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
@@ -14,7 +12,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "carrinho")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Carrinho implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,7 +24,6 @@ public class Carrinho implements Serializable {
     private BigDecimal totalCarrinho;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "carrinho_list_itens",
                joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "list_itens_id", referencedColumnName = "id"))

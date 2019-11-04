@@ -1,7 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -17,7 +15,6 @@ import br.com.compreevendapecas.ecommerce.domain.enumeration.Estado;
  */
 @Entity
 @Table(name = "endereco")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Endereco implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,7 +48,6 @@ public class Endereco implements Serializable {
     private Estado estado;
 
     @ManyToMany(mappedBy = "listEnderecos")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Cliente> listEnderecos = new HashSet<>();
 

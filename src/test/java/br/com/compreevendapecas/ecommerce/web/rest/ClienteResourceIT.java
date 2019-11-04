@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Cliente;
 import br.com.compreevendapecas.ecommerce.repository.ClienteRepository;
 import br.com.compreevendapecas.ecommerce.service.ClienteService;
-import br.com.compreevendapecas.ecommerce.service.dto.ClienteDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ClienteMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -66,9 +64,6 @@ public class ClienteResourceIT {
 
     @Mock
     private ClienteRepository clienteRepositoryMock;
-
-    @Autowired
-    private ClienteMapper clienteMapper;
 
     @Mock
     private ClienteService clienteServiceMock;
@@ -151,10 +146,9 @@ public class ClienteResourceIT {
         int databaseSizeBeforeCreate = clienteRepository.findAll().size();
 
         // Create the Cliente
-        ClienteDTO clienteDTO = clienteMapper.toDto(cliente);
         restClienteMockMvc.perform(post("/api/clientes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(clienteDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(cliente)))
             .andExpect(status().isCreated());
 
         // Validate the Cliente in the database
@@ -176,12 +170,11 @@ public class ClienteResourceIT {
 
         // Create the Cliente with an existing ID
         cliente.setId(1L);
-        ClienteDTO clienteDTO = clienteMapper.toDto(cliente);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restClienteMockMvc.perform(post("/api/clientes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(clienteDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(cliente)))
             .andExpect(status().isBadRequest());
 
         // Validate the Cliente in the database
@@ -198,11 +191,10 @@ public class ClienteResourceIT {
         cliente.setNome(null);
 
         // Create the Cliente, which fails.
-        ClienteDTO clienteDTO = clienteMapper.toDto(cliente);
 
         restClienteMockMvc.perform(post("/api/clientes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(clienteDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(cliente)))
             .andExpect(status().isBadRequest());
 
         List<Cliente> clienteList = clienteRepository.findAll();
@@ -292,7 +284,7 @@ public class ClienteResourceIT {
     @Transactional
     public void updateCliente() throws Exception {
         // Initialize the database
-        clienteRepository.saveAndFlush(cliente);
+        clienteService.save(cliente);
 
         int databaseSizeBeforeUpdate = clienteRepository.findAll().size();
 
@@ -307,11 +299,10 @@ public class ClienteResourceIT {
             .dataNascimento(UPDATED_DATA_NASCIMENTO)
             .telefone(UPDATED_TELEFONE)
             .celular(UPDATED_CELULAR);
-        ClienteDTO clienteDTO = clienteMapper.toDto(updatedCliente);
 
         restClienteMockMvc.perform(put("/api/clientes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(clienteDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedCliente)))
             .andExpect(status().isOk());
 
         // Validate the Cliente in the database
@@ -332,12 +323,11 @@ public class ClienteResourceIT {
         int databaseSizeBeforeUpdate = clienteRepository.findAll().size();
 
         // Create the Cliente
-        ClienteDTO clienteDTO = clienteMapper.toDto(cliente);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restClienteMockMvc.perform(put("/api/clientes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(clienteDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(cliente)))
             .andExpect(status().isBadRequest());
 
         // Validate the Cliente in the database
@@ -349,7 +339,7 @@ public class ClienteResourceIT {
     @Transactional
     public void deleteCliente() throws Exception {
         // Initialize the database
-        clienteRepository.saveAndFlush(cliente);
+        clienteService.save(cliente);
 
         int databaseSizeBeforeDelete = clienteRepository.findAll().size();
 
@@ -376,28 +366,5 @@ public class ClienteResourceIT {
         assertThat(cliente1).isNotEqualTo(cliente2);
         cliente1.setId(null);
         assertThat(cliente1).isNotEqualTo(cliente2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ClienteDTO.class);
-        ClienteDTO clienteDTO1 = new ClienteDTO();
-        clienteDTO1.setId(1L);
-        ClienteDTO clienteDTO2 = new ClienteDTO();
-        assertThat(clienteDTO1).isNotEqualTo(clienteDTO2);
-        clienteDTO2.setId(clienteDTO1.getId());
-        assertThat(clienteDTO1).isEqualTo(clienteDTO2);
-        clienteDTO2.setId(2L);
-        assertThat(clienteDTO1).isNotEqualTo(clienteDTO2);
-        clienteDTO1.setId(null);
-        assertThat(clienteDTO1).isNotEqualTo(clienteDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(clienteMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(clienteMapper.fromId(null)).isNull();
     }
 }

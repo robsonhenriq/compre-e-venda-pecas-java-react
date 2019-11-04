@@ -45,15 +45,15 @@ export class VendaDetail extends React.Component<IVendaDetailProps> {
             <dt>
               <Translate contentKey="ecommerceApp.venda.comprador">Comprador</Translate>
             </dt>
-            <dd>{vendaEntity.compradorId ? vendaEntity.compradorId : ''}</dd>
+            <dd>{vendaEntity.comprador ? vendaEntity.comprador.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.venda.enderecoEntrega">Endereco Entrega</Translate>
             </dt>
-            <dd>{vendaEntity.enderecoEntregaId ? vendaEntity.enderecoEntregaId : ''}</dd>
+            <dd>{vendaEntity.enderecoEntrega ? vendaEntity.enderecoEntrega.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.venda.modoPagamento">Modo Pagamento</Translate>
             </dt>
-            <dd>{vendaEntity.modoPagamentoId ? vendaEntity.modoPagamentoId : ''}</dd>
+            <dd>{vendaEntity.modoPagamento ? vendaEntity.modoPagamento.id : ''}</dd>
             <dt>
               <Translate contentKey="ecommerceApp.venda.listVendedores">List Vendedores</Translate>
             </dt>

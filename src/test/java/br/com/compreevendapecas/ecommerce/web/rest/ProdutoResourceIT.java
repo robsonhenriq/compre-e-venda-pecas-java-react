@@ -4,8 +4,6 @@ import br.com.compreevendapecas.ecommerce.EcommerceApp;
 import br.com.compreevendapecas.ecommerce.domain.Produto;
 import br.com.compreevendapecas.ecommerce.repository.ProdutoRepository;
 import br.com.compreevendapecas.ecommerce.service.ProdutoService;
-import br.com.compreevendapecas.ecommerce.service.dto.ProdutoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ProdutoMapper;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -81,9 +79,6 @@ public class ProdutoResourceIT {
 
     @Mock
     private ProdutoRepository produtoRepositoryMock;
-
-    @Autowired
-    private ProdutoMapper produtoMapper;
 
     @Mock
     private ProdutoService produtoServiceMock;
@@ -176,10 +171,9 @@ public class ProdutoResourceIT {
         int databaseSizeBeforeCreate = produtoRepository.findAll().size();
 
         // Create the Produto
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isCreated());
 
         // Validate the Produto in the database
@@ -206,12 +200,11 @@ public class ProdutoResourceIT {
 
         // Create the Produto with an existing ID
         produto.setId(1L);
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         // Validate the Produto in the database
@@ -228,11 +221,10 @@ public class ProdutoResourceIT {
         produto.setDescricao(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -247,11 +239,10 @@ public class ProdutoResourceIT {
         produto.setEhUsado(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -266,11 +257,10 @@ public class ProdutoResourceIT {
         produto.setQuantidadeDisponivel(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -285,11 +275,10 @@ public class ProdutoResourceIT {
         produto.setAltura(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -304,11 +293,10 @@ public class ProdutoResourceIT {
         produto.setLargura(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -323,11 +311,10 @@ public class ProdutoResourceIT {
         produto.setPesoBruto(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -342,11 +329,10 @@ public class ProdutoResourceIT {
         produto.setPrecoAVista(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -361,11 +347,10 @@ public class ProdutoResourceIT {
         produto.setPrecoAPrazo(null);
 
         // Create the Produto, which fails.
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         restProdutoMockMvc.perform(post("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         List<Produto> produtoList = produtoRepository.findAll();
@@ -465,7 +450,7 @@ public class ProdutoResourceIT {
     @Transactional
     public void updateProduto() throws Exception {
         // Initialize the database
-        produtoRepository.saveAndFlush(produto);
+        produtoService.save(produto);
 
         int databaseSizeBeforeUpdate = produtoRepository.findAll().size();
 
@@ -485,11 +470,10 @@ public class ProdutoResourceIT {
             .precoAVista(UPDATED_PRECO_A_VISTA)
             .precoAPrazo(UPDATED_PRECO_A_PRAZO)
             .categoria(UPDATED_CATEGORIA);
-        ProdutoDTO produtoDTO = produtoMapper.toDto(updatedProduto);
 
         restProdutoMockMvc.perform(put("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedProduto)))
             .andExpect(status().isOk());
 
         // Validate the Produto in the database
@@ -515,12 +499,11 @@ public class ProdutoResourceIT {
         int databaseSizeBeforeUpdate = produtoRepository.findAll().size();
 
         // Create the Produto
-        ProdutoDTO produtoDTO = produtoMapper.toDto(produto);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restProdutoMockMvc.perform(put("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoDTO)))
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
             .andExpect(status().isBadRequest());
 
         // Validate the Produto in the database
@@ -532,7 +515,7 @@ public class ProdutoResourceIT {
     @Transactional
     public void deleteProduto() throws Exception {
         // Initialize the database
-        produtoRepository.saveAndFlush(produto);
+        produtoService.save(produto);
 
         int databaseSizeBeforeDelete = produtoRepository.findAll().size();
 
@@ -559,28 +542,5 @@ public class ProdutoResourceIT {
         assertThat(produto1).isNotEqualTo(produto2);
         produto1.setId(null);
         assertThat(produto1).isNotEqualTo(produto2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ProdutoDTO.class);
-        ProdutoDTO produtoDTO1 = new ProdutoDTO();
-        produtoDTO1.setId(1L);
-        ProdutoDTO produtoDTO2 = new ProdutoDTO();
-        assertThat(produtoDTO1).isNotEqualTo(produtoDTO2);
-        produtoDTO2.setId(produtoDTO1.getId());
-        assertThat(produtoDTO1).isEqualTo(produtoDTO2);
-        produtoDTO2.setId(2L);
-        assertThat(produtoDTO1).isNotEqualTo(produtoDTO2);
-        produtoDTO1.setId(null);
-        assertThat(produtoDTO1).isNotEqualTo(produtoDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(produtoMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(produtoMapper.fromId(null)).isNull();
     }
 }

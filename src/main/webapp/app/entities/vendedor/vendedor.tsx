@@ -117,8 +117,8 @@ export class Vendedor extends React.Component<IVendedorProps, IVendedorState> {
                       <TextFormat type="date" value={vendedor.dataNascimento} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>{vendedor.descricao}</td>
-                    <td>{vendedor.usuarioId ? vendedor.usuarioId : ''}</td>
-                    <td>{vendedor.enderecoId ? <Link to={`endereco/${vendedor.enderecoId}`}>{vendedor.enderecoId}</Link> : ''}</td>
+                    <td>{vendedor.usuario ? vendedor.usuario.id : ''}</td>
+                    <td>{vendedor.endereco ? <Link to={`endereco/${vendedor.endereco.id}`}>{vendedor.endereco.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${vendedor.id}`} color="info" size="sm">

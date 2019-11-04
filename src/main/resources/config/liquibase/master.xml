@@ -14,26 +14,26 @@
     <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005758_added_entity_Avaliacao.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005759_added_entity_Carrinho.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005800_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005801_added_entity_Endereco.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005802_added_entity_Foto.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005803_added_entity_Item.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005804_added_entity_Marca.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005805_added_entity_ModoPagamento.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005806_added_entity_Produto.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005807_added_entity_Veiculo.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005808_added_entity_Venda.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005809_added_entity_Vendedor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013727_added_entity_Avaliacao.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013728_added_entity_Carrinho.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013729_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013730_added_entity_Endereco.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013731_added_entity_Foto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013732_added_entity_Item.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013733_added_entity_Marca.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013734_added_entity_ModoPagamento.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013735_added_entity_Produto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013736_added_entity_Veiculo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013737_added_entity_Venda.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013738_added_entity_Vendedor.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20191016005758_added_entity_constraints_Avaliacao.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005759_added_entity_constraints_Carrinho.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005800_added_entity_constraints_Cliente.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005803_added_entity_constraints_Item.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005806_added_entity_constraints_Produto.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005807_added_entity_constraints_Veiculo.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005808_added_entity_constraints_Venda.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191016005809_added_entity_constraints_Vendedor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013727_added_entity_constraints_Avaliacao.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013728_added_entity_constraints_Carrinho.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013729_added_entity_constraints_Cliente.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013732_added_entity_constraints_Item.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013735_added_entity_constraints_Produto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013736_added_entity_constraints_Veiculo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013737_added_entity_constraints_Venda.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191103013738_added_entity_constraints_Vendedor.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

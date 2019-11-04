@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Item;
 import br.com.compreevendapecas.ecommerce.service.ItemService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.ItemDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -49,17 +49,17 @@ public class ItemResource {
     /**
      * {@code POST  /items} : Create a new item.
      *
-     * @param itemDTO the itemDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new itemDTO, or with status {@code 400 (Bad Request)} if the item has already an ID.
+     * @param item the item to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new item, or with status {@code 400 (Bad Request)} if the item has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/items")
-    public ResponseEntity<ItemDTO> createItem(@Valid @RequestBody ItemDTO itemDTO) throws URISyntaxException {
-        log.debug("REST request to save Item : {}", itemDTO);
-        if (itemDTO.getId() != null) {
+    public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) throws URISyntaxException {
+        log.debug("REST request to save Item : {}", item);
+        if (item.getId() != null) {
             throw new BadRequestAlertException("A new item cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ItemDTO result = itemService.save(itemDTO);
+        Item result = itemService.save(item);
         return ResponseEntity.created(new URI("/api/items/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,21 +68,21 @@ public class ItemResource {
     /**
      * {@code PUT  /items} : Updates an existing item.
      *
-     * @param itemDTO the itemDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated itemDTO,
-     * or with status {@code 400 (Bad Request)} if the itemDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the itemDTO couldn't be updated.
+     * @param item the item to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated item,
+     * or with status {@code 400 (Bad Request)} if the item is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the item couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/items")
-    public ResponseEntity<ItemDTO> updateItem(@Valid @RequestBody ItemDTO itemDTO) throws URISyntaxException {
-        log.debug("REST request to update Item : {}", itemDTO);
-        if (itemDTO.getId() == null) {
+    public ResponseEntity<Item> updateItem(@Valid @RequestBody Item item) throws URISyntaxException {
+        log.debug("REST request to update Item : {}", item);
+        if (item.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ItemDTO result = itemService.save(itemDTO);
+        Item result = itemService.save(item);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, itemDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, item.getId().toString()))
             .body(result);
     }
 
@@ -95,9 +95,9 @@ public class ItemResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of items in body.
      */
     @GetMapping("/items")
-    public ResponseEntity<List<ItemDTO>> getAllItems(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<Item>> getAllItems(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of Items");
-        Page<ItemDTO> page = itemService.findAll(pageable);
+        Page<Item> page = itemService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -105,20 +105,20 @@ public class ItemResource {
     /**
      * {@code GET  /items/:id} : get the "id" item.
      *
-     * @param id the id of the itemDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the itemDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the item to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the item, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/items/{id}")
-    public ResponseEntity<ItemDTO> getItem(@PathVariable Long id) {
+    public ResponseEntity<Item> getItem(@PathVariable Long id) {
         log.debug("REST request to get Item : {}", id);
-        Optional<ItemDTO> itemDTO = itemService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(itemDTO);
+        Optional<Item> item = itemService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(item);
     }
 
     /**
      * {@code DELETE  /items/:id} : delete the "id" item.
      *
-     * @param id the id of the itemDTO to delete.
+     * @param id the id of the item to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/items/{id}")

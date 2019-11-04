@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Endereco;
 import br.com.compreevendapecas.ecommerce.service.EnderecoService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.EnderecoDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -49,17 +49,17 @@ public class EnderecoResource {
     /**
      * {@code POST  /enderecos} : Create a new endereco.
      *
-     * @param enderecoDTO the enderecoDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new enderecoDTO, or with status {@code 400 (Bad Request)} if the endereco has already an ID.
+     * @param endereco the endereco to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new endereco, or with status {@code 400 (Bad Request)} if the endereco has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/enderecos")
-    public ResponseEntity<EnderecoDTO> createEndereco(@Valid @RequestBody EnderecoDTO enderecoDTO) throws URISyntaxException {
-        log.debug("REST request to save Endereco : {}", enderecoDTO);
-        if (enderecoDTO.getId() != null) {
+    public ResponseEntity<Endereco> createEndereco(@Valid @RequestBody Endereco endereco) throws URISyntaxException {
+        log.debug("REST request to save Endereco : {}", endereco);
+        if (endereco.getId() != null) {
             throw new BadRequestAlertException("A new endereco cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        EnderecoDTO result = enderecoService.save(enderecoDTO);
+        Endereco result = enderecoService.save(endereco);
         return ResponseEntity.created(new URI("/api/enderecos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,21 +68,21 @@ public class EnderecoResource {
     /**
      * {@code PUT  /enderecos} : Updates an existing endereco.
      *
-     * @param enderecoDTO the enderecoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated enderecoDTO,
-     * or with status {@code 400 (Bad Request)} if the enderecoDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the enderecoDTO couldn't be updated.
+     * @param endereco the endereco to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated endereco,
+     * or with status {@code 400 (Bad Request)} if the endereco is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the endereco couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/enderecos")
-    public ResponseEntity<EnderecoDTO> updateEndereco(@Valid @RequestBody EnderecoDTO enderecoDTO) throws URISyntaxException {
-        log.debug("REST request to update Endereco : {}", enderecoDTO);
-        if (enderecoDTO.getId() == null) {
+    public ResponseEntity<Endereco> updateEndereco(@Valid @RequestBody Endereco endereco) throws URISyntaxException {
+        log.debug("REST request to update Endereco : {}", endereco);
+        if (endereco.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        EnderecoDTO result = enderecoService.save(enderecoDTO);
+        Endereco result = enderecoService.save(endereco);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, enderecoDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, endereco.getId().toString()))
             .body(result);
     }
 
@@ -95,9 +95,9 @@ public class EnderecoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of enderecos in body.
      */
     @GetMapping("/enderecos")
-    public ResponseEntity<List<EnderecoDTO>> getAllEnderecos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<Endereco>> getAllEnderecos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of Enderecos");
-        Page<EnderecoDTO> page = enderecoService.findAll(pageable);
+        Page<Endereco> page = enderecoService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -105,20 +105,20 @@ public class EnderecoResource {
     /**
      * {@code GET  /enderecos/:id} : get the "id" endereco.
      *
-     * @param id the id of the enderecoDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the enderecoDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the endereco to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the endereco, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/enderecos/{id}")
-    public ResponseEntity<EnderecoDTO> getEndereco(@PathVariable Long id) {
+    public ResponseEntity<Endereco> getEndereco(@PathVariable Long id) {
         log.debug("REST request to get Endereco : {}", id);
-        Optional<EnderecoDTO> enderecoDTO = enderecoService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(enderecoDTO);
+        Optional<Endereco> endereco = enderecoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(endereco);
     }
 
     /**
      * {@code DELETE  /enderecos/:id} : delete the "id" endereco.
      *
-     * @param id the id of the enderecoDTO to delete.
+     * @param id the id of the endereco to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/enderecos/{id}")

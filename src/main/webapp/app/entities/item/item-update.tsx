@@ -152,7 +152,7 @@ export class ItemUpdate extends React.Component<IItemUpdateProps, IItemUpdateSta
                   <Label for="item-produto">
                     <Translate contentKey="ecommerceApp.item.produto">Produto</Translate>
                   </Label>
-                  <AvInput id="item-produto" type="select" className="form-control" name="produtoId">
+                  <AvInput id="item-produto" type="select" className="form-control" name="produto.id">
                     <option value="" key="0" />
                     {produtos
                       ? produtos.map(otherEntity => (
@@ -167,7 +167,7 @@ export class ItemUpdate extends React.Component<IItemUpdateProps, IItemUpdateSta
                   <Label for="item-venda">
                     <Translate contentKey="ecommerceApp.item.venda">Venda</Translate>
                   </Label>
-                  <AvInput id="item-venda" type="select" className="form-control" name="vendaId">
+                  <AvInput id="item-venda" type="select" className="form-control" name="venda.id">
                     <option value="" key="0" />
                     {vendas
                       ? vendas.map(otherEntity => (

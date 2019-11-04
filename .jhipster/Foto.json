@@ -21,9 +21,9 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20191016005802",
+    "changelogDate": "20191103013731",
     "entityTableName": "foto",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

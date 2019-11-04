@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Venda;
 import br.com.compreevendapecas.ecommerce.repository.VendaRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.VendaDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.VendaMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class VendaService {
 
     private final VendaRepository vendaRepository;
 
-    private final VendaMapper vendaMapper;
-
-    public VendaService(VendaRepository vendaRepository, VendaMapper vendaMapper) {
+    public VendaService(VendaRepository vendaRepository) {
         this.vendaRepository = vendaRepository;
-        this.vendaMapper = vendaMapper;
     }
 
     /**
      * Save a venda.
      *
-     * @param vendaDTO the entity to save.
+     * @param venda the entity to save.
      * @return the persisted entity.
      */
-    public VendaDTO save(VendaDTO vendaDTO) {
-        log.debug("Request to save Venda : {}", vendaDTO);
-        Venda venda = vendaMapper.toEntity(vendaDTO);
-        venda = vendaRepository.save(venda);
-        return vendaMapper.toDto(venda);
+    public Venda save(Venda venda) {
+        log.debug("Request to save Venda : {}", venda);
+        return vendaRepository.save(venda);
     }
 
     /**
@@ -52,10 +45,9 @@ public class VendaService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<VendaDTO> findAll(Pageable pageable) {
+    public Page<Venda> findAll(Pageable pageable) {
         log.debug("Request to get all Vendas");
-        return vendaRepository.findAll(pageable)
-            .map(vendaMapper::toDto);
+        return vendaRepository.findAll(pageable);
     }
 
     /**
@@ -63,8 +55,8 @@ public class VendaService {
      *
      * @return the list of entities.
      */
-    public Page<VendaDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return vendaRepository.findAllWithEagerRelationships(pageable).map(vendaMapper::toDto);
+    public Page<Venda> findAllWithEagerRelationships(Pageable pageable) {
+        return vendaRepository.findAllWithEagerRelationships(pageable);
     }
     
 
@@ -75,10 +67,9 @@ public class VendaService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<VendaDTO> findOne(Long id) {
+    public Optional<Venda> findOne(Long id) {
         log.debug("Request to get Venda : {}", id);
-        return vendaRepository.findOneWithEagerRelationships(id)
-            .map(vendaMapper::toDto);
+        return vendaRepository.findOneWithEagerRelationships(id);
     }
 
     /**

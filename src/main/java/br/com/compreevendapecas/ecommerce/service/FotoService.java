@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Foto;
 import br.com.compreevendapecas.ecommerce.repository.FotoRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.FotoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.FotoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class FotoService {
 
     private final FotoRepository fotoRepository;
 
-    private final FotoMapper fotoMapper;
-
-    public FotoService(FotoRepository fotoRepository, FotoMapper fotoMapper) {
+    public FotoService(FotoRepository fotoRepository) {
         this.fotoRepository = fotoRepository;
-        this.fotoMapper = fotoMapper;
     }
 
     /**
      * Save a foto.
      *
-     * @param fotoDTO the entity to save.
+     * @param foto the entity to save.
      * @return the persisted entity.
      */
-    public FotoDTO save(FotoDTO fotoDTO) {
-        log.debug("Request to save Foto : {}", fotoDTO);
-        Foto foto = fotoMapper.toEntity(fotoDTO);
-        foto = fotoRepository.save(foto);
-        return fotoMapper.toDto(foto);
+    public Foto save(Foto foto) {
+        log.debug("Request to save Foto : {}", foto);
+        return fotoRepository.save(foto);
     }
 
     /**
@@ -52,10 +45,9 @@ public class FotoService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<FotoDTO> findAll(Pageable pageable) {
+    public Page<Foto> findAll(Pageable pageable) {
         log.debug("Request to get all Fotos");
-        return fotoRepository.findAll(pageable)
-            .map(fotoMapper::toDto);
+        return fotoRepository.findAll(pageable);
     }
 
 
@@ -66,10 +58,9 @@ public class FotoService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<FotoDTO> findOne(Long id) {
+    public Optional<Foto> findOne(Long id) {
         log.debug("Request to get Foto : {}", id);
-        return fotoRepository.findById(id)
-            .map(fotoMapper::toDto);
+        return fotoRepository.findById(id);
     }
 
     /**

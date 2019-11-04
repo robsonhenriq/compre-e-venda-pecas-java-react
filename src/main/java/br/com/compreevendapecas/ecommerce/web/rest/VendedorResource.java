@@ -1,8 +1,8 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Vendedor;
 import br.com.compreevendapecas.ecommerce.service.VendedorService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
-import br.com.compreevendapecas.ecommerce.service.dto.VendedorDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -49,17 +49,17 @@ public class VendedorResource {
     /**
      * {@code POST  /vendedors} : Create a new vendedor.
      *
-     * @param vendedorDTO the vendedorDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new vendedorDTO, or with status {@code 400 (Bad Request)} if the vendedor has already an ID.
+     * @param vendedor the vendedor to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new vendedor, or with status {@code 400 (Bad Request)} if the vendedor has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/vendedors")
-    public ResponseEntity<VendedorDTO> createVendedor(@Valid @RequestBody VendedorDTO vendedorDTO) throws URISyntaxException {
-        log.debug("REST request to save Vendedor : {}", vendedorDTO);
-        if (vendedorDTO.getId() != null) {
+    public ResponseEntity<Vendedor> createVendedor(@Valid @RequestBody Vendedor vendedor) throws URISyntaxException {
+        log.debug("REST request to save Vendedor : {}", vendedor);
+        if (vendedor.getId() != null) {
             throw new BadRequestAlertException("A new vendedor cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        VendedorDTO result = vendedorService.save(vendedorDTO);
+        Vendedor result = vendedorService.save(vendedor);
         return ResponseEntity.created(new URI("/api/vendedors/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -68,21 +68,21 @@ public class VendedorResource {
     /**
      * {@code PUT  /vendedors} : Updates an existing vendedor.
      *
-     * @param vendedorDTO the vendedorDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated vendedorDTO,
-     * or with status {@code 400 (Bad Request)} if the vendedorDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the vendedorDTO couldn't be updated.
+     * @param vendedor the vendedor to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated vendedor,
+     * or with status {@code 400 (Bad Request)} if the vendedor is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the vendedor couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/vendedors")
-    public ResponseEntity<VendedorDTO> updateVendedor(@Valid @RequestBody VendedorDTO vendedorDTO) throws URISyntaxException {
-        log.debug("REST request to update Vendedor : {}", vendedorDTO);
-        if (vendedorDTO.getId() == null) {
+    public ResponseEntity<Vendedor> updateVendedor(@Valid @RequestBody Vendedor vendedor) throws URISyntaxException {
+        log.debug("REST request to update Vendedor : {}", vendedor);
+        if (vendedor.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        VendedorDTO result = vendedorService.save(vendedorDTO);
+        Vendedor result = vendedorService.save(vendedor);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, vendedorDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, vendedor.getId().toString()))
             .body(result);
     }
 
@@ -96,9 +96,9 @@ public class VendedorResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of vendedors in body.
      */
     @GetMapping("/vendedors")
-    public ResponseEntity<List<VendedorDTO>> getAllVendedors(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Vendedor>> getAllVendedors(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Vendedors");
-        Page<VendedorDTO> page;
+        Page<Vendedor> page;
         if (eagerload) {
             page = vendedorService.findAllWithEagerRelationships(pageable);
         } else {
@@ -111,20 +111,20 @@ public class VendedorResource {
     /**
      * {@code GET  /vendedors/:id} : get the "id" vendedor.
      *
-     * @param id the id of the vendedorDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the vendedorDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the vendedor to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the vendedor, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/vendedors/{id}")
-    public ResponseEntity<VendedorDTO> getVendedor(@PathVariable Long id) {
+    public ResponseEntity<Vendedor> getVendedor(@PathVariable Long id) {
         log.debug("REST request to get Vendedor : {}", id);
-        Optional<VendedorDTO> vendedorDTO = vendedorService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(vendedorDTO);
+        Optional<Vendedor> vendedor = vendedorService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(vendedor);
     }
 
     /**
      * {@code DELETE  /vendedors/:id} : delete the "id" vendedor.
      *
-     * @param id the id of the vendedorDTO to delete.
+     * @param id the id of the vendedor to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/vendedors/{id}")

@@ -24,15 +24,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
   }
 
   handleValidSubmit = (event, values) => {
-    this.props.handleRegister(
-      values.nome,
-      values.username,
-      values.email,
-      values.firstPassword,
-      values.rg,
-      values.cpf,
-      this.props.currentLocale
-    );
+    this.props.handleRegister(values.username, values.email, values.firstPassword, this.props.currentLocale);
     event.preventDefault();
   };
 
@@ -53,17 +45,6 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
         <Row className="justify-content-center">
           <Col md="8">
             <AvForm id="register-form" onValidSubmit={this.handleValidSubmit}>
-              <AvField
-                name="nome"
-                label={translate('global.form.nome.label')}
-                placeholder={translate('global.form.nome.placeholder')}
-                validate={{
-                  required: { value: true, errorMessage: translate('register.messages.validate.nome.required') },
-                  minLength: { value: 1, errorMessage: translate('register.messages.validate.nome.minlength') },
-                  maxLength: { value: 50, errorMessage: translate('register.messages.validate.nome.maxlength') }
-                }}
-              />
-
               <AvField
                 name="username"
                 label={translate('global.form.username.label')}
@@ -86,49 +67,31 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
                   maxLength: { value: 254, errorMessage: translate('global.messages.validate.email.maxlength') }
                 }}
               />
-              <Row>
-                <Col xs="6" sm="6" md="6" lg="6">
-                  <AvField
-                    name="firstPassword"
-                    label={translate('global.form.newpassword.label')}
-                    placeholder={translate('global.form.newpassword.placeholder')}
-                    type="password"
-                    onChange={this.updatePassword}
-                    validate={{
-                      required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
-                      minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
-                      maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') }
-                    }}
-                  />
-                  <PasswordStrengthBar password={this.state.password} />
-                </Col>
-
-                <Col xs="6" sm="6" md="6" lg="6">
-                  <AvField
-                    name="secondPassword"
-                    label={translate('global.form.confirmpassword.label')}
-                    placeholder={translate('global.form.confirmpassword.placeholder')}
-                    type="password"
-                    validate={{
-                      required: { value: true, errorMessage: translate('global.messages.validate.confirmpassword.required') },
-                      minLength: { value: 4, errorMessage: translate('global.messages.validate.confirmpassword.minlength') },
-                      maxLength: { value: 50, errorMessage: translate('global.messages.validate.confirmpassword.maxlength') },
-                      match: { value: 'firstPassword', errorMessage: translate('global.messages.error.dontmatch') }
-                    }}
-                  />
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs="6" sm="6" md="6" lg="6">
-                  <AvField name="cpf" label={translate('global.form.cpf.label')} placeholder={translate('global.form.cpf.placeholder')} />
-                </Col>
-
-                <Col xs="6" sm="6" md="6" lg="6">
-                  <AvField name="rg" label={translate('global.form.rg.label')} placeholder={translate('global.form.rg.placeholder')} />
-                </Col>
-              </Row>
-
+              <AvField
+                name="firstPassword"
+                label={translate('global.form.newpassword.label')}
+                placeholder={translate('global.form.newpassword.placeholder')}
+                type="password"
+                onChange={this.updatePassword}
+                validate={{
+                  required: { value: true, errorMessage: translate('global.messages.validate.newpassword.required') },
+                  minLength: { value: 4, errorMessage: translate('global.messages.validate.newpassword.minlength') },
+                  maxLength: { value: 50, errorMessage: translate('global.messages.validate.newpassword.maxlength') }
+                }}
+              />
+              <PasswordStrengthBar password={this.state.password} />
+              <AvField
+                name="secondPassword"
+                label={translate('global.form.confirmpassword.label')}
+                placeholder={translate('global.form.confirmpassword.placeholder')}
+                type="password"
+                validate={{
+                  required: { value: true, errorMessage: translate('global.messages.validate.confirmpassword.required') },
+                  minLength: { value: 4, errorMessage: translate('global.messages.validate.confirmpassword.minlength') },
+                  maxLength: { value: 50, errorMessage: translate('global.messages.validate.confirmpassword.maxlength') },
+                  match: { value: 'firstPassword', errorMessage: translate('global.messages.error.dontmatch') }
+                }}
+              />
               <Button id="register-submit" color="primary" type="submit">
                 <Translate contentKey="register.form.button">Register</Translate>
               </Button>

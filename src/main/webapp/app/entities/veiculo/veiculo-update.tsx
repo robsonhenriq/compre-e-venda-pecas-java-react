@@ -136,7 +136,7 @@ export class VeiculoUpdate extends React.Component<IVeiculoUpdateProps, IVeiculo
                   <Label for="veiculo-marca">
                     <Translate contentKey="ecommerceApp.veiculo.marca">Marca</Translate>
                   </Label>
-                  <AvInput id="veiculo-marca" type="select" className="form-control" name="marcaId">
+                  <AvInput id="veiculo-marca" type="select" className="form-control" name="marca.id">
                     <option value="" key="0" />
                     {marcas
                       ? marcas.map(otherEntity => (

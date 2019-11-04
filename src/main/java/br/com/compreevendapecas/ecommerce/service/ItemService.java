@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Item;
 import br.com.compreevendapecas.ecommerce.repository.ItemRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.ItemDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ItemMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    private final ItemMapper itemMapper;
-
-    public ItemService(ItemRepository itemRepository, ItemMapper itemMapper) {
+    public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
-        this.itemMapper = itemMapper;
     }
 
     /**
      * Save a item.
      *
-     * @param itemDTO the entity to save.
+     * @param item the entity to save.
      * @return the persisted entity.
      */
-    public ItemDTO save(ItemDTO itemDTO) {
-        log.debug("Request to save Item : {}", itemDTO);
-        Item item = itemMapper.toEntity(itemDTO);
-        item = itemRepository.save(item);
-        return itemMapper.toDto(item);
+    public Item save(Item item) {
+        log.debug("Request to save Item : {}", item);
+        return itemRepository.save(item);
     }
 
     /**
@@ -52,10 +45,9 @@ public class ItemService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<ItemDTO> findAll(Pageable pageable) {
+    public Page<Item> findAll(Pageable pageable) {
         log.debug("Request to get all Items");
-        return itemRepository.findAll(pageable)
-            .map(itemMapper::toDto);
+        return itemRepository.findAll(pageable);
     }
 
 
@@ -66,10 +58,9 @@ public class ItemService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<ItemDTO> findOne(Long id) {
+    public Optional<Item> findOne(Long id) {
         log.debug("Request to get Item : {}", id);
-        return itemRepository.findById(id)
-            .map(itemMapper::toDto);
+        return itemRepository.findById(id);
     }
 
     /**

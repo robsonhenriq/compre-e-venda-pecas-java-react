@@ -28,9 +28,9 @@
             "ownerSide": false
         }
     ],
-    "changelogDate": "20191016005758",
+    "changelogDate": "20191103013727",
     "entityTableName": "avaliacao",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,

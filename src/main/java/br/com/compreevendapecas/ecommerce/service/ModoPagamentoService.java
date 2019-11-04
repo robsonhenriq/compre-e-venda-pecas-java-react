@@ -2,8 +2,6 @@ package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.ModoPagamento;
 import br.com.compreevendapecas.ecommerce.repository.ModoPagamentoRepository;
-import br.com.compreevendapecas.ecommerce.service.dto.ModoPagamentoDTO;
-import br.com.compreevendapecas.ecommerce.service.mapper.ModoPagamentoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +23,19 @@ public class ModoPagamentoService {
 
     private final ModoPagamentoRepository modoPagamentoRepository;
 
-    private final ModoPagamentoMapper modoPagamentoMapper;
-
-    public ModoPagamentoService(ModoPagamentoRepository modoPagamentoRepository, ModoPagamentoMapper modoPagamentoMapper) {
+    public ModoPagamentoService(ModoPagamentoRepository modoPagamentoRepository) {
         this.modoPagamentoRepository = modoPagamentoRepository;
-        this.modoPagamentoMapper = modoPagamentoMapper;
     }
 
     /**
      * Save a modoPagamento.
      *
-     * @param modoPagamentoDTO the entity to save.
+     * @param modoPagamento the entity to save.
      * @return the persisted entity.
      */
-    public ModoPagamentoDTO save(ModoPagamentoDTO modoPagamentoDTO) {
-        log.debug("Request to save ModoPagamento : {}", modoPagamentoDTO);
-        ModoPagamento modoPagamento = modoPagamentoMapper.toEntity(modoPagamentoDTO);
-        modoPagamento = modoPagamentoRepository.save(modoPagamento);
-        return modoPagamentoMapper.toDto(modoPagamento);
+    public ModoPagamento save(ModoPagamento modoPagamento) {
+        log.debug("Request to save ModoPagamento : {}", modoPagamento);
+        return modoPagamentoRepository.save(modoPagamento);
     }
 
     /**
@@ -52,10 +45,9 @@ public class ModoPagamentoService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<ModoPagamentoDTO> findAll(Pageable pageable) {
+    public Page<ModoPagamento> findAll(Pageable pageable) {
         log.debug("Request to get all ModoPagamentos");
-        return modoPagamentoRepository.findAll(pageable)
-            .map(modoPagamentoMapper::toDto);
+        return modoPagamentoRepository.findAll(pageable);
     }
 
 
@@ -66,10 +58,9 @@ public class ModoPagamentoService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<ModoPagamentoDTO> findOne(Long id) {
+    public Optional<ModoPagamento> findOne(Long id) {
         log.debug("Request to get ModoPagamento : {}", id);
-        return modoPagamentoRepository.findById(id)
-            .map(modoPagamentoMapper::toDto);
+        return modoPagamentoRepository.findById(id);
     }
 
     /**

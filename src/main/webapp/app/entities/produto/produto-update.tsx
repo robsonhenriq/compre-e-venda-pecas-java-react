@@ -259,7 +259,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                   <Label for="produto-marca">
                     <Translate contentKey="ecommerceApp.produto.marca">Marca</Translate>
                   </Label>
-                  <AvInput id="produto-marca" type="select" className="form-control" name="marcaId">
+                  <AvInput id="produto-marca" type="select" className="form-control" name="marca.id">
                     <option value="" key="0" />
                     {marcas
                       ? marcas.map(otherEntity => (

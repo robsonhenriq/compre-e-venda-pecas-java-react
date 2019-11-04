@@ -16,9 +16,9 @@
             "ownerSide": true
         }
     ],
-    "changelogDate": "20191016005759",
+    "changelogDate": "20191103013728",
     "entityTableName": "carrinho",
-    "dto": "mapstruct",
+    "dto": "no",
     "pagination": "pagination",
     "service": "serviceClass",
     "jpaMetamodelFiltering": false,
