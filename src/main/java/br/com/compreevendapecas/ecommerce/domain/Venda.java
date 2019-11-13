@@ -46,7 +46,7 @@ public class Venda implements Serializable {
     @ManyToMany
     @JoinTable(name = "venda_list_vendedores",
                joinColumns = @JoinColumn(name = "venda_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_vendedores_id", referencedColumnName = "id"))
+               inverseJoinColumns = @JoinColumn(name = "list_vendedores_id", referencedColumnName = "usuario_id"))
     private Set<Vendedor> listVendedores = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

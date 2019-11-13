@@ -30,7 +30,7 @@ public class Avaliacao implements Serializable {
     @ManyToMany
     @JoinTable(name = "avaliacao_list_clientes",
                joinColumns = @JoinColumn(name = "avaliacao_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_clientes_id", referencedColumnName = "id"))
+               inverseJoinColumns = @JoinColumn(name = "list_clientes_id", referencedColumnName = "usuario_id"))
     private Set<Cliente> listClientes = new HashSet<>();
 
     @ManyToMany(mappedBy = "listAvaliacaos")

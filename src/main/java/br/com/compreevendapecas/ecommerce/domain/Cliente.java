@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -47,25 +48,23 @@ public class Cliente implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
+    @MapsId
     private User usuario;
 
     @ManyToMany
-    @JoinTable(name = "cliente_list_veiculos",
-               joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_veiculos_id", referencedColumnName = "id"))
+    @JoinTable(name = "cliente_list_veiculos", joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "list_veiculos_id", referencedColumnName = "id"))
     private Set<Veiculo> listVeiculos = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "cliente_list_endereco",
-               joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_endereco_id", referencedColumnName = "id"))
+    @JoinTable(name = "cliente_list_endereco", joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "list_endereco_id", referencedColumnName = "id"))
     private Set<Endereco> listEnderecos = new HashSet<>();
 
     @ManyToMany(mappedBy = "listClientes")
     @JsonIgnore
     private Set<Avaliacao> listAvaliacaos = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not
+    // remove
     public Long getId() {
         return id;
     }
@@ -252,7 +251,8 @@ public class Cliente implements Serializable {
     public void setListAvaliacaos(Set<Avaliacao> avaliacaos) {
         this.listAvaliacaos = avaliacaos;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -272,14 +272,8 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "Cliente{" +
-            "id=" + getId() +
-            ", nome='" + getNome() + "'" +
-            ", cpf='" + getCpf() + "'" +
-            ", rg='" + getRg() + "'" +
-            ", dataNascimento='" + getDataNascimento() + "'" +
-            ", telefone='" + getTelefone() + "'" +
-            ", celular='" + getCelular() + "'" +
-            "}";
+        return "Cliente{" + "id=" + getId() + ", nome='" + getNome() + "'" + ", cpf='" + getCpf() + "'" + ", rg='"
+                + getRg() + "'" + ", dataNascimento='" + getDataNascimento() + "'" + ", telefone='" + getTelefone()
+                + "'" + ", celular='" + getCelular() + "'" + "}";
     }
 }

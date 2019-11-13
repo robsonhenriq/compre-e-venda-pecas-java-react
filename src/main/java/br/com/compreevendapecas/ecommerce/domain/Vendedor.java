@@ -20,7 +20,7 @@ public class Vendedor implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -47,6 +47,7 @@ public class Vendedor implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
+    @MapsId
     private User usuario;
 
     @ManyToOne
@@ -55,7 +56,7 @@ public class Vendedor implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "vendedor_list_produtos",
-               joinColumns = @JoinColumn(name = "vendedor_id", referencedColumnName = "id"),
+               joinColumns = @JoinColumn(name = "vendedor_id", referencedColumnName = "usuario_id"),
                inverseJoinColumns = @JoinColumn(name = "list_produtos_id", referencedColumnName = "id"))
     private Set<Produto> listProdutos = new HashSet<>();
 
