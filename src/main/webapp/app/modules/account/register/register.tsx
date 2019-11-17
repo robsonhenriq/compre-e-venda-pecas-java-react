@@ -7,58 +7,13 @@ import { Row, Col, Alert, Button, ButtonGroup, FormGroup, Label, Input } from 'r
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { IRootState } from 'app/shared/reducers';
 import { handleRegister, reset } from './register.reducer';
+import { CamposVendedor } from './camposVendedor';
 
 export interface IRegisterProps extends StateProps, DispatchProps {}
 
 export interface IRegisterState {
   password: string;
 }
-const CamposVendedor = props => {
-  const [rSelected, setRSelected] = useState(null);
-
-  return (
-    <Fragment>
-      <h5>Selecione o perfil</h5>
-      <ButtonGroup>
-        <Button color="primary" onClick={() => setRSelected('Cliente')} active={rSelected === 1}>
-          Cliente
-        </Button>
-        <Button color="primary" onClick={() => setRSelected('Vendedor')} active={rSelected === 2}>
-          Vendedor
-        </Button>
-      </ButtonGroup>
-      <p>Perfil Selecionado: {rSelected}</p>
-
-      {/* Se tiver selecionado VENDEDOR, mostra os campos abaixo */}
-      {rSelected === 'Vendedor' && (
-        <Fragment>
-          <Row>
-            <Col xs="12" sm="12" md="12" lg="12">
-              <AvGroup>
-                <Label id="ehEmpresaLabel" check>
-                  <AvInput id="vendedor-ehEmpresa" type="checkbox" className="form-control" name="ehEmpresa" />
-                  <Translate contentKey="ecommerceApp.vendedor.ehEmpresa">É Empresa?</Translate>
-                </Label>
-              </AvGroup>
-
-              <Label id="razaoSocialLabel" for="vendedor-razaoSocial">
-                <Translate contentKey="ecommerceApp.vendedor.razaoSocial">Razao Social</Translate>
-              </Label>
-              <AvField id="vendedor-razaoSocial" type="text" name="razaoSocial" />
-            </Col>
-          </Row>
-
-          <AvGroup>
-            <Label id="cnpjLabel" for="vendedor-cnpj">
-              <Translate contentKey="ecommerceApp.vendedor.cnpj">Cnpj</Translate>
-            </Label>
-            <AvField id="vendedor-cnpj" type="text" name="cnpj" />
-          </AvGroup>
-        </Fragment>
-      )}
-    </Fragment>
-  );
-};
 
 export class RegisterPage extends React.Component<IRegisterProps, IRegisterState> {
   state: IRegisterState = {
