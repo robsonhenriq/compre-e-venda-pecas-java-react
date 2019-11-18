@@ -148,7 +148,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                 <AvGroup>
                   <Label id="ehUsadoLabel" check>
                     <AvInput id="produto-ehUsado" type="checkbox" className="form-control" name="ehUsado" />
-                    <Translate contentKey="ecommerceApp.produto.ehUsado">Eh Usado</Translate>
+                    <Translate contentKey="ecommerceApp.produto.ehUsado">É Usado?</Translate>
                   </Label>
                 </AvGroup>
                 <AvGroup>
@@ -264,7 +264,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                     {marcas
                       ? marcas.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.id} - {otherEntity.nome}
                           </option>
                         ))
                       : null}
@@ -286,7 +286,9 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                     {fotos
                       ? fotos.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.id} -{/* {`data:${otherEntity.imagemContentType};base64,${otherEntity.imagem}`} */}
+                            {/* {otherEntity.imagem} */}
+                            {/* <img src={`data:${otherEntity.imagemContentType};base64,${otherEntity.imagem}`} style={{ maxHeight: '30px' }} /> */}
                           </option>
                         ))
                       : null}
@@ -308,7 +310,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                     {veiculos
                       ? veiculos.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.id} - {otherEntity.nome}
                           </option>
                         ))
                       : null}
@@ -330,7 +332,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                     {avaliacaos
                       ? avaliacaos.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.id} - {otherEntity.descricao}
                           </option>
                         ))
                       : null}
