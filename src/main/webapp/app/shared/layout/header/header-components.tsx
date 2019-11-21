@@ -53,11 +53,13 @@ export const BuscarProduto = props => (
 
 export const Carrinho = props => (
   <NavItem>
-    <a className="btn btn-success btn-sm ml-3" href="carrinho.html">
+    {/* <a className="btn btn-success btn-sm ml-3" > */}
+    <Link to={`entity/carrinho`} className="btn btn-success btn-sm ml-3 float-right jh-create-entity" id="jh-create-entity">
       <FontAwesomeIcon icon={faShoppingCart} />
       <span className="badge badge-light" id="quantidadeItens">
         0
       </span>
-    </a>
+    </Link>
+    {/* </a> */}
   </NavItem>
 );
