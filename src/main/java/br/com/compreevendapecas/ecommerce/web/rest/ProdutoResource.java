@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing {@link br.com.compreevendapecas.ecommerce.domain.Produto}.
+ * REST controller for managing
+ * {@link br.com.compreevendapecas.ecommerce.domain.Produto}.
  */
 @RestController
 @RequestMapping("/api")
@@ -50,7 +51,9 @@ public class ProdutoResource {
      * {@code POST  /produtos} : Create a new produto.
      *
      * @param produto the produto to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new produto, or with status {@code 400 (Bad Request)} if the produto has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new produto, or with status {@code 400 (Bad Request)} if the
+     *         produto has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/produtos")
@@ -60,18 +63,21 @@ public class ProdutoResource {
             throw new BadRequestAlertException("A new produto cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Produto result = produtoService.save(produto);
-        return ResponseEntity.created(new URI("/api/produtos/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity
+                .created(new URI("/api/produtos/" + result.getId())).headers(HeaderUtil
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /produtos} : Updates an existing produto.
      *
      * @param produto the produto to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated produto,
-     * or with status {@code 400 (Bad Request)} if the produto is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the produto couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated produto, or with status {@code 400 (Bad Request)} if the
+     *         produto is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the produto couldn't be
+     *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/produtos")
@@ -81,22 +87,26 @@ public class ProdutoResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Produto result = produtoService.save(produto);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, produto.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(
+                HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, produto.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code GET  /produtos} : get all the produtos.
      *
-     * @param pageable the pagination information.
+     * @param pageable    the pagination information.
      * @param queryParams a {@link MultiValueMap} query parameters.
-     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of produtos in body.
+     * @param uriBuilder  a {@link UriComponentsBuilder} URI builder.
+     * @param eagerload   flag to eager load entities from relationships (This is
+     *                    applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of produtos in body.
      */
     @GetMapping("/produtos")
-    public ResponseEntity<List<Produto>> getAllProdutos(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Produto>> getAllProdutos(Pageable pageable,
+            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder,
+            @RequestParam(required = false, defaultValue = "true") boolean eagerload) {
         log.debug("REST request to get a page of Produtos");
         Page<Produto> page;
         if (eagerload) {
@@ -112,7 +122,8 @@ public class ProdutoResource {
      * {@code GET  /produtos/:id} : get the "id" produto.
      *
      * @param id the id of the produto to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the produto, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the produto, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/produtos/{id}")
     public ResponseEntity<Produto> getProduto(@PathVariable Long id) {
@@ -131,6 +142,8 @@ public class ProdutoResource {
     public ResponseEntity<Void> deleteProduto(@PathVariable Long id) {
         log.debug("REST request to delete Produto : {}", id);
         produtoService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

@@ -2,6 +2,10 @@ import React, { Fragment } from 'react';
 // import { Translate } from 'react-jhipster';
 
 import { UncontrolledCarousel, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 // import { NavLink as Link } from 'react-router-dom';
 
 // import { faShoppingCart, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -43,12 +47,41 @@ export const CardProdutos = props => (
   // return (
   <Fragment>
     <Card className="col-4 col-md-4 col-lg-4">
-      <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+      <CardImg
+        top
+        width="318px"
+        height="180px"
+        src={`data:${props.listFoto[0].imagemContentType};base64,${props.listFoto[0].imagem}`}
+        alt="Foto do produto"
+      />
+
       <CardBody>
-        <CardTitle>Card title</CardTitle>
-        <CardSubtitle>Card subtitle</CardSubtitle>
-        <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-        <Button>Button</Button>
+        <CardTitle>
+          <b>Produto:</b> {props.title}
+        </CardTitle>
+
+        {props.marca && (
+          <CardSubtitle>
+            <b>Marca:</b> {props.marca}
+          </CardSubtitle>
+        )}
+
+        <CardText>
+          <div>
+            <b>Preço Á Vista R$:</b> {props.precoAVista}
+          </div>
+
+          <hr />
+
+          {/* BTN adicionar produto no carrinho */}
+          <div className="d-flex justify-content-center">
+            <a className="btn btn-success btn-sm ml-12 " href="carrinho.html">
+              <span className="btn btn-success btn-sm ml-6" id="spanAdicionarProdutoCarrinho">
+                Adicionar ao carrinho <FontAwesomeIcon icon={faShoppingCart} />
+              </span>
+            </a>
+          </div>
+        </CardText>
       </CardBody>
     </Card>
   </Fragment>
