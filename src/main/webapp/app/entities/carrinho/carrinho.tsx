@@ -2,12 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
+import { AvField } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './carrinho.reducer';
+// import { getEntity } from './carrinho.reducer';
+import { getSession } from 'app/shared/reducers/authentication';
+
+// import { getUser } from 'app/modules/administration/user-management/user-management.reducer';
+
 import { ICarrinho } from 'app/shared/model/carrinho.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -24,6 +30,8 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
 
   componentDidMount() {
     this.getEntities();
+
+    this.props.getSession();
   }
 
   sort = prop => () => {
@@ -49,11 +57,13 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
   };
 
   render() {
-    const { carrinhoList, match, totalItems } = this.props;
+    const { carrinhoList, match, totalItems, account } = this.props;
     return (
       <div>
         <h2 id="carrinho-heading">
           <Translate contentKey="ecommerceApp.carrinho.home.title">Carrinhos</Translate>
+          ## ACCOUNT ID === {account.id}
+          ## ACCOUNT EMAIL === {account.email}
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
@@ -68,10 +78,18 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
                   <th className="hand" onClick={this.sort('id')}>
                     <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
+
+                  <th className="hand" onClick={this.sort('listItens')}>
+                    Produto <FontAwesomeIcon icon="sort" />
+                  </th>
+
+                  <th className="hand" onClick={this.sort('listItens.quantidade')}>
+                    Quantidade <FontAwesomeIcon icon="sort" />
+                  </th>
+
                   <th className="hand" onClick={this.sort('totalCarrinho')}>
                     <Translate contentKey="ecommerceApp.carrinho.totalCarrinho">Total Carrinho</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
-                  <th />
                 </tr>
               </thead>
               <tbody>
@@ -82,7 +100,18 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
                         {carrinho.id}
                       </Button>
                     </td>
-                    <td>{carrinho.totalCarrinho}</td>
+                    <td>NOME DO PRODUTO</td>
+                    <td>
+                      QUANTIDADE DO PRODUTO
+                      {/* <AvField id="item-quantidade" type="text" name="quantidade" /> */}
+                      {/* <AvField id="item-quantidade" type="text" name="quantidade" /> */}
+                    </td>
+
+                    <td>PREÇO</td>
+
+                    {/* <td>{carrinho.totalCarrinho}</td> */}
+
+                    {/* Botões  */}
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${carrinho.id}`} color="info" size="sm">
@@ -134,12 +163,15 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
   }
 }
 
-const mapStateToProps = ({ carrinho }: IRootState) => ({
+const mapStateToProps = ({ carrinho, authentication }: IRootState) => ({
   carrinhoList: carrinho.entities,
-  totalItems: carrinho.totalItems
+  totalItems: carrinho.totalItems,
+  // user: storeState.userManagement.user
+  account: authentication.account
 });
 
 const mapDispatchToProps = {
+  getSession,
   getEntities
 };
 
