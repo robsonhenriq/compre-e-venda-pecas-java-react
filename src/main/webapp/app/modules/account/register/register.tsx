@@ -88,7 +88,8 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
                 <Col xs="8" sm="8" md="8" lg="8">
                   <AvField
                     name="email"
-                    label={translate('global.form.email.label')}
+                    // label={translate('global.form.email.label')}
+                    label="email (*preferencialmente @hotmail.com)"
                     placeholder={translate('global.form.email.placeholder')}
                     type="email"
                     validate={{
