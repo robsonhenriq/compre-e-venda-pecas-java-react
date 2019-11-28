@@ -10,7 +10,7 @@ import { getSession } from 'app/shared/reducers/authentication';
 import { ICarrinho } from 'app/shared/model/carrinho.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity as getCarrinhoById, deleteEntity as deleteCarrinhoById } from './carrinho.reducer';
-import { deleteEntity as deleteItemById } from '../item/item.reducer';
+import { deleteEntityByIdItemAndIdCarrinho as deleteItemById } from '../item/item.reducer';
 
 export interface ICarrinhoDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 

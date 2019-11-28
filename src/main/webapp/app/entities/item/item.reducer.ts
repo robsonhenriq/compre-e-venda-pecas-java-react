@@ -135,18 +135,18 @@ export const updateEntity: ICrudPutAction<IItem> = entity => async dispatch => {
   return result;
 };
 
-// export const deleteEntity: ICrudDeleteAction<IItem> = id => async dispatch => {
-//   const requestUrl = `${apiUrl}/${id}`;
-//   const result = await dispatch({
-//     type: ACTION_TYPES.DELETE_ITEM,
-//     payload: axios.delete(requestUrl)
-//   });
-//   dispatch(getEntities());
-//   return result;
-// };
+export const deleteEntity: ICrudDeleteAction<IItem> = id => async dispatch => {
+  const requestUrl = `${apiUrl}/${id}`;
+  const result = await dispatch({
+    type: ACTION_TYPES.DELETE_ITEM,
+    payload: axios.delete(requestUrl)
+  });
+  dispatch(getEntities());
+  return result;
+};
 
 // export const deleteEntity: ICrudDeleteAction<IItem> = (ids) => async dispatch => {
-export const deleteEntity = (idItem, idCarrinho) => async dispatch => {
+export const deleteEntityByIdItemAndIdCarrinho = (idItem, idCarrinho) => async dispatch => {
   const requestUrl = `${apiUrl}/${idItem}/carrinho/${idCarrinho}`;
   const result = await dispatch({
     type: ACTION_TYPES.DELETE_ITEM,
