@@ -21,19 +21,22 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
   constructor(props) {
     super(props);
     this.state = {
-      // id: this.props.clienteEntity.carrinho.id
-      id: 1
+      id: 0
     };
   }
 
-  // setState(id:this.props.clienteEntity.carrinho.id)
   componentDidMount() {
     this.props.getClienteById(this.props.account.id);
 
     this.props.getSession();
     // this.props.getCarrinhoById(this.props.clienteEntity.carrinho.id);
-    this.props.getCarrinhoById(this.state.id);
-    // this.props.getCarrinhoById(1);
+    setTimeout(() => {
+      // console.log('Antes do SET state ID = ' + this.state.id);
+      this.setState({ id: this.props.clienteEntity.carrinho.id });
+      this.props.getCarrinhoById(this.state.id);
+      // console.log('DEPOIS state ID = ' + this.state.id);
+      // this.props.getCarrinhoById(this.props.clienteEntity.carrinho.id);
+    }, 1000);
   }
 
   render() {
@@ -46,8 +49,6 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
     // if (!this.props.clienteEntity.carrinho.id) return null;
     if (!this.props.carrinhoEntity.listItens) return null;
     // if (!this.props.clienteEntity.carrinho.listItens) return null;
-
-    // this.setState({ id: this.props.clienteEntity.carrinho.id });
 
     return (
       <div>
@@ -93,7 +94,8 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
                   </th>
 
                   <th className="hand">
-                    <Translate contentKey="ecommerceApp.carrinho.totalCarrinho">Total Carrinho</Translate> <FontAwesomeIcon icon="sort" />
+                    {/* <Translate contentKey="ecommerceApp.carrinho.totalCarrinho">Total Carrinho</Translate> <FontAwesomeIcon icon="sort" /> */}
+                    Preço do item <FontAwesomeIcon icon="sort" />
                   </th>
                 </tr>
               </thead>
@@ -101,41 +103,41 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
               {/* =================== DADOS DA TABELA DO CARRINHO ============================ */}
               <tbody>
                 {/* {carrinhoList.map((carrinho, i) => ( */}
-                {carrinhoEntity.listItens.map((carrinho, i) => (
+                {carrinhoEntity.listItens.map((item, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
-                      <Button tag={Link} to={`${match.url}/${carrinho.id}`} color="link" size="sm">
-                        {carrinho.id}
+                      <Button tag={Link} to={`${match.url}/${item.id}`} color="link" size="sm">
+                        {item.id}
                       </Button>
                     </td>
                     <td>NOME DO PRODUTO</td>
                     <td>
                       {/* QUANTIDADE DO PRODUTO */}
-                      {carrinho.valorTotal}
+                      {item.quantidade}
                       {/* <AvField id="item-quantidade" type="text" name="quantidade" /> */}
                       {/* <AvField id="item-quantidade" type="text" name="quantidade" /> */}
                     </td>
 
-                    <td>PREÇO</td>
+                    <td>{item.valorItem}</td>
 
-                    {/* <td>{carrinho.totalCarrinho}</td> */}
+                    {/* <td>{item.totalitem}</td> */}
 
                     {/* Botões  */}
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${carrinho.id}`} color="info" size="sm">
+                        {/* <Button tag={Link} to={`${match.url}/${item.id}`} color="info" size="sm">
                           <FontAwesomeIcon icon="eye" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.view">View</Translate>
                           </span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${carrinho.id}/edit`} color="primary" size="sm">
+                        </Button> */}
+                        {/* <Button tag={Link} to={`${match.url}/${item.id}/edit`} color="primary" size="sm">
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.edit">Edit</Translate>
                           </span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${carrinho.id}/delete`} color="danger" size="sm">
+                        </Button> */}
+                        <Button tag={Link} to={`${match.url}/${item.id}/delete`} color="danger" size="sm">
                           <FontAwesomeIcon icon="trash" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.delete">Delete</Translate>
@@ -149,7 +151,7 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
             </Table>
           ) : (
             <div className="alert alert-warning">
-              <Translate contentKey="ecommerceApp.carrinho.home.notFound">No Carrinhos found</Translate>
+              <Translate contentKey="ecommerceApp.carrinho.home.notFound">No carrinhos found</Translate>
             </div>
           )}
         </div>

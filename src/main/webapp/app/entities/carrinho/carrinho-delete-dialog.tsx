@@ -5,19 +5,49 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate, ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { getEntity as getClienteById } from '../cliente/cliente.reducer';
+import { getSession } from 'app/shared/reducers/authentication';
 import { ICarrinho } from 'app/shared/model/carrinho.model';
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, deleteEntity } from './carrinho.reducer';
+import { getEntity as getCarrinhoById, deleteEntity as deleteCarrinhoById } from './carrinho.reducer';
+import { deleteEntity as deleteItemById } from '../item/item.reducer';
 
 export interface ICarrinhoDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export class CarrinhoDeleteDialog extends React.Component<ICarrinhoDeleteDialogProps> {
+export type ICarrinhoState = ICarrinho;
+
+export class CarrinhoDeleteDialog extends React.Component<ICarrinhoDeleteDialogProps, ICarrinhoState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: 0
+    };
+  }
+
   componentDidMount() {
-    this.props.getEntity(this.props.match.params.id);
+    // this.props.getCarrinhoById(this.props.match.params.id);
+    this.props.getClienteById(this.props.account.id);
+
+    this.props.getSession();
+    // this.props.getCarrinhoById(this.props.clienteEntity.carrinho.id);
+    setTimeout(() => {
+      // console.log('Antes do SET state ID = ' + this.state.id);
+
+      this.setState({ id: this.props.clienteEntity.carrinho.id });
+      this.props.getCarrinhoById(this.state.id);
+
+      // console.log('DEPOIS state ID = ' + this.state.id);
+    }, 1000);
   }
 
   confirmDelete = event => {
-    this.props.deleteEntity(this.props.carrinhoEntity.id);
+    // console.log('TEntando deletar o ITEM do ID === ', this.props.match.params.id);
+    const id = {
+      idItem: this.props.match.params.id,
+      idCarrinho: this.props.carrinhoEntity.id
+    };
+
+    this.props.deleteItemById(id.idItem, id.idCarrinho);
     this.handleClose(event);
   };
 
@@ -27,16 +57,17 @@ export class CarrinhoDeleteDialog extends React.Component<ICarrinhoDeleteDialogP
   };
 
   render() {
-    const { carrinhoEntity } = this.props;
+    const { carrinhoEntity, match } = this.props;
     return (
       <Modal isOpen toggle={this.handleClose}>
         <ModalHeader toggle={this.handleClose}>
           <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
         </ModalHeader>
         <ModalBody id="ecommerceApp.carrinho.delete.question">
-          <Translate contentKey="ecommerceApp.carrinho.delete.question" interpolate={{ id: carrinhoEntity.id }}>
-            Are you sure you want to delete this Carrinho?
-          </Translate>
+          {/* <Translate contentKey="ecommerceApp.carrinho.delete.question" interpolate={{ id: match.params.id }}> */}
+          {/* Are you sure you want to delete this Carrinho? */}
+          {/* </Translate> */}
+          Tem certeza de que deseja excluir o item: {match.params.id} do Carrinho?
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={this.handleClose}>
@@ -55,11 +86,13 @@ export class CarrinhoDeleteDialog extends React.Component<ICarrinhoDeleteDialogP
   }
 }
 
-const mapStateToProps = ({ carrinho }: IRootState) => ({
-  carrinhoEntity: carrinho.entity
+const mapStateToProps = ({ carrinho, cliente, authentication }: IRootState) => ({
+  carrinhoEntity: carrinho.entity,
+  clienteEntity: cliente.entity,
+  account: authentication.account
 });
 
-const mapDispatchToProps = { getEntity, deleteEntity };
+const mapDispatchToProps = { getSession, getCarrinhoById, deleteCarrinhoById, getClienteById, deleteItemById };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

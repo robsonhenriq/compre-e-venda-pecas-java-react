@@ -42,7 +42,7 @@ public class Cliente implements Serializable {
     @Column(name = "celular")
     private String celular;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(unique = true)
     private Carrinho carrinho;
 
