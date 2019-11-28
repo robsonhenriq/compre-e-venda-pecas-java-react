@@ -1,6 +1,7 @@
 package br.com.compreevendapecas.ecommerce.service;
 
 import br.com.compreevendapecas.ecommerce.domain.Item;
+import br.com.compreevendapecas.ecommerce.repository.CarrinhoRepository;
 import br.com.compreevendapecas.ecommerce.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,11 @@ public class ItemService {
     private final Logger log = LoggerFactory.getLogger(ItemService.class);
 
     private final ItemRepository itemRepository;
+    private final CarrinhoRepository carrinhoRepository;
 
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemRepository itemRepository, CarrinhoRepository carrinhoRepository) {
         this.itemRepository = itemRepository;
+        this.carrinhoRepository = carrinhoRepository;
     }
 
     /**
@@ -50,7 +53,6 @@ public class ItemService {
         return itemRepository.findAll(pageable);
     }
 
-
     /**
      * Get one item by id.
      *
@@ -61,6 +63,17 @@ public class ItemService {
     public Optional<Item> findOne(Long id) {
         log.debug("Request to get Item : {}", id);
         return itemRepository.findById(id);
+    }
+
+    /**
+     * Delete the item by id, and carrinhoId.
+     *
+     * @param id the id of the entity.
+     */
+    public void delete(Long id, Long carrinhoId) {
+        log.debug("Request to delete Item : {} from carrinho {}", id, carrinhoId);
+
+        carrinhoRepository.deleteItemByListItensIdAndId(id, carrinhoId);
     }
 
     /**

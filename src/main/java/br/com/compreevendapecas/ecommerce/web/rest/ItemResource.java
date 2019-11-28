@@ -1,6 +1,7 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
 import br.com.compreevendapecas.ecommerce.domain.Item;
+import br.com.compreevendapecas.ecommerce.service.CarrinhoService;
 import br.com.compreevendapecas.ecommerce.service.ItemService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
 
@@ -27,7 +28,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing {@link br.com.compreevendapecas.ecommerce.domain.Item}.
+ * REST controller for managing
+ * {@link br.com.compreevendapecas.ecommerce.domain.Item}.
  */
 @RestController
 @RequestMapping("/api")
@@ -41,16 +43,20 @@ public class ItemResource {
     private String applicationName;
 
     private final ItemService itemService;
+    private final CarrinhoService carrinhoService;
 
-    public ItemResource(ItemService itemService) {
+    public ItemResource(ItemService itemService, CarrinhoService carrinhoService) {
         this.itemService = itemService;
+        this.carrinhoService = carrinhoService;
     }
 
     /**
      * {@code POST  /items} : Create a new item.
      *
      * @param item the item to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new item, or with status {@code 400 (Bad Request)} if the item has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new item, or with status {@code 400 (Bad Request)} if the
+     *         item has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/items")
@@ -60,18 +66,20 @@ public class ItemResource {
             throw new BadRequestAlertException("A new item cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Item result = itemService.save(item);
-        return ResponseEntity.created(new URI("/api/items/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity
+                .created(new URI("/api/items/" + result.getId())).headers(HeaderUtil
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code PUT  /items} : Updates an existing item.
      *
      * @param item the item to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated item,
-     * or with status {@code 400 (Bad Request)} if the item is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the item couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated item, or with status {@code 400 (Bad Request)} if the
+     *         item is not valid, or with status {@code 500 (Internal Server Error)}
+     *         if the item couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/items")
@@ -82,20 +90,23 @@ public class ItemResource {
         }
         Item result = itemService.save(item);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, item.getId().toString()))
-            .body(result);
+                .headers(
+                        HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, item.getId().toString()))
+                .body(result);
     }
 
     /**
      * {@code GET  /items} : get all the items.
      *
-     * @param pageable the pagination information.
+     * @param pageable    the pagination information.
      * @param queryParams a {@link MultiValueMap} query parameters.
-     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of items in body.
+     * @param uriBuilder  a {@link UriComponentsBuilder} URI builder.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of items in body.
      */
     @GetMapping("/items")
-    public ResponseEntity<List<Item>> getAllItems(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<List<Item>> getAllItems(Pageable pageable,
+            @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of Items");
         Page<Item> page = itemService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
@@ -106,7 +117,8 @@ public class ItemResource {
      * {@code GET  /items/:id} : get the "id" item.
      *
      * @param id the id of the item to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the item, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the item, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/items/{id}")
     public ResponseEntity<Item> getItem(@PathVariable Long id) {
@@ -121,10 +133,14 @@ public class ItemResource {
      * @param id the id of the item to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/items/{id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
-        log.debug("REST request to delete Item : {}", id);
-        itemService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+    // @DeleteMapping("/items/{id}")
+    @DeleteMapping("/items/{id}/carrinho/{carrinhoId}")
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id, @PathVariable Long carrinhoId) {
+        log.debug("REST request to delete Item : {}, car {}", id, carrinhoId);
+        carrinhoService.deleteItemFromCar(id, carrinhoId);
+        // itemService.delete(id);
+        return ResponseEntity.noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+                .build();
     }
 }

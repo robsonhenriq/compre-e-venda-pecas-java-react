@@ -58,7 +58,6 @@ public class CarrinhoService {
     public Page<Carrinho> findAllWithEagerRelationships(Pageable pageable) {
         return carrinhoRepository.findAllWithEagerRelationships(pageable);
     }
-    
 
     /**
      * Get one carrinho by id.
@@ -80,5 +79,10 @@ public class CarrinhoService {
     public void delete(Long id) {
         log.debug("Request to delete Carrinho : {}", id);
         carrinhoRepository.deleteById(id);
+    }
+
+    public void deleteItemFromCar(Long id, Long carrinhoId) {
+        log.debug("Request to delete Carrinho : {} item {}", carrinhoId, id);
+        carrinhoRepository.deleteItemByListItensIdAndId(id, carrinhoId);
     }
 }
