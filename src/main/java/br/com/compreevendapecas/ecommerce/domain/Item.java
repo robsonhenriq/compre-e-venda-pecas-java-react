@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,7 +40,7 @@ public class Item implements Serializable {
     @JsonIgnoreProperties("items")
     private Produto produto;
 
-    @ManyToMany(mappedBy = "listItens")
+    @ManyToMany(mappedBy = "listItens", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<Carrinho> listCarrinhos = new HashSet<>();
 
@@ -47,7 +48,6 @@ public class Item implements Serializable {
     @JsonIgnoreProperties("items")
     private Venda venda;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -145,7 +145,6 @@ public class Item implements Serializable {
     public void setVenda(Venda venda) {
         this.venda = venda;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -165,11 +164,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" +
-            "id=" + getId() +
-            ", valorTotal=" + getValorTotal() +
-            ", valorItem=" + getValorItem() +
-            ", quantidade=" + getQuantidade() +
-            "}";
+        return "Item{" + "id=" + getId() + ", valorTotal=" + getValorTotal() + ", valorItem=" + getValorItem()
+                + ", quantidade=" + getQuantidade() + "}";
     }
 }

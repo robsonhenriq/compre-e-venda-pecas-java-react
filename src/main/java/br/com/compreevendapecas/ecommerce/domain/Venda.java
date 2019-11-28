@@ -1,4 +1,5 @@
 package br.com.compreevendapecas.ecommerce.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class Venda implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("vendas")
+    @JoinColumn(name = "comprador_id")
     private Cliente comprador;
 
     @ManyToOne
@@ -44,12 +46,9 @@ public class Venda implements Serializable {
     private ModoPagamento modoPagamento;
 
     @ManyToMany
-    @JoinTable(name = "venda_list_vendedores",
-               joinColumns = @JoinColumn(name = "venda_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_vendedores_id", referencedColumnName = "usuario_id"))
+    @JoinTable(name = "venda_list_vendedores", joinColumns = @JoinColumn(name = "venda_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "list_vendedores_id", referencedColumnName = "usuario_id"))
     private Set<Vendedor> listVendedores = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -172,7 +171,6 @@ public class Venda implements Serializable {
     public void setListVendedores(Set<Vendedor> vendedors) {
         this.listVendedores = vendedors;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -192,10 +190,7 @@ public class Venda implements Serializable {
 
     @Override
     public String toString() {
-        return "Venda{" +
-            "id=" + getId() +
-            ", dataHora='" + getDataHora() + "'" +
-            ", totalVenda=" + getTotalVenda() +
-            "}";
+        return "Venda{" + "id=" + getId() + ", dataHora='" + getDataHora() + "'" + ", totalVenda=" + getTotalVenda()
+                + "}";
     }
 }
