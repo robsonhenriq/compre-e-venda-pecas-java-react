@@ -6,6 +6,7 @@ import { UncontrolledCarousel, Card, CardImg, CardText, CardBody, CardTitle, Car
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { Link, RouteComponentProps } from 'react-router-dom';
 // import { NavLink as Link } from 'react-router-dom';
 
 // import { faShoppingCart, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -75,11 +76,14 @@ export const CardProdutos = props => (
 
           {/* BTN adicionar produto no carrinho */}
           <div className="d-flex justify-content-center">
-            <a className="btn btn-success btn-sm ml-12 " href="carrinho.html">
+            {/* <a className="btn btn-success btn-sm ml-12 " href="carrinho.html"> */}
+            {/* <a tag={Link} to={`entity/carrinho`} className="btn btn-success btn-sm ml-12 "> */}
+            <Button tag={Link} to={`entity/carrinho`} className="btn btn-success btn-sm ml-12 " size="sm">
               <span className="btn btn-success btn-sm ml-6" id="spanAdicionarProdutoCarrinho">
                 Adicionar ao carrinho <FontAwesomeIcon icon={faShoppingCart} />
               </span>
-            </a>
+              {/* </a> */}
+            </Button>
           </div>
         </CardText>
       </CardBody>
