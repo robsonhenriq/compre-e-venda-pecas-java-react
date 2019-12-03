@@ -65,11 +65,9 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
   render() {
     const { currentLocale, isAuthenticated, isAdmin, isSwaggerEnabled, isInProduction } = this.props;
 
-    /* needle-add-element-to-menu -  will add new menu items here */
-
     return (
       <div id="app-header">
-        {this.renderDevRibbon()}
+        {/* {this.renderDevRibbon()} */}
         <LoadingBar className="loading-bar" />
         <Navbar dark expand="sm" fixed="top" className="bg-dark">
           <NavbarToggler aria-label="Menu" onClick={this.toggleMenu} />
