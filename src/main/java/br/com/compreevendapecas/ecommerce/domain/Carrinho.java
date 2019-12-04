@@ -25,7 +25,15 @@ public class Carrinho implements Serializable {
 
     @OneToMany(mappedBy = "carrinho")
     private Set<Item> listItens = new HashSet<>();
-
+    
+    public Carrinho() {
+    	
+    }
+    
+    public Carrinho(BigDecimal totalCarrinho) {
+    	this.totalCarrinho = totalCarrinho;
+    }
+    
     public Long getId() {
         return id;
     }
