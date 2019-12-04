@@ -3,6 +3,7 @@ package br.com.compreevendapecas.ecommerce.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,6 +45,7 @@ public class Item implements Serializable {
     private Produto produto;
 
     @ManyToOne
+    @JsonIgnoreProperties("items")
     private Carrinho carrinho;
 
     @ManyToOne
