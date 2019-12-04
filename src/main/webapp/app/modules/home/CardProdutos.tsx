@@ -38,7 +38,6 @@ export interface IProdutoUpdateState {
 }
 
 // CardDeProdutos para ser mostrado na tela HOME
-
 export class CardProdutos extends React.Component<IProdutoUpdateProps, IProdutoUpdateState> {
   constructor(props) {
     super(props);
@@ -49,43 +48,26 @@ export class CardProdutos extends React.Component<IProdutoUpdateProps, IProdutoU
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
       const { produtoEntity } = this.props;
-      // const entity = {
-      // ...produtoEntity,
-      // ...values
-      // listFotos: mapIdList(values.listFotos),
-      // aplicacoes: mapIdList(values.aplicacoes),
-      // listAvaliacaos: mapIdList(values.listAvaliacaos)
-      // };
 
-      // const itemToSave = {
       const itemToSave: IItem = {
         valorTotal: produtoEntity.precoAVista,
         valorItem: produtoEntity.precoAVista,
         quantidade: 1,
         produto: {
           id: produtoEntity.id
+        },
+        carrinho: {
+          id: null
         }
       };
-      let itemSalvo = {};
-      // try {
-      itemSalvo = this.props.saveItem(itemToSave);
-      // console.log('itemSalvo , ', itemSalvo);
 
-      // } catch (error) {
-      // console.log('ERRO ao tentar salvar o ITEM: ' + error);
-      // } finally {
-      //   console.log('itemSalvo do finally: ' + itemSalvo);
-      // }
-
-      // console.log('itemToSave para mandar para salvar , ', itemToSave);
-      // console.log('itemToSave para mandar para salvar + ' + itemToSave);
+      this.props.saveItem(itemToSave);
     }
   };
 
   render() {
-    const { produtoEntity, marcas, fotos, veiculos, avaliacaos, vendedors, loading, updating } = this.props;
-    // const { isNew } = this.state;
-    // {if }
+    // const { produtoEntity, marcas, fotos, veiculos, avaliacaos, vendedors, loading, updating } = this.props;
+    const { produtoEntity } = this.props;
 
     return (
       <Fragment>
@@ -95,46 +77,38 @@ export class CardProdutos extends React.Component<IProdutoUpdateProps, IProdutoU
               top
               width="318px"
               height="180px"
-              src={`data:${isListNull(this.props.produtoEntity.listFotos)[0].imagemContentType};base64,${
-                isListNull(this.props.produtoEntity.listFotos)[0].imagem
+              src={`data:${isListNull(produtoEntity.listFotos)[0].imagemContentType};base64,${
+                isListNull(produtoEntity.listFotos)[0].imagem
               }`}
-              alt="Foto d produto"
+              alt="Foto do produto"
             />
             {/* {this.props.fotos} */}
             <CardBody>
               <CardTitle>
                 {/* <b>Produto:</b> {this.props.title} */}
-                <b>Produto:</b> {this.props.produtoEntity.descricao}
+                <b>Produto:</b> {isObjectNull(this.props.produtoEntity).descricao}
               </CardTitle>
 
-              {/* {props.marca && ( */}
               {this.props.produtoEntity.marca && (
                 <CardSubtitle>
-                  {/* <b>Marca:</b> {this.props.marca} */}
                   <b>Marca:</b> {this.props.produtoEntity.marca.nome}
                 </CardSubtitle>
               )}
 
               <CardText>
-                {/* <div> */}
                 <Fragment>
-                  {/* <b>Preço Á Vista R$:</b> {this.props.precoAVista} */}
-                  <b>Preço Á Vista R$:</b> {this.props.produtoEntity.precoAVista}
+                  <b>Preço Á Vista R$: </b> {this.props.produtoEntity.precoAVista}
                 </Fragment>
-                {/* </div> */}
 
-                {/* <hr /> */}
+                <hr />
 
                 {/* BTN adicionar produto no carrinho */}
-                {/* <div className="d-flex justify-content-center"> */}
                 <div className="d-flex justify-content-center">
-                  {/* <a className="btn btn-success btn-sm ml-12 " href="carrinho.html"> */}
                   {/* <a tag={Link} to={`entity/carrinho`} className="btn btn-success btn-sm ml-12 "> */}
-                  {/* <Button tag={Link} to={`entity/carrinho`} className="btn btn-success btn-sm ml-12 " size="sm"> */}
                   {/* <Button tag={Link} type="submit" to={`entity/carrinho`} className="btn btn-success btn-sm ml-12 " size="sm"> */}
                   <Button type="submit" className="btn btn-success btn-sm ml-12 " size="sm">
                     <span className="btn btn-success btn-sm ml-6" id="spanAdicionarProdutoCarrinho">
-                      Adicionar ao carrinho {this.props.produtoEntity.id} <FontAwesomeIcon icon={faShoppingCart} />
+                      Adicionar ao carrinho <FontAwesomeIcon icon={faShoppingCart} />
                     </span>
                     {/* </a> */}
                   </Button>
