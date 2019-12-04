@@ -1,15 +1,18 @@
 package br.com.compreevendapecas.ecommerce.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * A Item.
@@ -40,9 +43,8 @@ public class Item implements Serializable {
     @JsonIgnoreProperties("items")
     private Produto produto;
 
-    @ManyToMany(mappedBy = "listItens", cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    private Set<Carrinho> listCarrinhos = new HashSet<>();
+    @ManyToOne
+    private Carrinho carrinho;
 
     @ManyToOne
     @JsonIgnoreProperties("items")
@@ -108,29 +110,37 @@ public class Item implements Serializable {
         this.produto = produto;
     }
 
-    public Set<Carrinho> getListCarrinhos() {
-        return listCarrinhos;
+    // public Carrinho getCarrinho() {
+    // return carrinho;
+    // }
+
+    // public Item carrinho(Carrinho carrinhos) {
+    // this.carrinho = carrinhos;
+    // return this;
+    // }
+
+    // public Item addListCarrinhos(Carrinho carrinho) {
+    // this.listCarrinhos.add(carrinho);
+    // carrinho.getListItens().add(this);
+    // return this;
+    // }
+
+    // public Item removeListCarrinhos(Carrinho carrinho) {
+    // this.listCarrinhos.remove(carrinho);
+    // carrinho.getListItens().remove(this);
+    // return this;
+    // }
+
+    // public void setCarrinho(Carrinho carrinho) {
+    // this.carrinho = carrinho;
+    // }
+
+    public Carrinho getCarrinho() {
+        return carrinho;
     }
 
-    public Item listCarrinhos(Set<Carrinho> carrinhos) {
-        this.listCarrinhos = carrinhos;
-        return this;
-    }
-
-    public Item addListCarrinhos(Carrinho carrinho) {
-        this.listCarrinhos.add(carrinho);
-        carrinho.getListItens().add(this);
-        return this;
-    }
-
-    public Item removeListCarrinhos(Carrinho carrinho) {
-        this.listCarrinhos.remove(carrinho);
-        carrinho.getListItens().remove(this);
-        return this;
-    }
-
-    public void setListCarrinhos(Set<Carrinho> carrinhos) {
-        this.listCarrinhos = carrinhos;
+    public void setCarrinho(Carrinho carrinho) {
+        this.carrinho = carrinho;
     }
 
     public Venda getVenda() {

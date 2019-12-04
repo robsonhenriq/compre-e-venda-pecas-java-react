@@ -23,13 +23,9 @@ public class Carrinho implements Serializable {
     @Column(name = "total_carrinho", precision = 21, scale = 2)
     private BigDecimal totalCarrinho;
 
-    @ManyToMany
-    @JoinTable(name = "carrinho_list_itens",
-               joinColumns = @JoinColumn(name = "carrinho_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "list_itens_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "carrinho")
     private Set<Item> listItens = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -60,22 +56,21 @@ public class Carrinho implements Serializable {
         return this;
     }
 
-    public Carrinho addListItens(Item item) {
-        this.listItens.add(item);
-        item.getListCarrinhos().add(this);
-        return this;
-    }
+    // public Carrinho addListItens(Item item) {
+    // this.listItens.add(item);
+    // item.getListCarrinhos().add(this);
+    // return this;
+    // }
 
-    public Carrinho removeListItens(Item item) {
-        this.listItens.remove(item);
-        item.getListCarrinhos().remove(this);
-        return this;
-    }
+    // public Carrinho removeListItens(Item item) {
+    // this.listItens.remove(item);
+    // item.getListCarrinhos().remove(this);
+    // return this;
+    // }
 
     public void setListItens(Set<Item> items) {
         this.listItens = items;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -95,9 +90,6 @@ public class Carrinho implements Serializable {
 
     @Override
     public String toString() {
-        return "Carrinho{" +
-            "id=" + getId() +
-            ", totalCarrinho=" + getTotalCarrinho() +
-            "}";
+        return "Carrinho{" + "id=" + getId() + ", totalCarrinho=" + getTotalCarrinho() + "}";
     }
 }

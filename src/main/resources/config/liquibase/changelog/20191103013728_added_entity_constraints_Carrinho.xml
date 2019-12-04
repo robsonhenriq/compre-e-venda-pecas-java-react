@@ -1,24 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <!--
         Added the constraints for entity Carrinho.
     -->
     <changeSet id="20191103013728-2" author="jhipster">
-        
-        <addForeignKeyConstraint baseColumnNames="carrinho_id"
+
+        <!-- <addForeignKeyConstraint baseColumnNames="carrinho_id"
                                  baseTableName="carrinho_list_itens"
                                  constraintName="fk_carrinho_list_itens_carrinho_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="carrinho"/>
+                                 referencedTableName="carrinho"/> -->
 
-        <addForeignKeyConstraint baseColumnNames="list_itens_id"
-                                 baseTableName="carrinho_list_itens"
-                                 constraintName="fk_carrinho_list_itens_list_itens_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="item"/>
-        
+        <!-- <addForeignKeyConstraint baseColumnNames="list_itens_id" baseTableName="carrinho_list_itens" constraintName="fk_carrinho_list_itens_list_itens_id" referencedColumnNames="id" referencedTableName="item" /> -->
+
     </changeSet>
 </databaseChangeLog>
