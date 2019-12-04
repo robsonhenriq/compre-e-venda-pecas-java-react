@@ -10,6 +10,7 @@ export interface IItem {
   produto?: IProduto;
   listCarrinhos?: ICarrinho[];
   venda?: IVenda;
+  carrinho?: ICarrinho;
 }
 
 export const defaultValue: Readonly<IItem> = {};
