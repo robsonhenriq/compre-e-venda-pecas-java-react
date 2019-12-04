@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -63,6 +64,18 @@ public class ItemService {
     public Optional<Item> findOne(Long id) {
         log.debug("Request to get Item : {}", id);
         return itemRepository.findById(id);
+    }
+
+    /**
+     * Get all itens from a carrinho.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public List<Item> findItensByCarrinhoId(Long id) {
+        log.debug("Request to get Itens by Carrinho ID: {}", id);
+        return itemRepository.findItemByCarrinhoId(id);
     }
 
     /**

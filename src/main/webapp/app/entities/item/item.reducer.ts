@@ -9,6 +9,7 @@ import { IItem, defaultValue } from 'app/shared/model/item.model';
 export const ACTION_TYPES = {
   FETCH_ITEM_LIST: 'item/FETCH_ITEM_LIST',
   FETCH_ITEM: 'item/FETCH_ITEM',
+  FETCH_ITEM_CARRINHO: 'item/FETCH_ITEM_CARRINHO',
   CREATE_ITEM: 'item/CREATE_ITEM',
   UPDATE_ITEM: 'item/UPDATE_ITEM',
   DELETE_ITEM: 'item/DELETE_ITEM',
@@ -32,6 +33,7 @@ export type ItemState = Readonly<typeof initialState>;
 export default (state: ItemState = initialState, action): ItemState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.FETCH_ITEM_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_ITEM_CARRINHO):
     case REQUEST(ACTION_TYPES.FETCH_ITEM):
       return {
         ...state,
@@ -49,6 +51,7 @@ export default (state: ItemState = initialState, action): ItemState => {
         updating: true
       };
     case FAILURE(ACTION_TYPES.FETCH_ITEM_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_ITEM_CARRINHO):
     case FAILURE(ACTION_TYPES.FETCH_ITEM):
     case FAILURE(ACTION_TYPES.CREATE_ITEM):
     case FAILURE(ACTION_TYPES.UPDATE_ITEM):
@@ -61,6 +64,7 @@ export default (state: ItemState = initialState, action): ItemState => {
         errorMessage: action.payload
       };
     case SUCCESS(ACTION_TYPES.FETCH_ITEM_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_ITEM_CARRINHO):
       return {
         ...state,
         loading: false,
@@ -113,6 +117,14 @@ export const getEntity: ICrudGetAction<IItem> = id => {
   const requestUrl = `${apiUrl}/${id}`;
   return {
     type: ACTION_TYPES.FETCH_ITEM,
+    payload: axios.get<IItem>(requestUrl)
+  };
+};
+
+export const getItemByCarrinhoId: ICrudGetAction<IItem> = id => {
+  const requestUrl = `${apiUrl}/carrinhoId/${id}`;
+  return {
+    type: ACTION_TYPES.FETCH_ITEM_CARRINHO,
     payload: axios.get<IItem>(requestUrl)
   };
 };
