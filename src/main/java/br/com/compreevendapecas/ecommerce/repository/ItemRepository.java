@@ -1,6 +1,11 @@
 package br.com.compreevendapecas.ecommerce.repository;
 
+import br.com.compreevendapecas.ecommerce.domain.Carrinho;
 import br.com.compreevendapecas.ecommerce.domain.Item;
+
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +16,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-
+	
+	List<Item> findItemByCarrinhoId(Long id);
 }

@@ -1,8 +1,14 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
+import br.com.compreevendapecas.ecommerce.domain.Carrinho;
+import br.com.compreevendapecas.ecommerce.domain.Cliente;
 import br.com.compreevendapecas.ecommerce.domain.Item;
+import br.com.compreevendapecas.ecommerce.domain.User;
+import br.com.compreevendapecas.ecommerce.security.SecurityUtils;
 import br.com.compreevendapecas.ecommerce.service.CarrinhoService;
+import br.com.compreevendapecas.ecommerce.service.ClienteService;
 import br.com.compreevendapecas.ecommerce.service.ItemService;
+import br.com.compreevendapecas.ecommerce.service.UserService;
 import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -21,6 +27,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -44,10 +52,15 @@ public class ItemResource {
 
     private final ItemService itemService;
     private final CarrinhoService carrinhoService;
+    private final UserService userService;
+    private final ClienteService clienteService;
 
-    public ItemResource(ItemService itemService, CarrinhoService carrinhoService) {
+    public ItemResource(ItemService itemService, CarrinhoService carrinhoService, UserService userService,
+            ClienteService clienteService) {
         this.itemService = itemService;
         this.carrinhoService = carrinhoService;
+        this.userService = userService;
+        this.clienteService = clienteService;
     }
 
     /**
@@ -62,9 +75,25 @@ public class ItemResource {
     @PostMapping("/items")
     public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) throws URISyntaxException {
         log.debug("REST request to save Item : {}", item);
+        Optional<String> opUserLogin = SecurityUtils.getCurrentUserLogin();
+        User usuario = userService.getUserWithAuthoritiesByLogin(opUserLogin.get()).get();
+        Cliente cliente = clienteService.findOneByUserId(usuario.getId()).get();
+
+        log.debug("LOGIN USUARIO LOGADO : {} ", opUserLogin);
+
+        Carrinho newCarrinho;
+        // Se o cliente não tem nenhum carrinho, eu crio para ele
+        if (cliente.getCarrinho() == null) {
+            newCarrinho = carrinhoService.save(new Carrinho(BigDecimal.ZERO));
+            item.setCarrinho(newCarrinho);
+        } else {
+            item.setCarrinho(cliente.getCarrinho());
+        }
+
         if (item.getId() != null) {
             throw new BadRequestAlertException("A new item cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         Item result = itemService.save(item);
         return ResponseEntity
                 .created(new URI("/api/items/" + result.getId())).headers(HeaderUtil
@@ -125,6 +154,20 @@ public class ItemResource {
         log.debug("REST request to get Item : {}", id);
         Optional<Item> item = itemService.findOne(id);
         return ResponseUtil.wrapOrNotFound(item);
+    }
+
+    /**
+     * {@code GET  /items/carrinhoID/:id} : get the "id" item.
+     *
+     * @param id the id of the item to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the item, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/items/carrinhoId/{id}")
+    public ResponseEntity<List<Item>> getItensByCarrinhoId(@PathVariable Long id) {
+        log.debug("REST request to get Item By Carrinho Id : {}", id);
+        List<Item> itens = itemService.findItensByCarrinhoId(id);
+        return ResponseEntity.ok().body(itens);
     }
 
     /**
