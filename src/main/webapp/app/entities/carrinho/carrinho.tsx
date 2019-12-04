@@ -8,10 +8,12 @@ import { Translate, ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPa
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntity as getCarrinhoById } from './carrinho.reducer';
+// import { getEntity as getCarrinhoById } from './carrinho.reducer';
+import { getItemByCarrinhoId } from '../item/item.reducer';
 import { getEntity as getClienteById } from '../cliente/cliente.reducer';
 import { getSession } from 'app/shared/reducers/authentication';
 import { ICarrinho } from 'app/shared/model/carrinho.model';
+import { isListNull, isObjectNull } from 'app/shared/util/verificacoes-utils';
 
 export interface ICarrinhoProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -33,41 +35,32 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
     setTimeout(() => {
       // console.log('Antes do SET state ID = ' + this.state.id);
       this.setState({ id: this.props.clienteEntity.carrinho.id });
-      this.props.getCarrinhoById(this.state.id);
+
+      this.props.getItemByCarrinhoId(this.state.id);
+
+      // this.props.getCarrinhoById(this.state.id);
       // console.log('DEPOIS state ID = ' + this.state.id);
       // this.props.getCarrinhoById(this.props.clienteEntity.carrinho.id);
     }, 1000);
   }
 
   render() {
-    const { match, totalItems, clienteEntity, carrinhoEntity, account } = this.props;
+    const { match, totalItems, clienteEntity, itemEntities, account } = this.props;
 
     /* Caso o usuario do cliente ainda não esteja definido, irá "retornar", antes de redenrizar
      * a tela
      */
     if (!this.props.clienteEntity.usuario) return null;
     // if (!this.props.clienteEntity.carrinho.id) return null;
-    if (!this.props.carrinhoEntity.listItens) return null;
-    // if (!this.props.clienteEntity.carrinho.listItens) return null;
+    if (!this.props.itemEntities) return null;
+
+    // if (!this.props.itemEntities) return null;
 
     return (
       <div>
         <h2 id="carrinho-heading">
-          <Translate contentKey="ecommerceApp.carrinho.home.title">Carrinhos</Translate>
-          {/* ========== VALORES DE TESTE ::::::: APAGAR ::::::: ================*/}
-          ## ACCOUNT ID === {account.id}
-          ## ACCOUNT EMAIL === {account.email}
-          ## CLIENTE ID === {clienteEntity.id}
-          ## CLIENTE CPF === {clienteEntity.cpf}
-          {/* ## CLIENTE USER === {clienteEntity.usuario.id} */}
-          ## CLIENTE CARRINHO === {clienteEntity.carrinho.id}
-          {/* ## CLIENTE CARRINHO === {clienteEntity.carrinho.listItens[1].id} */}
-          {/* ## CLIENTE USUER ID === {this.props.clienteEntity.usuario.id} */}
-          {/* ## STATE ID DO CARRINHO === {this.state.id} */}
-          {/* ## ID DO CARRINHO === {this.props.carrinho.id} */}
-          ## STATE ID ITEM DO CARRINHO === {this.props.carrinhoEntity.listItens[0].id}
-          ## STATE PRODUTO DO CARRINHO === {this.props.carrinhoEntity.listItens[0].valorTotal}
-          {/* BOTÃO CRIAR NOVO CARRINHO */}
+          {/* <Translate contentKey="ecommerceApp.carrinho.home.title">Seu Carrinho</Translate> */}
+          Seu Carrinho
           {/* <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
@@ -76,8 +69,7 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
           {/* ===================================================================================== */}
         </h2>
         <div className="table-responsive">
-          {/* {carrinhoList && carrinhoList.length > 0 ? ( */}
-          {carrinhoEntity && carrinhoEntity.listItens.length > 0 ? (
+          {itemEntities.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
@@ -102,15 +94,15 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
 
               {/* =================== DADOS DA TABELA DO CARRINHO ============================ */}
               <tbody>
-                {/* {carrinhoList.map((carrinho, i) => ( */}
-                {carrinhoEntity.listItens.map((item, i) => (
+                {itemEntities.map((item, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
                       <Button tag={Link} to={`${match.url}/${item.id}`} color="link" size="sm">
+                        {/* <Button tag={Link} to={`item/${item.id}`} color="link" size="sm"> */}
                         {item.id}
                       </Button>
                     </td>
-                    <td>NOME DO PRODUTO</td>
+                    <td>{isObjectNull(item.produto).descricao}</td>
                     <td>
                       {/* QUANTIDADE DO PRODUTO */}
                       {item.quantidade}
@@ -160,17 +152,17 @@ export class Carrinho extends React.Component<ICarrinhoProps, ICarrinhoState> {
   }
 }
 
-const mapStateToProps = ({ carrinho, cliente, authentication }: IRootState) => ({
-  // carrinhoList: carrinho.entities,
+const mapStateToProps = ({ carrinho, item, cliente, authentication }: IRootState) => ({
   totalItems: carrinho.totalItems,
   clienteEntity: cliente.entity,
   account: authentication.account,
-  carrinhoEntity: carrinho.entity
+  carrinhoEntity: carrinho.entity,
+  itemEntities: item.entities
 });
 
 const mapDispatchToProps = {
   getSession,
-  getCarrinhoById,
+  getItemByCarrinhoId,
   getClienteById
 };
 
