@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Spring Data  repository for the Cliente entity.
+ * Spring Data repository for the Cliente entity.
  */
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query(value = "select distinct cliente from Cliente cliente left join fetch cliente.listVeiculos left join fetch cliente.listEnderecos",
-        countQuery = "select count(distinct cliente) from Cliente cliente")
+    @Query(value = "select distinct cliente from Cliente cliente left join fetch cliente.listVeiculos left join fetch cliente.listEnderecos", countQuery = "select count(distinct cliente) from Cliente cliente")
     Page<Cliente> findAllWithEagerRelationships(Pageable pageable);
 
     @Query("select distinct cliente from Cliente cliente left join fetch cliente.listVeiculos left join fetch cliente.listEnderecos")
@@ -26,4 +25,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("select cliente from Cliente cliente left join fetch cliente.listVeiculos left join fetch cliente.listEnderecos where cliente.id =:id")
     Optional<Cliente> findOneWithEagerRelationships(@Param("id") Long id);
 
+    Optional<Cliente> findOneClienteByUsuarioId(@Param("id") Long id);
 }

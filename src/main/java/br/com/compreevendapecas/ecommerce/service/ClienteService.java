@@ -58,7 +58,6 @@ public class ClienteService {
     public Page<Cliente> findAllWithEagerRelationships(Pageable pageable) {
         return clienteRepository.findAllWithEagerRelationships(pageable);
     }
-    
 
     /**
      * Get one cliente by id.
@@ -70,6 +69,18 @@ public class ClienteService {
     public Optional<Cliente> findOne(Long id) {
         log.debug("Request to get Cliente : {}", id);
         return clienteRepository.findOneWithEagerRelationships(id);
+    }
+
+    /**
+     * Get one cliente by user ID.
+     *
+     * @param id the id of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<Cliente> findOneByUserId(Long id) {
+        log.debug("Request to get Cliente By user Id : {}", id);
+        return clienteRepository.findOneClienteByUsuarioId(id);
     }
 
     /**
