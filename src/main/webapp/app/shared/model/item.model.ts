@@ -8,7 +8,7 @@ export interface IItem {
   valorItem?: number;
   quantidade?: number;
   produto?: IProduto;
-  listCarrinhos?: ICarrinho[];
+  // listCarrinhos?: ICarrinho[];
   venda?: IVenda;
   carrinho?: ICarrinho;
 }
