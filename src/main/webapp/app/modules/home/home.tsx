@@ -9,9 +9,13 @@ import { Row, Col, Alert } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { getEntities as getProdutos } from '../../entities/produto/produto.reducer';
+import { createEntity as saveItem } from 'app/entities/item/item.reducer';
+import { createEntity as saveCarrinhoItem } from 'app/entities/carrinho/carrinho.reducer';
 
 import { isListNull, isObjectNull } from 'app/shared/util/verificacoes-utils';
-import { CarrouselProdutos, CardProdutos } from './home-components';
+// import { CarrouselProdutos, CardProdutos } from './home-components';
+import { CarrouselProdutos } from './home-components';
+import { CardProdutos } from './CardProdutos';
 
 export interface IHomeProp extends StateProps, DispatchProps {}
 
@@ -27,7 +31,7 @@ export class Home extends React.Component<IHomeProp> {
 
     return (
       <Fragment>
-        <CarrouselProdutos />
+        {/* <CarrouselProdutos /> */}
 
         <h1> Últimos produtos </h1>
         <hr />
@@ -37,13 +41,19 @@ export class Home extends React.Component<IHomeProp> {
           {produtos.map((p, idx) => (
             <Fragment>
               <CardProdutos
-                key={idx}
-                id={p.id}
-                listFoto={isListNull(p.listFotos)}
-                title={p.descricao}
-                marca={isObjectNull(p.marca).nome}
-                precoAVista={p.precoAVista}
+                produtoEntity={p}
+                saveItem={this.props.saveItem}
+                saveCarrinhoItem={this.props.saveCarrinhoItem}
+                user={account}
               />
+              {/* // key={idx}
+              // id={p.id}
+              // listFoto={isListNull(p.listFotos)}
+              // title={p.descricao}
+              // marca={isObjectNull(p.marca).nome}
+              // precoAVista={p.precoAVista}
+              // produtoEntity={p}
+              // /> */}
             </Fragment>
           ))}
         </Row>
@@ -58,7 +68,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   produtos: storeState.produto.entities
 });
 
-const mapDispatchToProps = { getSession, getProdutos };
+const mapDispatchToProps = { getSession, getProdutos, saveItem, saveCarrinhoItem };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
