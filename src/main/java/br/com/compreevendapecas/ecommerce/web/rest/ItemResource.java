@@ -1,38 +1,37 @@
 package br.com.compreevendapecas.ecommerce.web.rest;
 
-import br.com.compreevendapecas.ecommerce.domain.Carrinho;
-import br.com.compreevendapecas.ecommerce.domain.Cliente;
-import br.com.compreevendapecas.ecommerce.domain.Item;
-import br.com.compreevendapecas.ecommerce.domain.User;
-import br.com.compreevendapecas.ecommerce.security.SecurityUtils;
-import br.com.compreevendapecas.ecommerce.service.CarrinhoService;
-import br.com.compreevendapecas.ecommerce.service.ClienteService;
-import br.com.compreevendapecas.ecommerce.service.ItemService;
-import br.com.compreevendapecas.ecommerce.service.UserService;
-import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-
-import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
+import br.com.compreevendapecas.ecommerce.domain.Item;
+import br.com.compreevendapecas.ecommerce.service.ItemService;
+import br.com.compreevendapecas.ecommerce.web.rest.errors.BadRequestAlertException;
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing
@@ -50,16 +49,9 @@ public class ItemResource {
     private String applicationName;
 
     private final ItemService itemService;
-    private final CarrinhoService carrinhoService;
-    private final UserService userService;
-    private final ClienteService clienteService;
 
-    public ItemResource(ItemService itemService, CarrinhoService carrinhoService, UserService userService,
-            ClienteService clienteService) {
+    public ItemResource(ItemService itemService) {
         this.itemService = itemService;
-        this.carrinhoService = carrinhoService;
-        this.userService = userService;
-        this.clienteService = clienteService;
     }
 
     /**
@@ -74,22 +66,6 @@ public class ItemResource {
     @PostMapping("/items")
     public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) throws URISyntaxException {
         log.debug("REST request to save Item : {}", item);
-        Optional<String> opUserLogin = SecurityUtils.getCurrentUserLogin();
-        User usuario = userService.getUserWithAuthoritiesByLogin(opUserLogin.get()).get();
-        Cliente cliente = clienteService.findOneByUserId(usuario.getId()).get();
-
-        log.debug("LOGIN USUARIO LOGADO : {} ", opUserLogin);
-
-        Carrinho newCarrinho;
-        // Se o cliente não tem nenhum carrinho, eu crio para ele
-        if (cliente.getCarrinho() == null) {
-            newCarrinho = carrinhoService.save(new Carrinho(BigDecimal.ZERO));
-            item.setCarrinho(newCarrinho);
-            cliente.setCarrinho(newCarrinho);
-            clienteService.save(cliente);
-        } else {
-            item.setCarrinho(cliente.getCarrinho());
-        }
 
         if (item.getId() != null) {
             throw new BadRequestAlertException("A new item cannot already have an ID", ENTITY_NAME, "idexists");

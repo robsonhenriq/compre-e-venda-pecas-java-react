@@ -1,17 +1,22 @@
 package br.com.compreevendapecas.ecommerce.service;
 
-import br.com.compreevendapecas.ecommerce.domain.Item;
-import br.com.compreevendapecas.ecommerce.repository.ItemRepository;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import br.com.compreevendapecas.ecommerce.domain.Carrinho;
+import br.com.compreevendapecas.ecommerce.domain.Cliente;
+import br.com.compreevendapecas.ecommerce.domain.Item;
+import br.com.compreevendapecas.ecommerce.domain.User;
+import br.com.compreevendapecas.ecommerce.repository.ItemRepository;
+import br.com.compreevendapecas.ecommerce.security.SecurityUtils;
 
 /**
  * Service Implementation for managing {@link Item}.
@@ -24,8 +29,16 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public ItemService(ItemRepository itemRepository) {
+    private final CarrinhoService carrinhoService;
+    private final UserService userService;
+    private final ClienteService clienteService;
+
+    public ItemService(ItemRepository itemRepository, CarrinhoService carrinhoService, UserService userService,
+            ClienteService clienteService) {
         this.itemRepository = itemRepository;
+        this.carrinhoService = carrinhoService;
+        this.userService = userService;
+        this.clienteService = clienteService;
     }
 
     /**
@@ -36,6 +49,24 @@ public class ItemService {
      */
     public Item save(Item item) {
         log.debug("Request to save Item : {}", item);
+
+        Optional<String> opUserLogin = SecurityUtils.getCurrentUserLogin();
+        User usuario = userService.getUserWithAuthoritiesByLogin(opUserLogin.get()).get();
+        Cliente cliente = clienteService.findOneByUserId(usuario.getId()).get();
+
+        log.debug("LOGIN USUARIO LOGADO : {} ", opUserLogin);
+
+        Carrinho newCarrinho;
+        // Se o cliente não tem nenhum carrinho, eu crio para ele
+        if (cliente.getCarrinho() == null) {
+            newCarrinho = carrinhoService.save(new Carrinho(BigDecimal.ZERO));
+            item.setCarrinho(newCarrinho);
+            cliente.setCarrinho(newCarrinho);
+            clienteService.save(cliente);
+        } else {
+            item.setCarrinho(cliente.getCarrinho());
+        }
+
         return itemRepository.save(item);
     }
 
