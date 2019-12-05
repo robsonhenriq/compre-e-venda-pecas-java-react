@@ -16,21 +16,21 @@
       "detail": {
         "title": "Produto"
       },
-      "codigoOriginal": "Codigo Original",
+      "codigoOriginal": "Código Original",
       "fabricante": "Fabricante",
-      "descricao": "Descricao",
-      "ehUsado": "Eh Usado",
-      "quantidadeDisponivel": "Quantidade Disponivel",
+      "descricao": "Descrição",
+      "ehUsado": "É Usado?",
+      "quantidadeDisponivel": "Quantidade Disponível",
       "altura": "Altura",
       "largura": "Largura",
       "pesoBruto": "Peso Bruto",
-      "precoAVista": "Preco A Vista",
-      "precoAPrazo": "Preco A Prazo",
+      "precoAVista": "Preço á Vísta",
+      "precoAPrazo": "Preço á Prazo",
       "categoria": "Categoria",
       "marca": "Marca",
       "listFotos": "List Fotos",
-      "aplicacoes": "Aplicacoes",
-      "listAvaliacao": "List Avaliacao",
+      "aplicacoes": "Aplicações",
+      "listAvaliacao": "List Avaliações",
       "listVendedores": "List Vendedores"
     }
   }
