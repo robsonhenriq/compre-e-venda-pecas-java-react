@@ -12,21 +12,21 @@ export const EntitiesMenu = props => (
     <MenuItem icon="asterisk" to="/entity/avaliacao">
       <Translate contentKey="global.menu.entities.avaliacao" />
     </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/carrinho">
+    {/* <MenuItem icon="asterisk" to="/entity/carrinho">
       <Translate contentKey="global.menu.entities.carrinho" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/cliente">
+    </MenuItem> */}
+    {/* <MenuItem icon="asterisk" to="/entity/cliente">
       <Translate contentKey="global.menu.entities.cliente" />
-    </MenuItem>
+    </MenuItem> */}
     <MenuItem icon="asterisk" to="/entity/endereco">
       <Translate contentKey="global.menu.entities.endereco" />
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/foto">
       <Translate contentKey="global.menu.entities.foto" />
     </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/item">
+    {/* <MenuItem icon="asterisk" to="/entity/item">
       <Translate contentKey="global.menu.entities.item" />
-    </MenuItem>
+    </MenuItem> */}
     <MenuItem icon="asterisk" to="/entity/marca">
       <Translate contentKey="global.menu.entities.marca" />
     </MenuItem>
@@ -42,8 +42,8 @@ export const EntitiesMenu = props => (
     <MenuItem icon="asterisk" to="/entity/venda">
       <Translate contentKey="global.menu.entities.venda" />
     </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/vendedor">
+    {/* <MenuItem icon="asterisk" to="/entity/vendedor">
       <Translate contentKey="global.menu.entities.vendedor" />
-    </MenuItem>
+    </MenuItem> */}
   </NavDropdown>
 );
