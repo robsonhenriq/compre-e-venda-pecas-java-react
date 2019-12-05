@@ -64,7 +64,7 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
     this.props.getMarcas();
     this.props.getFotos();
     this.props.getVeiculos();
-    this.props.getAvaliacaos();
+    // this.props.getAvaliacaos();
     this.props.getVendedors();
   }
 
@@ -75,8 +75,8 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
         ...produtoEntity,
         ...values,
         listFotos: mapIdList(values.listFotos),
-        aplicacoes: mapIdList(values.aplicacoes),
-        listAvaliacaos: mapIdList(values.listAvaliacaos)
+        aplicacoes: mapIdList(values.aplicacoes)
+        // listAvaliacaos: mapIdList(values.listAvaliacaos)
       };
 
       if (this.state.isNew) {
@@ -118,18 +118,20 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                     <AvInput id="produto-id" type="text" className="form-control" name="id" required readOnly />
                   </AvGroup>
                 ) : null}
-                <AvGroup>
-                  <Label id="codigoOriginalLabel" for="produto-codigoOriginal">
-                    <Translate contentKey="ecommerceApp.produto.codigoOriginal">Codigo Original</Translate>
-                  </Label>
-                  <AvField id="produto-codigoOriginal" type="text" name="codigoOriginal" />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="fabricanteLabel" for="produto-fabricante">
-                    <Translate contentKey="ecommerceApp.produto.fabricante">Fabricante</Translate>
-                  </Label>
-                  <AvField id="produto-fabricante" type="text" name="fabricante" />
-                </AvGroup>
+                <Row>
+                  <Col xs="6" sm="6" md="6" lg="6">
+                    <Label id="codigoOriginalLabel" for="produto-codigoOriginal">
+                      <Translate contentKey="ecommerceApp.produto.codigoOriginal">Codigo Original</Translate>
+                    </Label>
+                    <AvField id="produto-codigoOriginal" type="text" name="codigoOriginal" />
+                  </Col>
+                  <Col xs="6" sm="6" md="6" lg="6">
+                    <Label id="fabricanteLabel" for="produto-fabricante">
+                      <Translate contentKey="ecommerceApp.produto.fabricante">Fabricante</Translate>
+                    </Label>
+                    <AvField id="produto-fabricante" type="text" name="fabricante" />
+                  </Col>
+                </Row>
                 <AvGroup>
                   <Label id="descricaoLabel" for="produto-descricao">
                     <Translate contentKey="ecommerceApp.produto.descricao">Descricao</Translate>
@@ -151,125 +153,131 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                     <Translate contentKey="ecommerceApp.produto.ehUsado">É Usado?</Translate>
                   </Label>
                 </AvGroup>
-                <AvGroup>
-                  <Label id="quantidadeDisponivelLabel" for="produto-quantidadeDisponivel">
-                    <Translate contentKey="ecommerceApp.produto.quantidadeDisponivel">Quantidade Disponivel</Translate>
-                  </Label>
-                  <AvField
-                    id="produto-quantidadeDisponivel"
-                    type="string"
-                    className="form-control"
-                    name="quantidadeDisponivel"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') },
-                      number: { value: true, errorMessage: translate('entity.validation.number') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="alturaLabel" for="produto-altura">
-                    <Translate contentKey="ecommerceApp.produto.altura">Altura</Translate>
-                  </Label>
-                  <AvField
-                    id="produto-altura"
-                    type="string"
-                    className="form-control"
-                    name="altura"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') },
-                      number: { value: true, errorMessage: translate('entity.validation.number') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="larguraLabel" for="produto-largura">
-                    <Translate contentKey="ecommerceApp.produto.largura">Largura</Translate>
-                  </Label>
-                  <AvField
-                    id="produto-largura"
-                    type="string"
-                    className="form-control"
-                    name="largura"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') },
-                      number: { value: true, errorMessage: translate('entity.validation.number') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="pesoBrutoLabel" for="produto-pesoBruto">
-                    <Translate contentKey="ecommerceApp.produto.pesoBruto">Peso Bruto</Translate>
-                  </Label>
-                  <AvField
-                    id="produto-pesoBruto"
-                    type="string"
-                    className="form-control"
-                    name="pesoBruto"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') },
-                      number: { value: true, errorMessage: translate('entity.validation.number') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="precoAVistaLabel" for="produto-precoAVista">
-                    <Translate contentKey="ecommerceApp.produto.precoAVista">Preco A Vista</Translate>
-                  </Label>
-                  <AvField
-                    id="produto-precoAVista"
-                    type="text"
-                    name="precoAVista"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') },
-                      number: { value: true, errorMessage: translate('entity.validation.number') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="precoAPrazoLabel" for="produto-precoAPrazo">
-                    <Translate contentKey="ecommerceApp.produto.precoAPrazo">Preco A Prazo</Translate>
-                  </Label>
-                  <AvField
-                    id="produto-precoAPrazo"
-                    type="text"
-                    name="precoAPrazo"
-                    validate={{
-                      required: { value: true, errorMessage: translate('entity.validation.required') },
-                      number: { value: true, errorMessage: translate('entity.validation.number') }
-                    }}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label id="categoriaLabel" for="produto-categoria">
-                    <Translate contentKey="ecommerceApp.produto.categoria">Categoria</Translate>
-                  </Label>
-                  <AvInput
-                    id="produto-categoria"
-                    type="select"
-                    className="form-control"
-                    name="categoria"
-                    value={(!isNew && produtoEntity.categoria) || 'CARROCERIA'}
-                  >
-                    <option value="CARROCERIA">{translate('ecommerceApp.Categoria.CARROCERIA')}</option>
-                    <option value="ACESSORIOS">{translate('ecommerceApp.Categoria.ACESSORIOS')}</option>
-                    <option value="PNEUS_RODAS">{translate('ecommerceApp.Categoria.PNEUS_RODAS')}</option>
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="produto-marca">
-                    <Translate contentKey="ecommerceApp.produto.marca">Marca</Translate>
-                  </Label>
-                  <AvInput id="produto-marca" type="select" className="form-control" name="marca.id">
-                    <option value="" key="0" />
-                    {marcas
-                      ? marcas.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id} - {otherEntity.nome}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
+                <Row>
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label id="quantidadeDisponivelLabel" for="produto-quantidadeDisponivel">
+                      <Translate contentKey="ecommerceApp.produto.quantidadeDisponivel">Quantidade Disponivel</Translate>
+                    </Label>
+                    <AvField
+                      id="produto-quantidadeDisponivel"
+                      type="string"
+                      className="form-control"
+                      name="quantidadeDisponivel"
+                      validate={{
+                        required: { value: true, errorMessage: translate('entity.validation.required') },
+                        number: { value: true, errorMessage: translate('entity.validation.number') }
+                      }}
+                    />
+                  </Col>
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label id="alturaLabel" for="produto-altura">
+                      <Translate contentKey="ecommerceApp.produto.altura">Altura</Translate>
+                    </Label>
+                    <AvField
+                      id="produto-altura"
+                      type="string"
+                      className="form-control"
+                      name="altura"
+                      validate={{
+                        required: { value: true, errorMessage: translate('entity.validation.required') },
+                        number: { value: true, errorMessage: translate('entity.validation.number') }
+                      }}
+                    />
+                  </Col>
+
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label id="larguraLabel" for="produto-largura">
+                      <Translate contentKey="ecommerceApp.produto.largura">Largura</Translate>
+                    </Label>
+                    <AvField
+                      id="produto-largura"
+                      type="string"
+                      className="form-control"
+                      name="largura"
+                      validate={{
+                        required: { value: true, errorMessage: translate('entity.validation.required') },
+                        number: { value: true, errorMessage: translate('entity.validation.number') }
+                      }}
+                    />
+                  </Col>
+
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label id="pesoBrutoLabel" for="produto-pesoBruto">
+                      <Translate contentKey="ecommerceApp.produto.pesoBruto">Peso Bruto</Translate>
+                    </Label>
+                    <AvField
+                      id="produto-pesoBruto"
+                      type="string"
+                      className="form-control"
+                      name="pesoBruto"
+                      validate={{
+                        required: { value: true, errorMessage: translate('entity.validation.required') },
+                        number: { value: true, errorMessage: translate('entity.validation.number') }
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label id="precoAVistaLabel" for="produto-precoAVista">
+                      <Translate contentKey="ecommerceApp.produto.precoAVista">Preco A Vista</Translate>
+                    </Label>
+                    <AvField
+                      id="produto-precoAVista"
+                      type="text"
+                      name="precoAVista"
+                      validate={{
+                        required: { value: true, errorMessage: translate('entity.validation.required') },
+                        number: { value: true, errorMessage: translate('entity.validation.number') }
+                      }}
+                    />{' '}
+                  </Col>
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label id="precoAPrazoLabel" for="produto-precoAPrazo">
+                      <Translate contentKey="ecommerceApp.produto.precoAPrazo">Preco A Prazo</Translate>
+                    </Label>
+                    <AvField
+                      id="produto-precoAPrazo"
+                      type="text"
+                      name="precoAPrazo"
+                      validate={{
+                        required: { value: true, errorMessage: translate('entity.validation.required') },
+                        number: { value: true, errorMessage: translate('entity.validation.number') }
+                      }}
+                    />{' '}
+                  </Col>
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label id="categoriaLabel" for="produto-categoria">
+                      <Translate contentKey="ecommerceApp.produto.categoria">Categoria</Translate>
+                    </Label>
+                    <AvInput
+                      id="produto-categoria"
+                      type="select"
+                      className="form-control"
+                      name="categoria"
+                      value={(!isNew && produtoEntity.categoria) || 'CARROCERIA'}
+                    >
+                      <option value="CARROCERIA">{translate('ecommerceApp.Categoria.CARROCERIA')}</option>
+                      <option value="ACESSORIOS">{translate('ecommerceApp.Categoria.ACESSORIOS')}</option>
+                      <option value="PNEUS_RODAS">{translate('ecommerceApp.Categoria.PNEUS_RODAS')}</option>
+                    </AvInput>
+                  </Col>
+                  <Col xs="3" sm="3" md="3" lg="3">
+                    <Label for="produto-marca">
+                      <Translate contentKey="ecommerceApp.produto.marca">Marca</Translate>
+                    </Label>
+                    <AvInput id="produto-marca" type="select" className="form-control" name="marca.id">
+                      <option value="" key="0" />
+                      {marcas
+                        ? marcas.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {otherEntity.id} - {otherEntity.nome}
+                            </option>
+                          ))
+                        : null}
+                    </AvInput>
+                  </Col>
+                </Row>
                 <AvGroup>
                   <Label for="produto-listFotos">
                     <Translate contentKey="ecommerceApp.produto.listFotos">List Fotos</Translate>
@@ -286,7 +294,8 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                     {fotos
                       ? fotos.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id} -{/* {`data:${otherEntity.imagemContentType};base64,${otherEntity.imagem}`} */}
+                            {otherEntity.id} - {otherEntity.nome}
+                            {/* {`data:${otherEntity.imagemContentType};base64,${otherEntity.imagem}`} */}
                             {/* {otherEntity.imagem} */}
                             {/* <img src={`data:${otherEntity.imagemContentType};base64,${otherEntity.imagem}`} style={{ maxHeight: '30px' }} /> */}
                           </option>
@@ -316,28 +325,31 @@ export class ProdutoUpdate extends React.Component<IProdutoUpdateProps, IProduto
                       : null}
                   </AvInput>
                 </AvGroup>
-                <AvGroup>
-                  <Label for="produto-listAvaliacao">
-                    <Translate contentKey="ecommerceApp.produto.listAvaliacao">List Avaliacao</Translate>
-                  </Label>
-                  <AvInput
-                    id="produto-listAvaliacao"
-                    type="select"
-                    multiple
-                    className="form-control"
-                    name="listAvaliacaos"
-                    value={produtoEntity.listAvaliacaos && produtoEntity.listAvaliacaos.map(e => e.id)}
-                  >
-                    <option value="" key="0" />
-                    {avaliacaos
-                      ? avaliacaos.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id} - {otherEntity.descricao}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
+                {/* LISTA DE AVALIAÇÕES (HIDDEN) */}
+                {/* {!isNew ? (
+                  <AvGroup>
+                    <Label for="produto-listAvaliacao">
+                      <Translate contentKey="ecommerceApp.produto.listAvaliacao">List Avaliacao</Translate>
+                    </Label>
+                    <AvInput
+                      id="produto-listAvaliacao"
+                      type="select"
+                      multiple
+                      className="form-control"
+                      name="listAvaliacaos"
+                      value={produtoEntity.listAvaliacaos && produtoEntity.listAvaliacaos.map(e => e.id)}
+                    >
+                      <option value="" key="0" />
+                      {avaliacaos
+                        ? avaliacaos.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {otherEntity.id} - {otherEntity.descricao}
+                            </option>
+                          ))
+                        : null}
+                    </AvInput>
+                  </AvGroup>
+                ) : null} */}
                 <Button tag={Link} id="cancel-save" to="/entity/produto" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
