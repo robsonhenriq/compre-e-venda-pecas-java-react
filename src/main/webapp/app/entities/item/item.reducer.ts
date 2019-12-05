@@ -147,24 +147,30 @@ export const updateEntity: ICrudPutAction<IItem> = entity => async dispatch => {
   return result;
 };
 
+/**
+ * @returns Carrinho By Id
+ * @param idItem
+ * @param idCarrinho
+ */
+// export const deleteEntity: ICrudDeleteAction<IItem> = (ids) => async dispatch => {
+export const deleteItemById = (idItem, idCarrinho) => async dispatch => {
+  // const requestUrl = `${apiUrl}/${idItem}/carrinho/${idCarrinho}`;
+  const requestUrl = `${apiUrl}/${idItem}`;
+  const result = await dispatch({
+    type: ACTION_TYPES.DELETE_ITEM,
+    payload: axios.delete(requestUrl)
+  });
+  dispatch(getItemByCarrinhoId(idCarrinho));
+  return result;
+};
+
 export const deleteEntity: ICrudDeleteAction<IItem> = id => async dispatch => {
   const requestUrl = `${apiUrl}/${id}`;
   const result = await dispatch({
     type: ACTION_TYPES.DELETE_ITEM,
     payload: axios.delete(requestUrl)
   });
-  dispatch(getEntities());
-  return result;
-};
-
-// export const deleteEntity: ICrudDeleteAction<IItem> = (ids) => async dispatch => {
-export const deleteEntityByIdItemAndIdCarrinho = (idItem, idCarrinho) => async dispatch => {
-  const requestUrl = `${apiUrl}/${idItem}/carrinho/${idCarrinho}`;
-  const result = await dispatch({
-    type: ACTION_TYPES.DELETE_ITEM,
-    payload: axios.delete(requestUrl)
-  });
-  dispatch(getEntities());
+  // dispatch(getEntities());
   return result;
 };
 

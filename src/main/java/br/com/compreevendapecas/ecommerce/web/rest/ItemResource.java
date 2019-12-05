@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -176,14 +175,13 @@ public class ItemResource {
      * @param id the id of the item to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    // @DeleteMapping("/items/{id}")
-    @DeleteMapping("/items/{id}/carrinho/{carrinhoId}")
-    public ResponseEntity<Void> deleteItem(@PathVariable Long id, @PathVariable Long carrinhoId) {
-        log.debug("REST request to delete Item : {}, car {}", id, carrinhoId);
-        carrinhoService.deleteItemFromCar(id, carrinhoId);
-        // itemService.delete(id);
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
+        log.debug("REST request to delete Item : {}", id);
+        itemService.delete(id);
         return ResponseEntity.noContent()
                 .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
                 .build();
     }
+
 }

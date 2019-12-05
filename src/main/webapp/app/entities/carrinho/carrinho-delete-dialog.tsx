@@ -10,7 +10,8 @@ import { getSession } from 'app/shared/reducers/authentication';
 import { ICarrinho } from 'app/shared/model/carrinho.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity as getCarrinhoById, deleteEntity as deleteCarrinhoById } from './carrinho.reducer';
-import { deleteEntityByIdItemAndIdCarrinho as deleteItemById } from '../item/item.reducer';
+// import { deleteEntity as deleteItemById } from '../item/item.reducer';
+import { deleteItemById } from '../item/item.reducer';
 
 export interface ICarrinhoDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -29,7 +30,6 @@ export class CarrinhoDeleteDialog extends React.Component<ICarrinhoDeleteDialogP
     this.props.getClienteById(this.props.account.id);
 
     this.props.getSession();
-    // this.props.getCarrinhoById(this.props.clienteEntity.carrinho.id);
     setTimeout(() => {
       // console.log('Antes do SET state ID = ' + this.state.id);
 
@@ -41,13 +41,13 @@ export class CarrinhoDeleteDialog extends React.Component<ICarrinhoDeleteDialogP
   }
 
   confirmDelete = event => {
-    // console.log('TEntando deletar o ITEM do ID === ', this.props.match.params.id);
     const id = {
       idItem: this.props.match.params.id,
       idCarrinho: this.props.carrinhoEntity.id
     };
 
     this.props.deleteItemById(id.idItem, id.idCarrinho);
+    // this.props.deleteItemById(id.idItem);
     this.handleClose(event);
   };
 

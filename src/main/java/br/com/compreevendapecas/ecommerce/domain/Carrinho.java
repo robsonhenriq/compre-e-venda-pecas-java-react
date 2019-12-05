@@ -2,6 +2,8 @@ package br.com.compreevendapecas.ecommerce.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -24,16 +26,17 @@ public class Carrinho implements Serializable {
     private BigDecimal totalCarrinho;
 
     @OneToMany(mappedBy = "carrinho")
+    @JsonIgnoreProperties("carrinho")
     private Set<Item> listItens = new HashSet<>();
-    
+
     public Carrinho() {
-    	
+
     }
-    
+
     public Carrinho(BigDecimal totalCarrinho) {
-    	this.totalCarrinho = totalCarrinho;
+        this.totalCarrinho = totalCarrinho;
     }
-    
+
     public Long getId() {
         return id;
     }

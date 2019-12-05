@@ -81,8 +81,4 @@ public class CarrinhoService {
         carrinhoRepository.deleteById(id);
     }
 
-    public void deleteItemFromCar(Long id, Long carrinhoId) {
-        log.debug("Request to delete Carrinho : {} item {}", carrinhoId, id);
-        carrinhoRepository.deleteItemByListItensIdAndId(id, carrinhoId);
-    }
 }
