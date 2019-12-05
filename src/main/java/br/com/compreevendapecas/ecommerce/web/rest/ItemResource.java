@@ -85,6 +85,8 @@ public class ItemResource {
         if (cliente.getCarrinho() == null) {
             newCarrinho = carrinhoService.save(new Carrinho(BigDecimal.ZERO));
             item.setCarrinho(newCarrinho);
+            cliente.setCarrinho(newCarrinho);
+            clienteService.save(cliente);
         } else {
             item.setCarrinho(cliente.getCarrinho());
         }
