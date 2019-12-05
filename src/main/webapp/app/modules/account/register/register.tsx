@@ -136,11 +136,27 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
 
               <Row>
                 <Col xs="4" sm="4" md="4" lg="4">
-                  <AvField name="cpf" label={translate('global.form.cpf.label')} placeholder={translate('global.form.cpf.placeholder')} />
+                  <AvField
+                    name="cpf"
+                    label={translate('global.form.cpf.label')}
+                    placeholder={translate('global.form.cpf.placeholder')}
+                    validate={{
+                      minLength: { value: 11, errorMessage: 'O CPF tem que ter 11 números' },
+                      maxLength: { value: 11, errorMessage: 'O CPF tem que ter 11 números' }
+                    }}
+                  />
                 </Col>
 
                 <Col xs="4" sm="4" md="4" lg="4">
-                  <AvField name="rg" label={translate('global.form.rg.label')} placeholder={translate('global.form.rg.placeholder')} />
+                  <AvField
+                    name="rg"
+                    label={translate('global.form.rg.label')}
+                    placeholder={translate('global.form.rg.placeholder')}
+                    validate={{
+                      minLength: { value: 9, errorMessage: 'O RG tem que ter 9 números' },
+                      maxLength: { value: 9, errorMessage: 'O RG tem que ter 9 números' }
+                    }}
+                  />
                 </Col>
 
                 <Col xs="4" sm="4" md="4" lg="4">
@@ -194,7 +210,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
             </AvForm>
             <p>&nbsp;</p>
 
-            <Alert color="warning">
+            {/* <Alert color="warning">
               <span>
                 <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
               </span>
@@ -208,7 +224,7 @@ export class RegisterPage extends React.Component<IRegisterProps, IRegisterState
                   <br />- User (login="user" and password="user").
                 </Translate>
               </span>
-            </Alert>
+            </Alert> */}
           </Col>
         </Row>
       </div>

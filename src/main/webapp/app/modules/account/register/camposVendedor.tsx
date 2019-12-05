@@ -52,7 +52,15 @@ export class CamposVendedor extends Component {
                 <Label id="razaoSocialLabel" for="vendedor-razaoSocial">
                   <Translate contentKey="ecommerceApp.vendedor.razaoSocial">Razao Social</Translate>
                 </Label>
-                <AvField id="vendedor-razaoSocial" type="text" name="razaoSocial" />
+                <AvField
+                  id="vendedor-razaoSocial"
+                  type="text"
+                  name="razaoSocial"
+                  validate={{
+                    minLength: { value: 2, errorMessage: 'O RAZÃO SOCIAL tem que ter 2 caracteres no minímo' },
+                    maxLength: { value: 60, errorMessage: 'A RAZÃO SOCIAL pode ter no máximo 60 caracteres' }
+                  }}
+                />
               </Col>
             </Row>
 
@@ -60,7 +68,15 @@ export class CamposVendedor extends Component {
               <Label id="cnpjLabel" for="vendedor-cnpj">
                 <Translate contentKey="ecommerceApp.vendedor.cnpj">Cnpj</Translate>
               </Label>
-              <AvField id="vendedor-cnpj" type="text" name="cnpj" />
+              <AvField
+                id="vendedor-cnpj"
+                type="text"
+                name="cnpj"
+                validate={{
+                  minLength: { value: 14, errorMessage: 'O CNPJ tem que ter 14 dígitos' },
+                  maxLength: { value: 14, errorMessage: 'O CNPJ tem que ter 14 dígitos' }
+                }}
+              />
             </AvGroup>
           </Fragment>
         )}
