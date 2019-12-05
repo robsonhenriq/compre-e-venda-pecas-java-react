@@ -141,7 +141,7 @@ export class VeiculoUpdate extends React.Component<IVeiculoUpdateProps, IVeiculo
                     {marcas
                       ? marcas.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.id} - {otherEntity.nome}
                           </option>
                         ))
                       : null}
